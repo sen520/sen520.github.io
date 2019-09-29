@@ -1,9 +1,11 @@
 ---
-title: 04、docker数据管理
+title: docker数据管理
 date: 2019-02-18 22:25:24
 updated: 2019-02-18 22:25:24
 tags:
 - 后端
+- 服务器
+- docker
 categories:
 - docker
 ---

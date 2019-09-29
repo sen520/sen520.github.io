@@ -36,3 +36,20 @@ hexo new hello-world
 
 
 
+[多机同步更新博客](https://www.cnblogs.com/liziczh/p/9318670.html)
+
+git push origin backup 
+
+```
+# 克隆hexo分支到本地
+$ git clone -b backup https://github.com/yourname/yourname.github.io.git
+# 进入yourname.github.io文件夹
+$ cd yourname.github.io
+# 安装hexo
+$ npm install hexo --save
+# 安装hexo命令行模式
+$ npm install hexo-cli -g
+# 安装所有依赖，根据package.json自动安装之前安装过的插件
+$ npm install
+```
+

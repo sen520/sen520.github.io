@@ -1,5 +1,5 @@
 ---
-title: 01、MongoDB 索引
+title: MongoDB 索引
 date: 2018-01-25 10:36:13
 updated: 2018-01-27 20:36:13
 tags:

@@ -1,9 +1,11 @@
 ---
-title: 06、dockerfile
+title: dockerfile
 date: 2019-02-27 21:23:45
 updated: 2019-02-27 21:36:12
 tags:
 - 后端
+- 服务器
+- docker
 categories:
 - docker
 ---
@@ -16,8 +18,8 @@ categories:
 
 ```
 # escape=\ (backslash)
-# This dockerfile uses 七he ubuntu:xeniel image
-# VERS工ON 2 - EDITION 1
+# This dockerfile uses the ubuntu:xeniel image
+# VERSION 2 - EDITION 1
 # Author: docker_user
 # Command format: Ins七ruction [arguments / command]
 
@@ -176,43 +178,13 @@ CMD ["nginx","-g","daemon off;"]
 
 - SHELL
 
-[样例](https://git.mageia.cn/sen0117/server) 
+样例：
+
+ubunt设置中国时区
 
 ```dockerfile
-FROM ubuntu:18.04
-
-ENV DEBIAN_FRONTEND noninteractive
- 
-RUN apt-get update
-
-#创建脚本路径
-RUN mkdir /code
-WORKDIR /code
-
-#复制要运行的代码到镜像中，包括cron配置文件
-ADD . /code
-
-# 安装mongodb、cron
-RUN apt-get install mongodb -y
-RUN apt-get install cron
-RUN service cron start
-
-#设置cron脚本
-RUN crontab /code/crontabfile
-
-#安装rsyslog
-RUN apt-get -y install rsyslog
-
-#复制crontabfile到/etc/crontab
-RUN cp /code/crontabfile /etc/crontab
-RUN touch /var/log/cron.log
-
-#将run.sh设置为可执行
-RUN chmod +x /code/
-
-WORKDIR /code
-
-CMD ["bash","/code/run.sh"]
-
+FROM ubuntu
+RUN apt update && apt install -y tzdata
+ENV TZ Asia/Shanghai
 ```
 
