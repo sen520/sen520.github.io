@@ -13,8 +13,6 @@ categories:
 
 [官方文档](http://pdfkit.org/)
 
-初次上手，其实也是边看文档，边百度
-
 #### 0、准备
 
 需要引入两个包，首先要`npm install pdfkit`安装pdfkit包
@@ -127,6 +125,8 @@ doc.rect(x, 85, 315, 145).dash(3, {space: 3}).strokeColor("#808080").stroke();
 doc.image('./kit/banner.png', x+110, 110, { width: 90 });
 doc.end()
 ```
+
+上述代码生成结果：
 
 {% asset_img slug result.jpg %}
 

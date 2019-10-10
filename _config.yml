@@ -79,8 +79,16 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo:  git@github.com:sen520/sen520.github.io.git
-branch: master
+  repo:  
+      github: git@github.com:sen520/sen520.github.io.git,master
+      coding: git@git.coding.net:sen0116/sen0116.git,master
+
+
+baidu_url_submit:
+  count: 100                    # 提交最新的一个链接
+  host: blog.silencew.cn    # 在百度站长平台中注册的域名
+  token: 90jhm7cd7MVY4qt8 # 请注意这是您的秘钥， 所以请不要把博客源代码发布在公众仓库里!
+  path: baidu_urls.txt 
 
 search:
   path: search.xml
@@ -96,8 +104,3 @@ symbols_count_time:
   total_symbols: true
   total_time: true
 
-baidu_url_submit:
-  count: 100                    # 提交最新的一个链接
-  host: blog.silencew.cn    # 在百度站长平台中注册的域名
-  token: 90jhm7cd7MVY4qt8 # 请注意这是您的秘钥， 所以请不要把博客源代码发布在公众仓库里!
-  path: baidu_urls.txt 
