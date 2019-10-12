@@ -130,7 +130,7 @@ menu:
   archives: /archives/ || archive
   categories: /categories/ || th
   tags: /tags/ || tags
-  伙伴: /friends/ || users
+  # 伙伴: /friends/ || users
   about: /about/ || user
 
 # Enable / Disable menu icons / item badges.
@@ -735,7 +735,7 @@ add_this_id:
 # ---------------------------------------------------------------
 
 # Baidu Analytics
-baidu_analytics: 3654d36c549b0c277dc373cd9ed4fbd0
+baidu_analytics: 0a4ee2e83dba9b2dfdd7ff369e4c80d1
 
 # Growingio Analytics
 # Copyright 2015-2018 GrowingIO, Inc. More info available at https://www.growingio.com
