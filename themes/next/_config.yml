@@ -189,7 +189,7 @@ site_state: true
 social:
   GitHub: https://github.com/sen520 || github
   E-Mail: mailto:sen0117@163.com || envelope
-  rss fa: /atom.xml
+  #rss fa: /atom.xml
   #Weibo: https://weibo.com/yourname || weibo
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter
