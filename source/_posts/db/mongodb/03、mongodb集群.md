@@ -3,9 +3,9 @@ title: MongoDB集群
 date: 2018-03-15 09:45:35
 updated: 2018-03-15 09:45:35
 tags:
-- mongodb
+- 服务器
+- 数据库
 - 后端
-- Dockercompose
 categories:
 - 数据库
 - mongoDB

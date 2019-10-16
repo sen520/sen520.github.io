@@ -3,7 +3,7 @@ title: MongoDB 索引
 date: 2018-01-25 10:36:13
 updated: 2018-01-27 20:36:13
 tags:
-- mongodb
+- 数据库
 - 后端
 categories:
 - 数据库
