@@ -131,6 +131,7 @@ menu:
   categories: /categories/ || th
   tags: /tags/ || tags
   # 伙伴: /friends/ || users
+  日志: /logs/ || calendar
   about: /about/ || user
 
 # Enable / Disable menu icons / item badges.

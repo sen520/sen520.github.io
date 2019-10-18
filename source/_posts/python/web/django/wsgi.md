@@ -7,6 +7,7 @@ tags:
 categories:
 - python
 - web
+- django
 ---
 
 ## 1. 简介
