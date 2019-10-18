@@ -98,7 +98,7 @@ categories:
 
   这里对上述代码进行一一说明
 
-  - `router`：express的路由管理，`get`方法是处理GET请求，`post`方法是处理POST请求，第一个参数是路由，支持正则，第二个参数是一个函数，参数主要是`request, response, next`。
+  - `router`：express的路由管理，`get`方法是处理GET请求，`post`方法是处理POST请求，第一个参数是路由，**支持正则**，第二个参数是一个函数，参数主要是`request, response, next`。
 
     这里使用`req.originalUrl`来过去请求路径
 
