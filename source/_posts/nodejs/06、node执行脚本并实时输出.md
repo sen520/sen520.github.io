@@ -111,8 +111,8 @@ async function execute(id, res) {
 
   - handle.stdout是标准输出
 
-- handle.stderr是错误输出，这里指的是输出的警告
-     - handle的error事件指的是脚本执行中遇到的错误，也就是脚本执行不成功报的错误信息
+  - handle.stderr是错误输出，这里指的是输出的警告
+  - handle的error事件指的是脚本执行中遇到的错误，也就是脚本执行不成功报的错误信息
 
 
    这里定义了两个外部函数，一个是自定义的日志打印，另一个是遇到有脚本执行时的等待
