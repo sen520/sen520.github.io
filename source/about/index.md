@@ -1,53 +1,18 @@
 ---
 title: 关于
 date: 2019-09-27 16:13:4
+comments: false
 ---
 
 ### 烟雨
 
-教育经历
+后端小攻城狮一枚
 
-- 毕业于安徽省蚌埠学院计算机科学与技术专业
+主营：
 
-工作经验
-
-- [个人小爬虫](https://coding.net/u/sen0116/p/spider)
-
-- 安徽小扣数据
-
-  后端工程师
-
-  - 2018年9月 -- 2019年1月
-
-    数据平台1.0
-
-    简介：辅助引导客户进行投融资资料整理，流程规划等。
-
-    角色：负责平台功能性模块的开发、数据抓取等。
-
-    技能：
-
-    - `python` : 数据的抓取和简单的处理
-
-    - `nodejs` : 平台的后端
-    - `nodejs`爬虫（`request`, `puppeteer`）
-    - `MongoDB`：平台数据库
-
-  - 2019年2月 -- 至今
-
-    数据平台2.0
-
-    简介：投融资企业信息的展示，方便客户更好的寻找项目进行投资或寻找融资。
-
-    角色：后端restful维护，功能性模块开发，数据抓取，node-socket开发等
-
-    技能：
-
-    - `python-eve` restful开发
-    - `MongoDB`集群搭建
-    - ES搜索引擎搭建
-    - `nodejs`实现平台功能性开发，es搜索，socket服务，项目自动部署等
-    - `python爬虫`(`scrapy`，`requests`)
+- nodejs
+- python-web
+- python-spider
 
 
 ####  推荐书单

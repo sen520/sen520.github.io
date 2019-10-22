@@ -131,7 +131,7 @@ menu:
   categories: /categories/ || th
   tags: /tags/ || tags
   # 伙伴: /friends/ || users
-  日志: /logs/ || calendar
+  # 日志: /logs/ || calendar
   about: /about/ || user
 
 # Enable / Disable menu icons / item badges.
@@ -209,7 +209,7 @@ social_icons:
 # Blog rolls
 links_settings:
   icon: link
-  title: Links
+  title: 友情链接
   # Available values: block | inline
   layout: block
 
@@ -644,15 +644,15 @@ disqusjs:
 # Changyan
 changyan:
   enable: false
-  appid:
-  appkey:
+  appid: cyuuO8Chb
+  appkey: 41882d658f00467e469c865778134bfb
   #post_meta_order: 0
 
 # Valine
 # You can get your appid and appkey from https://leancloud.cn
 # For more information: https://valine.js.org, https://github.com/xCss/Valine
 valine:
-  enable: false # When enable is set to be true, leancloud_visitors is recommended to be closed for the re-initialization problem within different leancloud adk version
+  enable: true # When enable is set to be true, leancloud_visitors is recommended to be closed for the re-initialization problem within different leancloud adk version
   appid: # Your leancloud application appid
   appkey: # Your leancloud application appkey
   notify: false # Mail notifier. See: https://github.com/xCss/Valine/wiki
@@ -677,8 +677,8 @@ gitalk:
   enable: true
   github_id: sen520
   repo: sen520.github.io # Repository name to store issues
-  client_id: 3cbf6412f9b97cd16de0
-  client_secret: f1b33358784dfc0c7838f59dc82c0de93108639a
+  client_id: 219d27bd2659fe155d6f
+  client_secret: 29d3a6e9d0d0a5b6e646f6c7d1ad3cf6051b71be
   admin_user: sen520 # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
   distraction_free_mode: true # Facebook-like distraction free mode
   # Gitalk's display language depends on user's browser or system environment
