@@ -62,4 +62,11 @@ categories:
   - git pull
 
      将本地的代码更新至远程仓库里面最新的代码版本
+     
+  - 同时提交到多个远程仓库
+  
+     - 首先通过`git remote -v` 查看远程仓库信息
+     - `git remote set-url --add origin` + url 添加仓库信息
+     - `git remote -v `就可以看到这个链接了
+     - 提交，`git push origin --all`
 
