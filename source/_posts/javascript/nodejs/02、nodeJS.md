@@ -5,6 +5,7 @@ updated: 2018-09-03 22:40:25
 tags:
 - 后端
 categories:
+- javascript
 - nodejs
 ---
 ## 1、安装模块
