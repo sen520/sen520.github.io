@@ -40,7 +40,7 @@
   #}</span>
   {%- endif %}
 </div>
-
+<!--
 {%- if theme.footer.powered.enable %}
   <div class="powered-by">{#
   #}{{ __('footer.powered', next_url('https://hexo.io', 'Hexo', {class: 'theme-link'})) }}{#
@@ -58,7 +58,7 @@
   #}{%- if theme.footer.theme.version %} v{{ version }}{%- endif %}{#
 #}</div>
 {%- endif %}
-
+-->
 {%- if theme.add_this_id %}
   <div class="addthis_inline_share_toolbox">
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ theme.add_this_id }}" async="async"></script>
