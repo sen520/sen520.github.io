@@ -4,6 +4,8 @@ date: 2019-10-13 10:35:45
 updated: 2019-10-13 10:35:45
 tags:
 - 后端
+- python
+- django
 categories:
 - python
 - web

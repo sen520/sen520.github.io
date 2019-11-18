@@ -6,6 +6,7 @@ tags:
 - 服务器
 - 数据库
 - 后端
+- MongoDB
 categories:
 - 数据库
 - mongoDB

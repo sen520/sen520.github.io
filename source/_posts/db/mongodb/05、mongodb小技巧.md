@@ -5,6 +5,7 @@ updated: 2019-11-04
 tags:
 - 数据库
 - 后端
+- MongoDB
 categories:
 - 数据库
 - mongoDB
