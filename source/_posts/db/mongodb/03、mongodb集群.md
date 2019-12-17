@@ -31,7 +31,7 @@ EOF
 
 ## 2、创建docker-compose文件
 
-注意，docker-compost的文件名需要是`docker-compost.yml`
+注意，docker-compose的文件名需要是`docker-compose.yml`
 
 这里采用的mongo4.0的镜像，每个容器最大内存限制为4G
 

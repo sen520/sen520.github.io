@@ -115,3 +115,43 @@ CMD mongo-connector -c /root/data/config
 - 运行容器
 
   `docker run  --restart=always -d -v /workspace/ES:/root/data mongo-connector:latest`
+
+## 附
+
+- 可以把`mongo-connector`创建镜像之后，加入docker-compose中，使用docker-compose直接创建elasticsearch、kibana、mongo-connector容器
+
+  ```docker-compose
+  
+  # elasticsearch will server as the index search db
+  # kibana will server as the web ui of elasticsearch
+  
+  elasticsearch:
+      image: elasticsearch:5.6
+      restart: always
+      environment:
+       - TZ=Asia/Shanghai
+      ports:
+       - "9200:9200"
+      volumes:
+       - (本地文件存储路径，es数据库存放路径):/usr/share/elasticsearch/data
+      expose:
+          - "9200"
+  
+  kibana:
+      image: kibana:5.6
+      restart: always
+      ports:
+       - "5601:5601"
+      links:
+       - elasticsearch
+  
+  mongo-connector:
+      image:  mongo-connector-alpha
+      restart: always
+      links:
+       - elasticsearch
+      volumes:
+       - (本地config.json的路径):/root/data
+  ```
+
+  
