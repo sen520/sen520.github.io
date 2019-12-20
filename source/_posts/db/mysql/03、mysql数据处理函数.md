@@ -31,7 +31,7 @@ SQL支持利用函数来处理数据。函数一般是在数据上执行的，�
 
 `SELECT vend_name, Upper(vend_name) AS vend_name_upcase FROM vendors ORDER BY vend_name;`
 
-![](http://silencew.cn/uploads/1576129039738.png)
+![](https://silencew.cn/uploads/1576129039738.png)
 
 ### 日期和时间处理函数
 
@@ -162,5 +162,5 @@ SELECT COUNT(*) AS num_items,
 FROM products;
 ```
 
-![](http://silencew.cn/uploads/1576139707847.png)
+![](https://silencew.cn/uploads/1576139707847.png)
 
