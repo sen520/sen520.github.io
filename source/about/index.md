@@ -86,6 +86,7 @@ comments: false
 | 2    | 《MongoDB权威指南》 | √        |                        |
 | 3    | 《高性能MySQL》     |          |                        |
 | 4    | 《kafka权威指南》   |          |                        |
+| 5    | 《MySQL必知必会》   | √        | 值的阅读               |
 
 ##### 服务类
 
