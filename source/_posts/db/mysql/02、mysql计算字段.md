@@ -48,7 +48,7 @@ orders表包含收到的所有订单，orderitems表包含每个订到的各项�
 
 `SELECT prod_id, quantity, item_price FROM orderitems WHERE order_num = 20005;`
 
-![](https://silencew.cn/uploads/1576122299642.png)
+{% asset_img slug 1576122299642.png %}
 
 item_prict 列包好订单中每项物品的单价，如下可以汇总物品的价格
 
