@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.silencew.cn/about/index.html</loc>
+    
+    <lastmod>2020-06-17T13:25:44.199Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.silencew.cn/2020/06/17/python/03.%E8%AF%BB%E5%8F%96excel/</loc>
     
     <lastmod>2020-06-17T13:05:46.404Z</lastmod>
@@ -31,13 +38,6 @@
   
   <url>
     <loc>https://blog.silencew.cn/categories/index.html</loc>
-    
-    <lastmod>2020-05-18T12:01:30.540Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.silencew.cn/about/index.html</loc>
     
     <lastmod>2020-05-18T12:01:30.540Z</lastmod>
     
@@ -219,14 +219,14 @@
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2019/10/20/R/02_R-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
+    <loc>https://blog.silencew.cn/2019/10/20/R/01_R-%E5%9F%BA%E7%A1%80/</loc>
     
     <lastmod>2019-10-19T16:00:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2019/10/20/R/01_R-%E5%9F%BA%E7%A1%80/</loc>
+    <loc>https://blog.silencew.cn/2019/10/20/R/02_R-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
     
     <lastmod>2019-10-19T16:00:00.000Z</lastmod>
     
