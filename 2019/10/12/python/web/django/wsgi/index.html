@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="google-site-verification" content="VN-Dofcb4v5O_cHZRP-5ovlon_f-2TFD2MLrleCTmxY" />
+<meta name="baidu-site-verification" content="eJFx4gOEfs" />
+<meta baidu-gxt-verify-token="541338f1a5bfa7c374a039b899b225a9">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/S.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/S.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="silence聆听°" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  <meta name="description" content="1. 简介WSGI​        WSGI：web服务器网关接口，这是python中定义的一个网关协议，规定了Web Server如何跟应用程序交互。可以理解为一个web应用的容器，通过它可以启动应用，进而提供HTTP服务。​        它最主要的目的是保证在Python中所有的Web Server程序或者说Gateway程序，能够通过统一的协议跟Web框架或者说Web应用进行交互。">
+<meta name="keywords" content="后端,python,django">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WSGI——python-Web框架基础">
+<meta property="og:url" content="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/index.html">
+<meta property="og:site_name" content="silence聆听°">
+<meta property="og:description" content="1. 简介WSGI​        WSGI：web服务器网关接口，这是python中定义的一个网关协议，规定了Web Server如何跟应用程序交互。可以理解为一个web应用的容器，通过它可以启动应用，进而提供HTTP服务。​        它最主要的目的是保证在Python中所有的Web Server程序或者说Gateway程序，能够通过统一的协议跟Web框架或者说Web应用进行交互。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/1.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/2.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/3.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/4.png">
+<meta property="og:updated_time" content="2019-10-12T01:53:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WSGI——python-Web框架基础">
+<meta name="twitter:description" content="1. 简介WSGI​        WSGI：web服务器网关接口，这是python中定义的一个网关协议，规定了Web Server如何跟应用程序交互。可以理解为一个web应用的容器，通过它可以启动应用，进而提供HTTP服务。​        它最主要的目的是保证在Python中所有的Web Server程序或者说Gateway程序，能够通过统一的协议跟Web框架或者说Web应用进行交互。">
+<meta name="twitter:image" content="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/1.png">
+  <link rel="canonical" href="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>WSGI——python-Web框架基础 | silence聆听°</title>
+  
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a4ee2e83dba9b2dfdd7ff369e4c80d1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">silence聆听°</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/sen520" class="github-corner" title="Silence GitHub" aria-label="Silence GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+     <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/10/12/python/web/django/wsgi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="silence 聆听°">
+      <meta itemprop="description" content="主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。">
+      <meta itemprop="image" content="/images/silence.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="silence聆听°">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">WSGI——python-Web框架基础
+
+          
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-12 09:53:28" itemprop="dateCreated datePublished" datetime="2019-10-12T09:53:28+08:00">2019-10-12</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/web/" itemprop="url" rel="index"><span itemprop="name">web</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/web/django/" itemprop="url" rel="index"><span itemprop="name">django</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>9.7k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>9 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><h3 id="WSGI"><a href="#WSGI" class="headerlink" title="WSGI"></a>WSGI</h3><p>​        <code>WSGI</code>：web服务器网关接口，这是python中定义的一个网关协议，规定了Web Server如何跟应用程序交互。可以理解为一个web应用的容器，通过它可以启动应用，进而提供HTTP服务。</p><p>​        它最主要的目的是保证在Python中所有的Web Server程序或者说Gateway程序，能够通过统一的协议跟Web框架或者说Web应用进行交互。</p><a id="more"></a>
+
+<h3 id="uWSGI"><a href="#uWSGI" class="headerlink" title="uWSGI"></a>uWSGI</h3><p>​      <code>uWGSI</code>：是一个web服务器，或者wsgi server服务器，他的任务就是接受用户请求，由于用户请求是通过网络发过来的，其中用户到服务器端之间用的是http协议，所以我们uWSGI要想接受并且正确解出相关信息，我们就需要uWSGI实现http协议，没错，uWSGI里面就实现了http协议。所以现在我们uWSGI能准确接受到用户请求，并且读出信息。现在我们的uWSGI服务器需要把信息发给Django，我们就需要用到WSGI协议，刚好uWSGI实现了WSGI协议，所以。uWSGI把接收到的信息作一次简单封装传递给Django，Django接收到信息后，再经过一层层的中间件，于是，对信息作进一步处理，最后匹配url，传递给相应的视图函数，视图函数做逻辑处理……后面的就不叙述了，然后将处理后的数据通过中间件一层层返回，到达Djagno最外层，然后，通过WSGI协议将返回数据返回给uWSGI服务器，uWSGI服务器通过http协议将数据传递给用户。这就是整个流程。</p>
+<p>​        这个过程中我们似乎没有用到uwsgi协议，但是他也是uWSGI实现的一种协议，鲁迅说过，存在即合理，所以说，他肯定在某个地方用到了。我们过一会再来讨论</p>
+<p>​        我们可以用这条命令：<code>python manage.py runserver</code>，启动Django自带的服务器。DJango自带的服务器（runserver 起来的 HTTPServer 就是 Python 自带的 simple_server）。是默认是单进程单多线程的，对于同一个http请求，总是先执行一个，其他等待，一个一个串行执行。无法并行。而且django自带的web服务器性能也不好，只能在开发过程中使用。于是我们就用uWSGI代替了。</p>
+<h3 id="为什么有了WSGI为什么还需要nginx？"><a href="#为什么有了WSGI为什么还需要nginx？" class="headerlink" title="为什么有了WSGI为什么还需要nginx？"></a>为什么有了WSGI为什么还需要nginx？</h3><p>​        因为nginx具备优秀的静态内容处理能力，然后将动态内容转发给uWSGI服务器，这样可以达到很好的客户端响应。支持的并发量更高，方便管理多进程，发挥多核的优势，提升性能。这时候nginx和uWSGI之间的沟通就要用到uwsgi协议。</p>
+<img src="/2019/10/12/python/web/django/wsgi/1.png" class="slug">
+<img src="/2019/10/12/python/web/django/wsgi/2.png" class="slug">
+<img src="/2019/10/12/python/web/django/wsgi/3.png" class="slug">
+<img src="/2019/10/12/python/web/django/wsgi/4.png" class="slug">
+<h2 id="2-简单的Web-Server"><a href="#2-简单的Web-Server" class="headerlink" title="2. 简单的Web Server"></a>2. 简单的Web Server</h2><p>在了解WSGI协议之前，首先看一个通过socker编程实现的Web服务的代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line">EOL1 = <span class="string">b'\n\n'</span></span><br><span class="line">EOL2 = <span class="string">b'\n\r\n'</span></span><br><span class="line">body = <span class="string">"""hello world &lt;h1&gt; from test&lt;/h1&gt;"""</span></span><br><span class="line">response_params = [</span><br><span class="line">    <span class="string">'HTTP/1.0 200 OK'</span>,</span><br><span class="line">    <span class="string">'DATE: Sun, 27 may 2019 01:01:01 GMT'</span>,</span><br><span class="line">    <span class="string">'Content-Type:text/plain; charset=utf-8'</span>,</span><br><span class="line">    <span class="string">'Content-Length: &#123;&#125;\r\n'</span>.format(len(body.encode())),</span><br><span class="line">    body,</span><br><span class="line">]</span><br><span class="line">response = <span class="string">'\r\n'</span>.join(response_params)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_connection</span><span class="params">(conn, addr)</span>:</span></span><br><span class="line">    request = <span class="string">b""</span></span><br><span class="line">    print(<span class="string">'new conn'</span>, conn, addr)</span><br><span class="line">    <span class="keyword">import</span> time</span><br><span class="line">    time.sleep(<span class="number">100</span>)</span><br><span class="line">    <span class="keyword">while</span> EOL1 <span class="keyword">not</span> <span class="keyword">in</span> request <span class="keyword">and</span> EOL2 <span class="keyword">not</span> <span class="keyword">in</span> request:</span><br><span class="line">        request += conn.recv(<span class="number">1024</span>)</span><br><span class="line">    print(request)</span><br><span class="line">    conn.send(response.encode())</span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">    serversocket.bind((<span class="string">'127.0.0.1'</span>, <span class="number">8000</span>))</span><br><span class="line">    serversocket.listen(<span class="number">5</span>)</span><br><span class="line">    print(<span class="string">'http://127.0.0.1:8000'</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            conn, address = serversocket.accept()</span><br><span class="line">            handle_connection(conn, address)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        serversocket.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>多线程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> errno</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">EOL1 = <span class="string">b'\n\n'</span></span><br><span class="line">EOL2 = <span class="string">b'\n\r\n'</span></span><br><span class="line">body = <span class="string">"""hello world &lt;h1&gt; from test&lt;/h1&gt;"""</span></span><br><span class="line">response_params = [</span><br><span class="line">    <span class="string">'HTTP/1.0 200 OK'</span>,</span><br><span class="line">    <span class="string">'DATE: Sun, 27 may 2019 01:01:01 GMT'</span>,</span><br><span class="line">    <span class="string">'Content-Type:text/plain; charset=utf-8'</span>,</span><br><span class="line">    <span class="string">'Content-Length: &#123;&#125;\r\n'</span>.format(len(body.encode())),</span><br><span class="line">    body,</span><br><span class="line">]</span><br><span class="line">response = <span class="string">'\r\n'</span>.join(response_params)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_connection</span><span class="params">(conn, addr)</span>:</span></span><br><span class="line">    print(conn, addr)</span><br><span class="line">    time.sleep(<span class="number">60</span>)</span><br><span class="line">    request = <span class="string">b""</span></span><br><span class="line">    <span class="keyword">while</span> EOL1 <span class="keyword">not</span> <span class="keyword">in</span> request <span class="keyword">and</span> EOL2 <span class="keyword">not</span> <span class="keyword">in</span> request:</span><br><span class="line">        request += conn.recv(<span class="number">1024</span>)</span><br><span class="line">    print(request)</span><br><span class="line">    current_thread = threading.currentThread()</span><br><span class="line">    content_length = len(body.format(thread_name=current_thread.name).encode())</span><br><span class="line">    print(current_thread.name)</span><br><span class="line">    conn.send(response.format(thread_name=current_thread.name, length=content_length).encode())</span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">    serversocket.bind((<span class="string">'127.0.0.1'</span>, <span class="number">8000</span>))</span><br><span class="line">    serversocket.listen(<span class="number">10</span>)</span><br><span class="line">    print(<span class="string">'http://127.0.0.1:8000'</span>)</span><br><span class="line">    serversocket.setblocking(<span class="literal">True</span>) <span class="comment"># 设置socket为阻塞模式</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                conn, address = serversocket.accept()</span><br><span class="line">            <span class="keyword">except</span> socket.error <span class="keyword">as</span> e:</span><br><span class="line">                <span class="keyword">if</span> e.args[<span class="number">0</span>] != errno.EAGAIN:</span><br><span class="line">                    <span class="keyword">raise</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            print(i)</span><br><span class="line">            t = threading.Thread(target=handle_connection, args=(conn, address), name=<span class="string">'thread-%s'</span>%i)</span><br><span class="line">            t.start()</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        serversocket.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h2 id="3-简单的WSGI-Application"><a href="#3-简单的WSGI-Application" class="headerlink" title="3. 简单的WSGI Application"></a>3. 简单的WSGI Application</h2><p>该协议分为两个部分：</p>
+<ul>
+<li><p>Web Server 或者Gateway</p>
+<p>监听在某个端口上接收外部的请求</p>
+</li>
+<li><p>Web Application</p>
+</li>
+</ul>
+<p>​       Web Server接收请求之后，会通过WSGI协议规定的方式把数据传递给Web Application，在Web Application中处理完之后，设置对应的状态和header，之后返回body部分。Web Server拿到返回的数据之后，再进行HTTP协议的封装，最终返回完整的HTTPResponse数据。</p>
+<p>下面我们来实现一个简单的应用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.py</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">simple_app</span><span class="params">(environ, start_response)</span>:</span></span><br><span class="line">    status = <span class="string">'200 OK'</span></span><br><span class="line">    response_headers = [(<span class="string">'Content-type'</span>, <span class="string">'text/plain'</span>)]</span><br><span class="line">    start_response(status, response_headers)</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">b'Hello world! -by test \n'</span>]</span><br></pre></td></tr></table></figure>
+<p>我们需要一个脚本运行上面这个应用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> app <span class="keyword">import</span> simple_app</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wsgi_to_bytes</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> s.encode()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_with_cgi</span><span class="params">(application)</span>:</span></span><br><span class="line">    environ = dict(os.environ.items())</span><br><span class="line">    environ[<span class="string">'wsgi.input'</span>] = sys.stdin.buffer</span><br><span class="line">    environ[<span class="string">'wsgi.errors'</span>] = sys.stderr</span><br><span class="line">    environ[<span class="string">'wsgi.version'</span>] = (<span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">    environ[<span class="string">'wsgi.multithread'</span>] = <span class="literal">False</span></span><br><span class="line">    environ[<span class="string">'wsgi.multiprocess'</span>] = <span class="literal">True</span></span><br><span class="line">    environ[<span class="string">'wsgi.run_once'</span>] = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">if</span> environ.get(<span class="string">'HTTPS'</span>, <span class="string">'off'</span>) <span class="keyword">in</span> (<span class="string">'on'</span>, <span class="string">'1'</span>):</span><br><span class="line">        environ[<span class="string">'wsgi.url_scheme'</span>] = <span class="string">'https'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        environ[<span class="string">'wsgi.url_scheme'</span>] = <span class="string">'http'</span></span><br><span class="line"></span><br><span class="line">    headers_set = []</span><br><span class="line">    headers_sent = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(data)</span>:</span></span><br><span class="line">        out = sys.stdout.buffer</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> headers_set:</span><br><span class="line">            <span class="keyword">raise</span> AssertionError(<span class="string">'Write() before start_response()'</span>)</span><br><span class="line">        <span class="keyword">elif</span> <span class="keyword">not</span> headers_sent:</span><br><span class="line">            <span class="comment"># 在输出第一行数据之前，先发送响应头</span></span><br><span class="line">            status, response_headers = headers_sent[:] = headers_set</span><br><span class="line">            out.write(wsgi_to_bytes(<span class="string">'Status: %s\r\n'</span> % status))</span><br><span class="line">            <span class="keyword">for</span> header <span class="keyword">in</span> response_headers:</span><br><span class="line">                out.write(wsgi_to_bytes(<span class="string">'%s: %s\r\n'</span> % header))</span><br><span class="line">            out.write(wsgi_to_bytes(<span class="string">'\r\n'</span>))</span><br><span class="line">        out.write(data)</span><br><span class="line">        out.flush()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_response</span><span class="params">(status, response_headers, exc_info=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> exc_info:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">if</span> headers_sent:</span><br><span class="line">                    <span class="comment"># 如果已经发送了header，则重新抛出原始异常信息</span></span><br><span class="line">                    <span class="keyword">raise</span> (exc_info[<span class="number">0</span>], exc_info[<span class="number">1</span>], exc_info[<span class="number">2</span>])</span><br><span class="line">            <span class="keyword">finally</span>:</span><br><span class="line">                exc_info = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">elif</span> headers_set:</span><br><span class="line">            <span class="keyword">raise</span> AssertionError(<span class="string">'*Headers already set!'</span>)</span><br><span class="line">        headers_set[:] = [status, response_headers]</span><br><span class="line">        <span class="keyword">return</span> write</span><br><span class="line"></span><br><span class="line">    result = application(environ, start_response)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> data <span class="keyword">in</span> result:</span><br><span class="line">            <span class="keyword">if</span> data:</span><br><span class="line">                write(data)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> headers_sent:</span><br><span class="line">            write(<span class="string">''</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">if</span> hasattr(result, <span class="string">'close'</span>):</span><br><span class="line">            result.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    run_with_cgi(simple_app)</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Status: 200 OK</span><br><span class="line">Content-type: text/plain</span><br><span class="line"></span><br><span class="line">Hello world! -by test</span><br></pre></td></tr></table></figure>
+<p>如果不是windows系统，还可以采用另一种方式运行：</p>
+<ul>
+<li><code>pip install gunicorn</code></li>
+<li><code>gunicorn app:simle_app</code></li>
+</ul>
+<h2 id="4-理解"><a href="#4-理解" class="headerlink" title="4. 理解"></a>4. 理解</h2><p>​        对于上述代码我们只需要关注一点，<code>result = application(environ, start_response)</code>，我们要实现的Application，只需要能够接收一个环境变量以及一个回调函数即可。但处理完请求之后，通过回调函数（start_response）来设置response的状态和header，最终返回结果，也就是body。</p>
+<p>WSGI协议规定，application必须是一个可调用对象，这意味这个对象既可以是Python中的一个函数，也可以是一个实现了__call__方法的类的实例，比如：</p>
+<h3 id="样例一"><a href="#样例一" class="headerlink" title="样例一"></a>样例一</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppClass</span><span class="params">(object)</span>:</span></span><br><span class="line">    status = <span class="string">'200 OK'</span></span><br><span class="line">    response_headers = [(<span class="string">'Content-type'</span>, <span class="string">'text/plain'</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, environ, start_response)</span>:</span></span><br><span class="line">        print(environ, start_response)</span><br><span class="line">        start_response(self.status, self.response_headers)</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">b'Hello AppClass.__call__\n'</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">application = AppClass()</span><br></pre></td></tr></table></figure>
+<p><code>gunicorn app: application</code>运行上述文件</p>
+<h3 id="样例二"><a href="#样例二" class="headerlink" title="样例二"></a>样例二</h3><p>​        除此之外，我们还可以通过另一种方式实现WSGI协议，从上面的simple<em>app和这里的AppClass._<em>call</em></em>的返回值来看，WSGI Server只需要返回一个可迭代的对象就行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppClassIter</span><span class="params">(object)</span>:</span></span><br><span class="line">    status = <span class="string">'200 OK'</span></span><br><span class="line">    response_headers = [(<span class="string">'Content-type'</span>, <span class="string">'text/plain'</span>)]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, environ, start_response)</span>:</span></span><br><span class="line">        self.environ = environ</span><br><span class="line">        self.start_response = start_response</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.start_response(self.status, self.response_headers)</span><br><span class="line">        <span class="keyword">yield</span> <span class="string">b'Hello AppClassIter\n'</span></span><br></pre></td></tr></table></figure>
+<p><code>gunicorn app: AppClassIter</code>运行上述文件</p>
+<p>​       这里的启动命令并不是一个类的实例，而是类本身。通过上面两个代码，我们可以看到能够被调用的方法会传environ和start_response过来，而现在这个实现没有可调用的方式，所以就需要在实例化的时候通过参数传递进来，这样在返回body之前，可以先调用start_response方法。</p>
+<p>​       因此，可以推测出WSGI Server是如何调用WSGI Application的，大概代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start_response</span><span class="params">(status, headers)</span>:</span></span><br><span class="line">    <span class="comment"># 伪代码</span></span><br><span class="line">    set_status(status)</span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> headers:</span><br><span class="line">        set_header(k, v)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_conn</span><span class="params">(conn)</span>:</span></span><br><span class="line">    <span class="comment"># 调用我们定义的application(也就是上面的simple_app, 或者是AppClass的实例，或者是AppClassIter本身)</span></span><br><span class="line">    app = application(environ, start_response)</span><br><span class="line">    <span class="comment"># 遍历返回的结果，生成response</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> app:</span><br><span class="line">        response += data</span><br><span class="line">        </span><br><span class="line">    conn.sendall(response)</span><br></pre></td></tr></table></figure>
+<h2 id="5-WSGI中间件和Werkzeug"><a href="#5-WSGI中间件和Werkzeug" class="headerlink" title="5. WSGI中间件和Werkzeug"></a>5. WSGI中间件和Werkzeug</h2><p>​        WSGI中间件可以理解为Python中的一个装饰器，可以在不改变原方法的情况下对方法的输入和输出部分进行处理。</p>
+<p>类似这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">simple_app</span><span class="params">(enbiron, start_response)</span>:</span></span><br><span class="line">	response = Response(<span class="string">'Hello World'</span>, start_response=start_response)</span><br><span class="line">	response.set_header(<span class="string">'Content-Type'</span>, <span class="string">'text/plain'</span>) <span class="comment"># 这个函数里面调用start_response</span></span><br><span class="line">	<span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+<p>这样就看起来更加自然一点。</p>
+<p>​        因此，就存在Werkzeug这样的WSGI工具集，让你能够跟WSGI协议更加友好的交互。从理论上来看，我们可以直接通过WSGI协议的简单实现写一个Web服务。但是有了Werkzeug之后，我们可以写的更加容易。</p>
+<h2 id="6-杂谈"><a href="#6-杂谈" class="headerlink" title="6. 杂谈"></a>6. 杂谈</h2><p>django 的并发能力真的是令人担忧，这里就使用 nginx + uwsgi 提供高并发</p>
+<p>nginx 的并发能力超高，单台并发能力过万（这个也不是绝对），在纯静态的 web 服务中更是突出其优越的地方，由于其底层使用 epoll 异步IO模型进行处理，使其深受欢迎</p>
+<p>做过运维的应该都知道，</p>
+<p><strong>Python需要使用nginx + uWSGI 提供静态页面访问，和高并发</strong></p>
+<p><strong>php 需要使用 nginx + fastcgi 提供高并发，</strong></p>
+<p><strong>java 需要使用 nginx + tomcat 提供 web 服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">django 原生为单线程序，当第一个请求没有完成时，第二个请求辉阻塞，知道第一个请求完成，第二个请求才会执行。</span><br><span class="line">Django就没有用异步，通过线程来实现并发，这也是WSGI普遍的做法，跟tornado不是一个概念</span><br><span class="line"></span><br><span class="line">官方文档解释django自带的server默认是多线程</span><br><span class="line">django开两个接口,第一个接口sleep(20),另一个接口不做延时处理(大概耗时几毫秒)</span><br><span class="line">先请求第一个接口,紧接着请求第二个接口,第二个接口返回数据,第一个接口20秒之后返回数据</span><br><span class="line">证明django的server是默认多线程</span><br><span class="line"></span><br><span class="line">启动uWSGI服务器</span><br><span class="line"># 在django项目目录下 Demo工程名</span><br><span class="line">uwsgi --http 0.0.0.0:8000 --file Demo/wsgi.py</span><br><span class="line">经过上述的步骤测试,发现在这种情况下启动django项目,uWSGI也是单线程,访问接口需要&quot;排队&quot;</span><br><span class="line">不给uWSGI加进程,uWSGI默认是单进程单线程</span><br><span class="line"></span><br><span class="line">uwsgi --http 0.0.0.0:8000 --file Demo/wsgi.py --processes 4 --threads 2</span><br><span class="line"># processes: 进程数 # processes 和 workers 一样的效果 # threads : 每个进程开的线程数</span><br><span class="line">经过测试,接口可以&quot;同时&quot;访问,uWSGI提供多线程</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Python因为GIL的存在,在一个进程中,只允许一个线程工作,导致单进程多线程无法利用多核</li>
+<li>多进程的线程之间不存在抢GIL的情况,每个进程有一个自己的线程锁,多进程多GIL</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/后端/" rel="tag"># 后端</a>
+            
+              <a href="/tags/python/" rel="tag"># python</a>
+            
+              <a href="/tags/django/" rel="tag"># django</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/11/git/git统计项目成员代码量/" rel="next" title="git统计项目中成员代码量">
+                  <i class="fa fa-chevron-left"></i> git统计项目中成员代码量
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/12/python/web/django/django单元测试/" rel="prev" title="Django单元测试">
+                  Django单元测试 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WSGI"><span class="nav-text">WSGI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uWSGI"><span class="nav-text">uWSGI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么有了WSGI为什么还需要nginx？"><span class="nav-text">为什么有了WSGI为什么还需要nginx？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-简单的Web-Server"><span class="nav-text">2. 简单的Web Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-简单的WSGI-Application"><span class="nav-text">3. 简单的WSGI Application</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-理解"><span class="nav-text">4. 理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#样例一"><span class="nav-text">样例一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样例二"><span class="nav-text">样例二</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-WSGI中间件和Werkzeug"><span class="nav-text">5. WSGI中间件和Werkzeug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-杂谈"><span class="nav-text">6. 杂谈</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/silence.png"
+      alt="silence 聆听°">
+  <p class="site-author-name" itemprop="name">silence 聆听°</p>
+  <div class="site-description" itemprop="description">主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/sen520" title="GitHub &rarr; https://github.com/sen520" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:358974225@qq.com" title="E-Mail &rarr; mailto:358974225@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">silence 聆听°</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">352k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:20</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+-->
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;"> 皖ICP备19019530号</p></a>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/pjax/pjax.min.js?v=0.2.8"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var id = element.id || '';
+    var src = element.src || '';
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (id !=='') {
+      script.id = element.id;
+    }
+    if (src !== '') {
+      script.src = src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '219d27bd2659fe155d6f',
+      clientSecret: '29d3a6e9d0d0a5b6e646f6c7d1ad3cf6051b71be',
+      repo: 'sen520.github.io',
+      owner: 'sen520',
+      admin: ['sen520'],
+      id: 'e6056b6cd7f0e7ad9b8906c4492f9305',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

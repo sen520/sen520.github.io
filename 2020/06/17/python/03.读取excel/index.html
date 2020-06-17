@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="google-site-verification" content="VN-Dofcb4v5O_cHZRP-5ovlon_f-2TFD2MLrleCTmxY" />
+<meta name="baidu-site-verification" content="eJFx4gOEfs" />
+<meta baidu-gxt-verify-token="541338f1a5bfa7c374a039b899b225a9">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/S.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/S.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="silence聆听°" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  <meta name="description" content="关于excel，大部分操作应该主要用于数据分析，其中，最主流的方式应该是采用pandas库，这里主要介绍几种方式来读写excel读取excel数据处理一般的excel，尤其没有合并单元格之类的情况时，我们可以采用普通的方法这里采用xlrd库 无单元格合并的情况下 12345678910111213141516171819202122232425262728293031import xlrddef">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="excel相关操作">
+<meta property="og:url" content="https://blog.silencew.cn/2020/06/17/python/03.读取excel/index.html">
+<meta property="og:site_name" content="silence聆听°">
+<meta property="og:description" content="关于excel，大部分操作应该主要用于数据分析，其中，最主流的方式应该是采用pandas库，这里主要介绍几种方式来读写excel读取excel数据处理一般的excel，尤其没有合并单元格之类的情况时，我们可以采用普通的方法这里采用xlrd库 无单元格合并的情况下 12345678910111213141516171819202122232425262728293031import xlrddef">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-06-17T13:00:44.624Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="excel相关操作">
+<meta name="twitter:description" content="关于excel，大部分操作应该主要用于数据分析，其中，最主流的方式应该是采用pandas库，这里主要介绍几种方式来读写excel读取excel数据处理一般的excel，尤其没有合并单元格之类的情况时，我们可以采用普通的方法这里采用xlrd库 无单元格合并的情况下 12345678910111213141516171819202122232425262728293031import xlrddef">
+  <link rel="canonical" href="https://blog.silencew.cn/2020/06/17/python/03.读取excel/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>excel相关操作 | silence聆听°</title>
+  
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a4ee2e83dba9b2dfdd7ff369e4c80d1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">silence聆听°</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/sen520" class="github-corner" title="Silence GitHub" aria-label="Silence GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+     <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2020/06/17/python/03.读取excel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="silence 聆听°">
+      <meta itemprop="description" content="主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。">
+      <meta itemprop="image" content="/images/silence.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="silence聆听°">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">excel相关操作
+
+          
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-17 00:00:00 / 修改时间：21:00:44" itemprop="dateCreated datePublished" datetime="2020-06-17T00:00:00+08:00">2020-06-17</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>5.2k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>5 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于excel，大部分操作应该主要用于数据分析，其中，最主流的方式应该是采用pandas库，这里主要介绍几种方式来读写excel</p><h4 id="读取excel数据"><a href="#读取excel数据" class="headerlink" title="读取excel数据"></a>读取excel数据</h4><p>处理一般的excel，尤其没有合并单元格之类的情况时，我们可以采用普通的方法</p><p>这里采用xlrd库</p><ul>
+<li><p>无单元格合并的情况下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_list</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    parse a list</span></span><br><span class="line"><span class="string">    :param data: list</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    data_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(data)):</span><br><span class="line">        data_dict = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> index, key <span class="keyword">in</span> enumerate(data[<span class="number">0</span>]):</span><br><span class="line">            data_dict[key] = data[i][index]</span><br><span class="line">        data_list.append(data_dict)</span><br><span class="line">    <span class="keyword">return</span> data_list</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_excel</span><span class="params">(filename, sheet=None)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    read excel and parse every line</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param name: file of absolute path</span></span><br><span class="line"><span class="string">    :return: some dict which is about everyline of list</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    workbook = xlrd.open_workbook(filename)</span><br><span class="line">    total_data = []</span><br><span class="line">    <span class="keyword">if</span> sheet:</span><br><span class="line">        sh = workbook.sheet_by_name(sheet)</span><br><span class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">0</span>, sh.nrows):</span><br><span class="line">            row_list = sh.row_values(row)</span><br><span class="line">            total_data.append(row_list)</span><br><span class="line">    <span class="keyword">return</span> parse_list(total_data)</span><br></pre></td></tr></table></figure>
+<p>上述方法主要针对特定的sheet，当然，根据上述方法也也可进行改变，读取所有的sheet</p>
+<p>关键方法在于read_excel，所以我们来改写该方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_excel</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    read excel and parse every line</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param name: file of absolute path</span></span><br><span class="line"><span class="string">    :return: some dict which is about everyline of list</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    workbook = xlrd.open_workbook(filename)</span><br><span class="line">    total_data = []</span><br><span class="line">    name_sheets = workbook.sheet_names()</span><br><span class="line">    <span class="keyword">for</span> sheet <span class="keyword">in</span> name_sheets:</span><br><span class="line">        sh = workbook.sheet_by_name(sheet)</span><br><span class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">0</span>, sh.nrows):</span><br><span class="line">            row_list = sh.row_values(row)</span><br><span class="line">            total_data.append(row_list)</span><br><span class="line">    <span class="keyword">return</span> parse_list(total_data)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主要用于处理合并存在合并单元格的情况</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_excel</span><span class="params">()</span>:</span></span><br><span class="line">    data_list = []</span><br><span class="line">    <span class="keyword">with</span> xlrd.open_workbook(<span class="string">r'D:\0325.xlsx'</span>) <span class="keyword">as</span> workbook:</span><br><span class="line">        name_sheets = workbook.sheet_names()  <span class="comment"># 获取Excel的sheet表列表，存储是sheet表名</span></span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> name_sheets:  <span class="comment"># for 循环读取每一个sheet表的内容</span></span><br><span class="line">            apply_dic = []</span><br><span class="line">            sheet_info = workbook.sheet_by_name(index)  <span class="comment"># 根据表名获取表中的所有内容，sheet_info也是列表，列表中的值是每个单元格里值</span></span><br><span class="line">            first_line = sheet_info.row_values(<span class="number">0</span>)  <span class="comment"># 获取首行，我这里的首行是表头，我打算用表头作为字典的key，每一行数据对应表头的value，每一行组成一个字典</span></span><br><span class="line">            values_merge_cell = merge_cell(sheet_info)  <span class="comment"># 这里是调用处理合并单元格的函数</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, sheet_info.nrows):  <span class="comment"># 开始为组成字典准备数据</span></span><br><span class="line">                other_line = sheet_info.row_values(i)</span><br><span class="line">                <span class="keyword">for</span> key <span class="keyword">in</span> values_merge_cell.keys():</span><br><span class="line">                    <span class="keyword">if</span> key[<span class="number">0</span>] == i:</span><br><span class="line">                        other_line[key[<span class="number">1</span>]] = values_merge_cell[key]</span><br><span class="line">                <span class="comment"># print(other_line)</span></span><br><span class="line">                dic = list_dic(first_line, other_line)  <span class="comment"># 调用组合字典的函数，传入key和value，字典生成</span></span><br><span class="line">                apply_dic.append(dic)</span><br><span class="line">            data_list.append(&#123;<span class="string">'index'</span>: index, <span class="string">'data'</span>: apply_dic&#125;)</span><br><span class="line">    <span class="keyword">return</span> data_list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">list_dic</span><span class="params">(list1, list2)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    two lists merge a dict,a list as key,other list as value</span></span><br><span class="line"><span class="string">    :param list1:key</span></span><br><span class="line"><span class="string">    :param list2:value</span></span><br><span class="line"><span class="string">    :return:dict</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    dic = dict(map(<span class="keyword">lambda</span> x, y: [x, y], list1, list2))</span><br><span class="line">    <span class="keyword">return</span> dic</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge_cell</span><span class="params">(sheet_info)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    #handle Merge transverse cells and handle Merge Vertical Cells, assign empty cells,</span></span><br><span class="line"><span class="string">    :param rlow:row, include row exclusive of row_range</span></span><br><span class="line"><span class="string">    :param rhigh:row_range</span></span><br><span class="line"><span class="string">    :param clow:col, include col exclusive of col_range</span></span><br><span class="line"><span class="string">    :param chigh:col_range</span></span><br><span class="line"><span class="string">    :param sheet_info:object of sheet</span></span><br><span class="line"><span class="string">    :return:dic contain all of empty cells value</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    merge = &#123;&#125;</span><br><span class="line">    merge_cells = sheet_info.merged_cells</span><br><span class="line">    <span class="keyword">for</span> (rlow, rhigh, clow, chigh) <span class="keyword">in</span> merge_cells:</span><br><span class="line">        value_mg_cell = sheet_info.cell_value(rlow, clow)</span><br><span class="line">        <span class="keyword">if</span> rhigh - rlow == <span class="number">1</span>:</span><br><span class="line">            <span class="comment"># Merge transverse cells</span></span><br><span class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> range(chigh - clow - <span class="number">1</span>):</span><br><span class="line">                merge[(rlow, clow + n + <span class="number">1</span>)] = value_mg_cell</span><br><span class="line">        <span class="keyword">elif</span> chigh - clow == <span class="number">1</span>:</span><br><span class="line">            <span class="comment"># Merge Vertical Cells</span></span><br><span class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> range(rhigh - rlow - <span class="number">1</span>):</span><br><span class="line">                merge[(rlow + n + <span class="number">1</span>, clow)] = value_mg_cell</span><br><span class="line">    <span class="keyword">return</span> merge</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    get_excel()</span><br></pre></td></tr></table></figure>
+</li>
+</ul><a id="more"></a>
+
+<!--mort-->
+
+
+<h4 id="写excel"><a href="#写excel" class="headerlink" title="写excel"></a>写excel</h4><ul>
+<li><p>生成xlsx，使用pandas</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_excel</span><span class="params">(data, filename, keys=<span class="string">''</span>)</span>:</span></span><br><span class="line">    data_df = pd.DataFrame(data)</span><br><span class="line">    <span class="keyword">if</span> keys != <span class="string">''</span>:</span><br><span class="line">        data_df.columns = list(keys)</span><br><span class="line">    writer = pd.ExcelWriter(<span class="string">'&#123;&#125;.xlsx'</span>.format(filename))</span><br><span class="line">    data_df.to_excel(writer, index=<span class="literal">None</span>)</span><br><span class="line">    writer.save()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成csv</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_csv</span><span class="params">(name, data_list)</span>:</span></span><br><span class="line">    fieldnames = data_list[<span class="number">0</span>]</span><br><span class="line">    print(fieldnames)</span><br><span class="line">    <span class="keyword">with</span> open(name + <span class="string">'.csv'</span>, mode=<span class="string">'w'</span>, newline=<span class="string">''</span>, encoding=<span class="string">'utf-8-sig'</span>) <span class="keyword">as</span> csv_file:</span><br><span class="line">        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)</span><br><span class="line">        writer.writeheader()</span><br><span class="line">        <span class="keyword">for</span> data <span class="keyword">in</span> data_list:</span><br><span class="line">            writer.writerow(data)</span><br></pre></td></tr></table></figure>
+<p>当然，可以通过json去生成csv</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">json_to_csv</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(name) <span class="keyword">as</span> f:</span><br><span class="line">        a = json.loads(f.read())</span><br><span class="line">        write_csv(name, a)</span><br></pre></td></tr></table></figure>
+<p>这里依旧可以使用pandas</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">data_to_csv</span><span class="params">(data_list, csv_key, name)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    save data to csv</span></span><br><span class="line"><span class="string">    :param data_list: data</span></span><br><span class="line"><span class="string">    :param csv_key: csv column</span></span><br><span class="line"><span class="string">    :param name: file name</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    final_data = []</span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> data_list:</span><br><span class="line">        sign_key = []</span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> data.items():</span><br><span class="line">            sign_key.append(value)</span><br><span class="line">        final_data.append(sign_key)</span><br><span class="line">    <span class="comment"># 将总数据转化为data frame再输出</span></span><br><span class="line">    df = pd.DataFrame(data=final_data,</span><br><span class="line">                      columns=csv_key)</span><br><span class="line">    df.to_csv(name + <span class="string">'.csv'</span>, index=<span class="literal">False</span>, encoding=<span class="string">'utf-8_sig'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/python/" rel="tag"># python</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/03/26/python/spider/01.yield/" rel="next" title="yeild">
+                  <i class="fa fa-chevron-left"></i> yeild
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#读取excel数据"><span class="nav-text">读取excel数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写excel"><span class="nav-text">写excel</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/silence.png"
+      alt="silence 聆听°">
+  <p class="site-author-name" itemprop="name">silence 聆听°</p>
+  <div class="site-description" itemprop="description">主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/sen520" title="GitHub &rarr; https://github.com/sen520" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:358974225@qq.com" title="E-Mail &rarr; mailto:358974225@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">silence 聆听°</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">352k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:20</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+-->
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;"> 皖ICP备19019530号</p></a>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/pjax/pjax.min.js?v=0.2.8"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var id = element.id || '';
+    var src = element.src || '';
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (id !=='') {
+      script.id = element.id;
+    }
+    if (src !== '') {
+      script.src = src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '219d27bd2659fe155d6f',
+      clientSecret: '29d3a6e9d0d0a5b6e646f6c7d1ad3cf6051b71be',
+      repo: 'sen520.github.io',
+      owner: 'sen520',
+      admin: ['sen520'],
+      id: '0a18abd8ba76ebd06e481007e1f888fc',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

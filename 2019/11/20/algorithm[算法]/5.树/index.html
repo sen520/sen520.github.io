@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="google-site-verification" content="VN-Dofcb4v5O_cHZRP-5ovlon_f-2TFD2MLrleCTmxY" />
+<meta name="baidu-site-verification" content="eJFx4gOEfs" />
+<meta baidu-gxt-verify-token="541338f1a5bfa7c374a039b899b225a9">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/S.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/S.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="silence聆听°" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  <meta name="description" content="树（tree）是n（n&amp;lt;=0）个节点的有限集。当n=0时，成为空树。在任意一个非空树中，有如下特点：  有且仅有一个特定的成为根的节点。 当n&amp;gt;1时，其余节点可分为m（m&amp;gt;0）个互不相交的有限集，每一个集合本身又是一个树，并称为根的子树">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树">
+<meta property="og:url" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/index.html">
+<meta property="og:site_name" content="silence聆听°">
+<meta property="og:description" content="树（tree）是n（n&amp;lt;=0）个节点的有限集。当n=0时，成为空树。在任意一个非空树中，有如下特点：  有且仅有一个特定的成为根的节点。 当n&amp;gt;1时，其余节点可分为m（m&amp;gt;0）个互不相交的有限集，每一个集合本身又是一个树，并称为根的子树">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/树01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/树02.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/满二叉树.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/完全二叉树.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/链式二叉树.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/数组二叉树.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉查找树01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉查找树02.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉查找树03.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉查找树04.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉查找树05.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉查找树06.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/前序遍历.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/中序遍历.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历02.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历03.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历04.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历05.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历07.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历02.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历03.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历04.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历05.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历06.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历07.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/最大堆.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/最小堆.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点02.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点03.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点04.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点02.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点03.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点04.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/构建二叉堆01.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/构建二叉堆02.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/构建二叉堆03.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/构建二叉堆04.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/构建二叉堆05.png">
+<meta property="og:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/二叉堆的存储.png">
+<meta property="og:updated_time" content="2019-11-19T16:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="树">
+<meta name="twitter:description" content="树（tree）是n（n&amp;lt;=0）个节点的有限集。当n=0时，成为空树。在任意一个非空树中，有如下特点：  有且仅有一个特定的成为根的节点。 当n&amp;gt;1时，其余节点可分为m（m&amp;gt;0）个互不相交的有限集，每一个集合本身又是一个树，并称为根的子树">
+<meta name="twitter:image" content="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/树01.png">
+  <link rel="canonical" href="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>树 | silence聆听°</title>
+  
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a4ee2e83dba9b2dfdd7ff369e4c80d1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">silence聆听°</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/sen520" class="github-corner" title="Silence GitHub" aria-label="Silence GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+     <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="silence 聆听°">
+      <meta itemprop="description" content="主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。">
+      <meta itemprop="image" content="/images/silence.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="silence聆听°">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">树
+
+          
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-20 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-20T00:00:00+08:00">2019-11-20</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>9.1k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>8 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>树（tree）是n（n&lt;=0）个节点的有限集。当n=0时，成为空树。在任意一个非空树中，有如下特点：</p>
+<ul>
+<li>有且仅有一个特定的成为根的节点。</li>
+<li>当n&gt;1时，其余节点可分为m（m&gt;0）个互不相交的有限集，每一个集合本身又是一个树，并称为根的子树</li>
+</ul>
+<a id="more"></a>
+<img src="/2019/11/20/algorithm[算法]/5.树/树01.png" class="slug">
+<img src="/2019/11/20/algorithm[算法]/5.树/树02.png" class="slug">
+<p>树的最大层级数，被称为树的高度或深度，上面这个数的高度是4</p>
+<h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p>二叉树（binary tree）是树的一种特殊形式。这种树的每个节点最多有两个孩子节点。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树01.png" class="slug">
+<p>二叉树有两种特殊的形式，一个叫做满二叉树，另一个叫完全二叉树。</p>
+<ul>
+<li><p>满二叉树</p>
+<p>一个二叉树的所有非叶子节点都存在左右孩子，并且所有的叶子节点都在同一层级上；简单来说，满二叉树的每一个分支都是满的</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/满二叉树.png" class="slug">
+</li>
+<li><p>完全二叉树</p>
+<p>对一个有n个节点的二叉树，按层级顺序编号，则所有的节点的编号为从1到n。如果这个树所有节点和同样深度的满二叉树的编号为从1到n的节点位置相同，则这个二叉树为完全二叉树。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/完全二叉树.png" class="slug">
+<p>上图中，二叉树编号从1到12的12个节点，和前面满二叉树从1到12的节点位置完全对应，因此这个树是完全二叉树。</p>
+</li>
+</ul>
+<p>完全二叉树的条件没有满二叉树那么苛刻：满二叉树要求所有分支都是满的；而完全二叉树只需保证最后一个节点之前的节点都齐全即可。</p>
+<p>存储结构：</p>
+<ul>
+<li><p>链式存储结构</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/链式二叉树.png" class="slug">
+<p>链式存储是二叉树最直观的存储方式。</p>
+<p>一个节点最多可以指向左右两个孩子节点，所以二叉树的每一个节点包含3部分</p>
+<ul>
+<li>存储数据的data变量</li>
+<li>指向左孩子的left指针</li>
+<li>指向右孩子的right指针</li>
+</ul>
+</li>
+<li><p>数组</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/数组二叉树.png" class="slug">
+<p>使用数组存储时，会按照层级顺序把二叉树的节点放到数组中对应的位置。如果某一个节点的左孩子或者右孩子空缺，则数组的相应位置也空出来。</p>
+<p>这样设计可以更方便的在数组中定位二叉树的孩子节点和父节点。</p>
+<p>假设一个父节点的下标是parent，那么它的左孩子节点下标就是<code>2 × parent + 1</code>，右孩子节点的下标就是<code>2 × parent + 2</code></p>
+<p>反过来，一个左孩子节点下标是leftChild，那么它的父节点的下标就是<code>(leftChild - 1) / 2</code></p>
+</li>
+</ul>
+<p>对于一个稀疏的二叉树来说，用数组表示法是非常浪费空间的。</p>
+<h5 id="二叉树的应用"><a href="#二叉树的应用" class="headerlink" title="二叉树的应用"></a>二叉树的应用</h5><h6 id="1-查找"><a href="#1-查找" class="headerlink" title="1. 查找"></a>1. 查找</h6><p>二叉查找树</p>
+<ul>
+<li>如果左子树不为空，则左子树上所有节点的值均小于根节点的值</li>
+<li>如果右子树不为空，则右子树上所有节点的值均大于根节点的值</li>
+<li>左右子树也都是二叉查找树</li>
+</ul>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉查找树01.png" class="slug">
+<p>例如查找值为4的节点</p>
+<ul>
+<li><p>访问根节点6，发现4 &lt; 6</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉查找树02.png" class="slug">
+</li>
+<li><p>访问节点6的左孩子节点3，发现4 &gt; 3</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉查找树03.png" class="slug">
+</li>
+<li><p>访问节点3的右孩子节点4，发现4 = 4，正是要找的节点</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉查找树04.png" class="slug">
+</li>
+</ul>
+<p>对于一个节点分布相对均衡的二叉查找树来说，如果节点总数是n，那么搜索节点的时间复杂度就是<code>O(logn)</code>，和树的深度是一样的。</p>
+<h6 id="2-维持相对顺序"><a href="#2-维持相对顺序" class="headerlink" title="2. 维持相对顺序"></a>2. 维持相对顺序</h6><p>仍然要从二叉查找树说起，二叉查找树要求左子树小于父节点，右子树大于父节点，正是这样保证了二叉树的有序性。</p>
+<p>因此二叉查找树又叫二叉排序树</p>
+<p>新插入的节点，同样要遵循二叉排序树的原则，例如插入新元素5，由于5 &lt; 6, 5 &gt; 3, 5 &gt; 4，所以最终为插入节点4的右孩子的位置</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉查找树05.png" class="slug">
+<p>这样却隐藏了一个致命的问题，在二叉查找树中依次插入9、8、7、6、5、4会出现下面这种情况</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉查找树06.png" class="slug">
+<p>这就涉及到了二叉树的自平衡，后面会说到</p>
+<h5 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h5><p>分为4种：前序遍历，中序遍历，后序遍历，层序遍历</p>
+<p>从更宏观的角度来看，二叉树的遍历归结为两大类：</p>
+<ul>
+<li>深度优先遍历（前序遍历，中序遍历，后序遍历）</li>
+<li>广度优先遍历（层序遍历）</li>
+</ul>
+<h6 id="深度优先遍历"><a href="#深度优先遍历" class="headerlink" title="深度优先遍历"></a>深度优先遍历</h6><ul>
+<li><p>前序遍历</p>
+<p>输出顺序是根节点，左子树，右子树</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/前序遍历.png" class="slug">
+</li>
+<li><p>中序遍历</p>
+<p>输出顺序是左子树，根节点，右子树</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/中序遍历.png" class="slug">
+</li>
+<li><p>后序遍历</p>
+<p>输出顺序是左子树，右子树，根节点</p>
+
+</li>
+</ul>
+<p>递归的方式</p>
+<p>非递归方式（栈）</p>
+<ol>
+<li><p>首先遍历二叉树的根节点，放入栈中。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历01.png" class="slug">
+</li>
+<li><p>遍历根节点1的左孩子节点2，放入栈中。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历02.png" class="slug">
+</li>
+<li><p>遍历节点2的左孩子节点4，放入栈中。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历03.png" class="slug">
+</li>
+<li><p>节点4既没有左孩子，也没有右孩子，我们需要回溯到上一个节点2。</p>
+<p>因为栈已经存储了刚才遍历的路径。让旧的栈顶元素4出栈，就可以重新访问节点2，得到节点2的右孩子节点5.</p>
+<p>此时节点2已经没有利用价值了，节点2出栈，节点5入栈。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历04.png" class="slug">
+</li>
+<li><p>节点5既没有左孩子，也没有右孩子，我们需要再次回溯，一直回溯到节点1，所以让节点5出栈，根节点1的右孩子是节点3，节点1出栈，节点3入栈。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历05.png" class="slug">
+</li>
+<li><p>节点3的右孩子是节点6，节点3出栈，节点6入栈</p>
+
+</li>
+<li><p>节点6既没有左孩子，也没有右孩子，所以节点6出栈。此时栈为空，遍历结束。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树非递归遍历07.png" class="slug">
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">helloword</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建二叉树</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> inputList 输入序列</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">createBinaryTree</span><span class="params">(LinkedList&lt;Integer&gt; inputList)</span> </span>&#123;</span><br><span class="line">        TreeNode node = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (inputList == <span class="keyword">null</span> || inputList.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Integer data = inputList.removeFirst();</span><br><span class="line">        <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">            node = <span class="keyword">new</span> TreeNode(data);</span><br><span class="line">            node.leftChild = createBinaryTree(inputList);</span><br><span class="line">            node.rightChild = createBinaryTree(inputList);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 二叉树的前序遍历</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> node 二叉树节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">preOrderTraveral</span><span class="params">(TreeNode node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(node.data);</span><br><span class="line">        preOrderTraveral(node.leftChild);</span><br><span class="line">        preOrderTraveral(node.rightChild);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 二叉树的中序遍历</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> node 二叉树节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">inOrderTraveral</span><span class="params">(TreeNode node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        inOrderTraveral(node.leftChild);</span><br><span class="line">        System.out.println(node.data);</span><br><span class="line">        inOrderTraveral(node.rightChild);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 二叉树的后序遍历</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> node 二叉树节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">postOrderTraveral</span><span class="params">(TreeNode node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        postOrderTraveral(node.leftChild);</span><br><span class="line">        postOrderTraveral(node.rightChild);</span><br><span class="line">        System.out.println(node.data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 二叉树节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> data;</span><br><span class="line">        TreeNode leftChild;</span><br><span class="line">        TreeNode rightChild;</span><br><span class="line"></span><br><span class="line">        TreeNode(<span class="keyword">int</span> data) &#123;</span><br><span class="line">            <span class="keyword">this</span>.data = data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 二叉树非递归前序遍历</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> root 二叉树根节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">preOrderTraveralWithStack</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;TreeNode&gt;();</span><br><span class="line">        TreeNode treeNode = root;</span><br><span class="line">        <span class="keyword">while</span>(treeNode != <span class="keyword">null</span> || !stack.isEmpty()) &#123;</span><br><span class="line">            <span class="comment">// 迭代访问节点的左孩子，并入栈</span></span><br><span class="line">            <span class="keyword">while</span> (treeNode != <span class="keyword">null</span>) &#123;</span><br><span class="line">                System.out.println(treeNode.data);</span><br><span class="line">                stack.push(treeNode);</span><br><span class="line">                treeNode = treeNode.leftChild;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果节点没有左孩子，则弹出栈顶节点，访问节点右孩子</span></span><br><span class="line">            <span class="keyword">if</span> (!stack.isEmpty()) &#123;</span><br><span class="line">                treeNode = stack.pop();</span><br><span class="line">                treeNode = treeNode.rightChild;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LinkedList&lt;Integer&gt; inputList = <span class="keyword">new</span> LinkedList&lt;Integer&gt;(Arrays.asList(<span class="keyword">new</span> Integer[]&#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="number">10</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="number">8</span>, <span class="keyword">null</span>, <span class="number">4</span>&#125;));</span><br><span class="line">        TreeNode treeNode = createBinaryTree(inputList);</span><br><span class="line">        System.out.println(<span class="string">"前序遍历: "</span>);</span><br><span class="line">        preOrderTraveral(treeNode);</span><br><span class="line">        System.out.println(<span class="string">"无递归实现前序遍历: "</span>);</span><br><span class="line">        preOrderTraveralWithStack(treeNode);</span><br><span class="line">        System.out.println(<span class="string">"中序遍历: "</span>);</span><br><span class="line">        inOrderTraveral(treeNode);</span><br><span class="line">        System.out.println(<span class="string">"后序遍历: "</span>);</span><br><span class="line">        postOrderTraveral(treeNode);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="广度优先遍历"><a href="#广度优先遍历" class="headerlink" title="广度优先遍历"></a>广度优先遍历</h6><img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历.png" class="slug">
+<ol>
+<li><p>根节点1进入队列</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历01.png" class="slug">
+</li>
+<li><p>节点1出队，输出节点1，并得到节点1的左孩子节点2、右孩子节点3.让节点2和节点3入队。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历02.png" class="slug">
+</li>
+<li><p>节点2出队，输出节点2，并得到节点2的左孩子4、右孩子节点5。让节点4和节点5入队。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历03.png" class="slug">
+</li>
+<li><p>节点3出队，输出节点3，并得到节点三的右孩子节点6。让节点6入队</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历04.png" class="slug">
+</li>
+<li><p>节点4出队，输出节点4，由于节点4没有孩子节点，所以没有新节点入队</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历05.png" class="slug">
+</li>
+<li><p>节点5出队，输出节点5，由于节点5同样没有孩子节点，所以没有新节点入队。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历06.png" class="slug">
+</li>
+<li><p>节点6出队，输出节点6，节点6没有孩子节点，没有新节点入队</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉树广度优先遍历07.png" class="slug">
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 二叉树层序遍历</span></span><br><span class="line"><span class="comment">* @param root 二叉树根节点</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">levelOrderTraversal</span><span class="params">(TreeNode root)</span></span>&#123;</span><br><span class="line">    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;TreeNode&gt;();</span><br><span class="line">    queue.offer(root);</span><br><span class="line">    <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">        TreeNode node = queue.poll();</span><br><span class="line">        System.out.println(node.data);</span><br><span class="line">        <span class="keyword">if</span> (node.leftChild != <span class="keyword">null</span>)&#123;</span><br><span class="line">            queue.offer(node.leftChild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (node.rightChild != <span class="keyword">null</span>) &#123;</span><br><span class="line">            queue.offer(node.rightChild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h4><p>二叉堆本质上是一种完全二叉树，分为两个类型</p>
+<ul>
+<li><p>最大堆</p>
+<p>最大堆的任何一个父节点的值，都大于或等于它左、右孩子节点的值。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/最大堆.png" class="slug">
+</li>
+<li><p>最小堆</p>
+<p>最小堆的任何一个父节点的值，都小于或等于它左、右孩子节点的值。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/最小堆.png" class="slug">
+</li>
+</ul>
+<p>二叉树的根节点叫做堆顶。</p>
+<p>最大堆和最小堆的特点决定了：最大堆的堆顶是整个堆中的最大元素；最小堆的堆顶是整个堆中的最小元素。</p>
+<h5 id="二叉堆的自我调整"><a href="#二叉堆的自我调整" class="headerlink" title="二叉堆的自我调整"></a>二叉堆的自我调整</h5><p>堆的插入和删除操作时间复杂度是<code>O(logn)</code></p>
+<p>节点的上浮和下沉时间复杂度是<code>O(logn)</code></p>
+<p>构建的时间复杂度是<code>O(n)</code></p>
+<ol>
+<li><p>插入节点</p>
+<p>当二叉堆插入节点时，插入位置是完全二叉树的最后一个位置。例如插入一个新节点，值是0</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点01.png" class="slug">
+<p>这时，新节点的父节点5比0大，显然不符合最小堆的性质，于是让新节点“上浮”，和父节点交换位置</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点02.png" class="slug">
+<p>继续用节点0和父节点3作比较，因为0小于3，则让新节点继续上浮</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点03.png" class="slug">
+<p>最终新节点0“上浮”到了堆顶位置</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆插入节点04.png" class="slug">
+</li>
+<li><p>删除节点</p>
+<p>二叉堆删除节点的过程和插入节点的过程正好相反，所删除的是处于堆顶的节点1</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点01.png" class="slug">
+<p>这时，为了继续维持完全二叉树的结构，我们把堆的最后一个节点10临时补到原本的堆顶位置。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点02.png" class="slug">
+<p>接下来，让暂处栈顶位置的节点10和它的左、右孩子节点中最小的一个，显然是节点2，那么让节点10“下沉”。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点03.png" class="slug">
+<p>继续让节点10和它的左右孩子作比较，左右孩子中最小的节点7，由于10大于7，让节点10继续“下沉”</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆删除节点04.png" class="slug">
+<p>这样，二叉堆重新得到了调整</p>
+</li>
+<li><p>构建二叉堆</p>
+<p>构建二叉堆就是把一个完全无序的二叉树调整为二叉堆，本质就是让所有的非叶子节点依次下沉。</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/构建二叉堆01.png" class="slug">
+<p>首先，从最后一个非叶子节点开始，也就是从节点10开始。如果节点10大于它左、右孩子节点中最小的一个，则节点10下沉</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/构建二叉堆02.png" class="slug">
+<p>接下来轮到节点3，如果节点3,大于它左、右孩子节点中最小的一个，则节点3下沉</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/构建二叉堆03.png" class="slug">
+<p>然后轮到节点1，如果节点1大于它左、右孩子节点中最小的一个，则节点1下沉。</p>
+<p>接下来轮到节点7，如果节点7大于它左、右孩子节点中最小的一个，则节点7下沉</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/构建二叉堆04.png" class="slug">
+<p>节点7继续比较，继续下沉</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/构建二叉堆05.png" class="slug">
+<p>经过上述的几轮比较和下沉，最终每一节点都小于它的左右孩子节点，一个无序的完全二叉树就被构建成了一个最小堆。</p>
+</li>
+</ol>
+<h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h5><p>二叉堆虽然是一个完全二叉树，但它的存储方式并不是链式的，而是顺序存储。二叉堆的所有节点都存储在数组中</p>
+<img src="/2019/11/20/algorithm[算法]/5.树/二叉堆的存储.png" class="slug">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * “上浮”调整</span></span><br><span class="line"><span class="comment">     * @param array 待调整的堆</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">upAdjust</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> childIndex = array.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> parentIndex = (childIndex - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// temp 保存插入的叶子节点值，用于最后的赋值</span></span><br><span class="line">        <span class="keyword">int</span> temp = array[childIndex];</span><br><span class="line">        <span class="keyword">while</span> (childIndex &gt; <span class="number">0</span> &amp;&amp; temp &lt; array[parentIndex]) &#123;</span><br><span class="line">            <span class="comment">// 无须真正交换，单向赋值即可</span></span><br><span class="line">            array[childIndex] = array[parentIndex];</span><br><span class="line">            childIndex = parentIndex;</span><br><span class="line">            parentIndex = (parentIndex - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        array[childIndex] = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * “下沉”调整</span></span><br><span class="line"><span class="comment">     * @param array 待调整的堆</span></span><br><span class="line"><span class="comment">     * @param parentIndex 要“下沉”的父节点</span></span><br><span class="line"><span class="comment">     * @param length 堆的有效大小</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">downAdjust</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> parentIndex, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// temp 保存父节点值，用于最后的赋值</span></span><br><span class="line">        <span class="keyword">int</span> temp = array[parentIndex];</span><br><span class="line">        <span class="keyword">int</span> childIndex = <span class="number">2</span> * parentIndex + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (childIndex &lt; length) &#123;</span><br><span class="line">            <span class="comment">// 如果有右孩子，且右孩子小于左孩子的值，则定位到右孩子</span></span><br><span class="line">            <span class="keyword">if</span> (childIndex + <span class="number">1</span> &lt; length &amp;&amp; array[childIndex + <span class="number">1</span>] &lt; array[childIndex]) &#123;</span><br><span class="line">                childIndex++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果父节点小于任何一个孩子的值，则直接跳出</span></span><br><span class="line">            <span class="keyword">if</span> (temp &lt;= array[childIndex]) <span class="keyword">break</span>;</span><br><span class="line">            <span class="comment">// 无需真正的交换，单向赋值即可</span></span><br><span class="line">            array[parentIndex] = array[childIndex];</span><br><span class="line">            parentIndex = childIndex;</span><br><span class="line">            childIndex = <span class="number">2</span> * childIndex + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        array[parentIndex] = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 构建堆</span></span><br><span class="line"><span class="comment">     * @param array 待调整的堆</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">buildHeap</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 从最后一个非叶子节点开始，依次下沉调整</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = (array.length - <span class="number">2</span>) / <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            downAdjust(array, i, array.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">0</span>&#125;;</span><br><span class="line">        upAdjust(array);</span><br><span class="line">        System.out.println(Arrays.toString(array));</span><br><span class="line"></span><br><span class="line">        array = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">7</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">6</span>&#125;;</span><br><span class="line">        buildHeap(array);</span><br><span class="line">        System.out.println(Arrays.toString(array));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h4><p>优先队列不再遵循先入先出的原则，而是分为两种情况</p>
+<ul>
+<li>最大优先队列，无论入队顺序如何，都是当前最大的元素优先出队</li>
+<li>最小优先队列，无论入队顺序如何，都是当前最小的元素优先出队</li>
+</ul>
+<p>对列的入队和出队与二叉堆的插入和删除一致，所以时间复杂度也是<code>O(logn)</code></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/算法/" rel="tag"># 算法</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/19/algorithm[算法]/4.数据结构/" rel="next" title="数据结构">
+                  <i class="fa fa-chevron-left"></i> 数据结构
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/12/12/db/mysql/02、mysql计算字段/" rel="prev" title="mysql计算字段">
+                  mysql计算字段 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉树"><span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#二叉树的应用"><span class="nav-text">二叉树的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-查找"><span class="nav-text">1. 查找</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-维持相对顺序"><span class="nav-text">2. 维持相对顺序</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二叉树的遍历"><span class="nav-text">二叉树的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#深度优先遍历"><span class="nav-text">深度优先遍历</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#广度优先遍历"><span class="nav-text">广度优先遍历</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二叉堆"><span class="nav-text">二叉堆</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#二叉堆的自我调整"><span class="nav-text">二叉堆的自我调整</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码实现"><span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优先队列"><span class="nav-text">优先队列</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/silence.png"
+      alt="silence 聆听°">
+  <p class="site-author-name" itemprop="name">silence 聆听°</p>
+  <div class="site-description" itemprop="description">主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/sen520" title="GitHub &rarr; https://github.com/sen520" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:358974225@qq.com" title="E-Mail &rarr; mailto:358974225@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">silence 聆听°</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">352k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:20</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+-->
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;"> 皖ICP备19019530号</p></a>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/pjax/pjax.min.js?v=0.2.8"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var id = element.id || '';
+    var src = element.src || '';
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (id !=='') {
+      script.id = element.id;
+    }
+    if (src !== '') {
+      script.src = src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '219d27bd2659fe155d6f',
+      clientSecret: '29d3a6e9d0d0a5b6e646f6c7d1ad3cf6051b71be',
+      repo: 'sen520.github.io',
+      owner: 'sen520',
+      admin: ['sen520'],
+      id: '969d4bdca8bb8aaf9bb1c7f0bdfa9fbc',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

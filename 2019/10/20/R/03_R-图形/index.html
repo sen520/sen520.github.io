@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="google-site-verification" content="VN-Dofcb4v5O_cHZRP-5ovlon_f-2TFD2MLrleCTmxY" />
+<meta name="baidu-site-verification" content="eJFx4gOEfs" />
+<meta baidu-gxt-verify-token="541338f1a5bfa7c374a039b899b225a9">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/S.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/S.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="silence聆听°" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  <meta name="description" content="一个简单的例子1234&amp;gt; dose &amp;lt;- c(20, 30, 40, 45, 60)&amp;gt; drugA &amp;lt;- c(16, 20, 27, 40, 60)&amp;gt; drugB &amp;lt;- c(15, 18, 25, 31, 40)&amp;gt; plot(dose, drugA, type=&quot;b&quot;)">
+<meta name="keywords" content="R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R-图形初阶">
+<meta property="og:url" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/index.html">
+<meta property="og:site_name" content="silence聆听°">
+<meta property="og:description" content="一个简单的例子1234&amp;gt; dose &amp;lt;- c(20, 30, 40, 45, 60)&amp;gt; drugA &amp;lt;- c(16, 20, 27, 40, 60)&amp;gt; drugB &amp;lt;- c(15, 18, 25, 31, 40)&amp;gt; plot(dose, drugA, type=&quot;b&quot;)">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/01.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/02.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/pch图形对应.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/lty-line.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/03.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/04.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/05.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/06.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/07.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/08.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/09.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/10.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/11.jpg">
+<meta property="og:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/12.jpg">
+<meta property="og:updated_time" content="2019-10-19T16:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="R-图形初阶">
+<meta name="twitter:description" content="一个简单的例子1234&amp;gt; dose &amp;lt;- c(20, 30, 40, 45, 60)&amp;gt; drugA &amp;lt;- c(16, 20, 27, 40, 60)&amp;gt; drugB &amp;lt;- c(15, 18, 25, 31, 40)&amp;gt; plot(dose, drugA, type=&quot;b&quot;)">
+<meta name="twitter:image" content="https://blog.silencew.cn/2019/10/20/R/03_R-图形/01.jpg">
+  <link rel="canonical" href="https://blog.silencew.cn/2019/10/20/R/03_R-图形/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>R-图形初阶 | silence聆听°</title>
+  
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a4ee2e83dba9b2dfdd7ff369e4c80d1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">silence聆听°</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/sen520" class="github-corner" title="Silence GitHub" aria-label="Silence GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+     <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/10/20/R/03_R-图形/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="silence 聆听°">
+      <meta itemprop="description" content="主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。">
+      <meta itemprop="image" content="/images/silence.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="silence聆听°">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">R-图形初阶
+
+          
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-20 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-20T00:00:00+08:00">2019-10-20</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/R/图形/" itemprop="url" rel="index"><span itemprop="name">图形</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>7.4k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>7 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; dose &lt;- c(<span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">45</span>, <span class="number">60</span>)</span><br><span class="line">&gt; drugA &lt;- c(<span class="number">16</span>, <span class="number">20</span>, <span class="number">27</span>, <span class="number">40</span>, <span class="number">60</span>)</span><br><span class="line">&gt; drugB &lt;- c(<span class="number">15</span>, <span class="number">18</span>, <span class="number">25</span>, <span class="number">31</span>, <span class="number">40</span>)</span><br><span class="line">&gt; plot(dose, drugA, type=<span class="string">"b"</span>)</span><br></pre></td></tr></table></figure><a id="more"></a>
+<p><code>plot()</code>是R中为对象作图的一个泛型函数（它的输出将根据所绘制对象类型的不同而变化）。</p>
+<p>上例中，<code>plot(x, y, type=&quot;b&quot;)</code>将x置于横轴，将y置于纵轴，绘制点集(x, y)，然后使用线段将其链接。选项<code>type=&quot;b&quot;</code>表示同时绘制点和线。</p>
+<img src="/2019/10/20/R/03_R-图形/01.jpg" class="slug">
+<h4 id="图形参数"><a href="#图形参数" class="headerlink" title="图形参数"></a>图形参数</h4><p>我们可以通过修改称为图形参数的选项来自定义一幅图形的多个特性（字体、颜色、坐标轴、标题）。</p>
+<p>（修改图形参数的）一种方法是通过函数<code>par()</code>来指定这些选项。以这种方式设定的参数值，除非再次修改，否则将在会话结束前一直有效。</p>
+<p>格式为：<code>par(optionname=value, optionname=name,...)</code>。不加参数地执行<code>par()</code>将生成一个含有当前图形参数设置的列表。添加参数<code>no.readonly=TRUE</code>可以生成一个可以修改的当前图形参数的列表。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment"># 使用实心三角作为点的符号，虚线代替实线</span></span><br><span class="line">&gt; opar &lt;- par(no.readonly = <span class="literal">TRUE</span>) <span class="comment"># 复制一份当前参数</span></span><br><span class="line">&gt; par(lty=<span class="number">2</span>, pch=<span class="number">17</span>) <span class="comment"># lty=2 把实线改为虚线，pch=17把点改为实心三角</span></span><br><span class="line">&gt; plot(dose, drugA, type=<span class="string">"b"</span>)</span><br><span class="line">&gt; par(opar) <span class="comment"># 还原初始设置</span></span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/02.jpg" class="slug">
+<p>指定图形参数的第二种方法是为高级绘图函数直接提供<code>optionname=value</code>的键值对。这种情况下，指定的选项仅对这幅图形本身有效。</p>
+<p><code>plot(dose, drugA, type=&quot;b&quot;, lty=2, pch=17)</code></p>
+<h5 id="符号和线条"><a href="#符号和线条" class="headerlink" title="符号和线条"></a>符号和线条</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pch</td>
+<td>指定绘制点时使用的符号</td>
+</tr>
+<tr>
+<td>cex</td>
+<td>指定符号的大小。cex是一个数值，表示绘图符号相对于默认大小的缩放倍数。默认大小是1, 1.5表示放大为默认值的1.5倍，0.5表示缩小为默认值的50%</td>
+</tr>
+<tr>
+<td>lty</td>
+<td>指定线条类型</td>
+</tr>
+<tr>
+<td>lwd</td>
+<td>指定线条宽度。lwd是以默认值的相对大小来表示的（默认值为1）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>pch可指定的绘图符号如下图：</p>
+<img src="/2019/10/20/R/03_R-图形/pch图形对应.jpg" class="slug">
+<p>lty可指定的线条类型：</p>
+<img src="/2019/10/20/R/03_R-图形/lty-line.jpg" class="slug">
+<h5 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h5><p>用于指定颜色的参数</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>col</td>
+<td>默认的绘图颜色。某些函数（line和pie）可以接受一个含有颜色值的向量，并自动循环使用。例如，如果设定col=c(“red”, “blue”)并需要绘制三条线，则第一条将为红色，第二条为蓝色，第三条为红色</td>
+</tr>
+<tr>
+<td>col.axis</td>
+<td>坐标轴刻度文字的颜色</td>
+</tr>
+<tr>
+<td>col.lab</td>
+<td>坐标轴标签(名称)的颜色</td>
+</tr>
+<tr>
+<td>col.main</td>
+<td>标题的颜色</td>
+</tr>
+<tr>
+<td>col.sub</td>
+<td>副标题的颜色</td>
+</tr>
+<tr>
+<td>fg</td>
+<td>图形的前景色</td>
+</tr>
+<tr>
+<td>bg</td>
+<td>图形的背景色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>在R中，可以通过颜色下标、颜色名称、十六进制的颜色值、RGB值或HSV值来指定颜色。举例来说，<code>col=1</code>、<code>col=&quot;white&quot;</code>、<code>col=&quot;#FFFFFF</code>、<code>col=rgb(1, 1, 1)</code>和<code>col=hsv(0, 0, 1)</code>都是表示白色的等价方式。函数<code>rgb()</code>可基于红-绿-蓝三色值生成颜色，而<code>hsv()</code>则基于色相-饱和度-亮度来生成颜色。</p>
+<p><code>colors()</code>可返回所有可用颜色的名称。</p>
+<p>R中也有多种用于创建连续型颜色向量的函数，包括<code>rainbow()</code>，<code>heat.colors()</code>，<code>terrain.colors()</code>，<code>topo.colors()</code>，<code>cm.colors()</code>。举例来说，<code>rainbow(10)</code>可以生成10中连续的”彩虹型“颜色。多阶灰度可使用<code>gray()</code>函数生成。这时要通过一个元素值为0和1之间的向量来指定各颜色的灰度。gray(0:10/10)将生成10阶灰度色</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; n &lt;- <span class="number">10</span></span><br><span class="line">&gt; mycolors &lt;- rainbow(n)</span><br><span class="line">&gt; pie(rep(<span class="number">1</span>,n), labels=mycolors,col=mycolors)</span><br><span class="line">&gt; mygrays &lt;- gray(<span class="number">0</span>:n/n)</span><br><span class="line">&gt; pie(rep(<span class="number">1</span>,n), labels=mygrays, col=mygrays)</span><br></pre></td></tr></table></figure>
+<p>上述代码运行结果：</p>
+<img src="/2019/10/20/R/03_R-图形/03.jpg" class="slug">
+<img src="/2019/10/20/R/03_R-图形/04.jpg" class="slug">
+<h5 id="文本属性"><a href="#文本属性" class="headerlink" title="文本属性"></a>文本属性</h5><p>用于指定文本大小的参数：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cex</td>
+<td>表示相对于默认大小缩放倍数的数值，默认大小为1，1.5表示放大为默认值的1.5倍，0.5表示缩小为默认值的50%</td>
+</tr>
+<tr>
+<td>cex.axis</td>
+<td>坐标轴刻度文字的缩放倍数，类似cex</td>
+</tr>
+<tr>
+<td>cex.lab</td>
+<td>坐标轴标签（名称）的缩放倍数，类似cex</td>
+</tr>
+<tr>
+<td>cex.main</td>
+<td>标题的缩放倍数，类似cex</td>
+</tr>
+<tr>
+<td>cex.sub</td>
+<td>副标题的缩放倍数，类似cex</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>用于指定字体族、字号和字样的参数</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>font</td>
+<td>整数。用于指定绘图使用的字体样式。1=常规，2=粗体，3=斜体，4=粗斜体，5=符号字体</td>
+</tr>
+<tr>
+<td>font.axis</td>
+<td>坐标轴刻度文字的字体样式</td>
+</tr>
+<tr>
+<td>font.lab</td>
+<td>坐标轴标签（名称）的字体样式</td>
+</tr>
+<tr>
+<td>font.main</td>
+<td>标题的字体样式</td>
+</tr>
+<tr>
+<td>font.sub</td>
+<td>副标题的字体样式</td>
+</tr>
+<tr>
+<td>ps</td>
+<td>字体磅值。文本的最终大小为ps*cex</td>
+</tr>
+<tr>
+<td>family</td>
+<td>绘制文本时使用的字体族。标准的取值为serif(衬线)，sans(无衬线)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>举例：执行 <code>par(font.lab=3, cex.lab=1.5, font.main=4, cex.main=2)</code> 之后创建的所有图形都将拥有斜体、1.5倍于默认文本大小的坐标轴标签（名称），以及粗斜体、2倍于默认文本大小的标题。</p>
+<p>在Windows中，可以通过函数windowsFont()来创建字体的映射</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; windowsFonts(</span><br><span class="line">+     A=windowsFont(<span class="string">"Arial Black"</span>),</span><br><span class="line">+     B=windowsFont(<span class="string">"Bookman Old Style"</span>),</span><br><span class="line">+     C=windowsFont(<span class="string">"Comic Sans MS"</span>)</span><br><span class="line">+ )</span><br></pre></td></tr></table></figure>
+<p>之后，即可使用A、B、C作为family的取值。</p>
+<h5 id="图形尺寸和边界尺寸"><a href="#图形尺寸和边界尺寸" class="headerlink" title="图形尺寸和边界尺寸"></a>图形尺寸和边界尺寸</h5><p>用于控制图形尺寸和边界大小的参数</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pin</td>
+<td>以英寸表示的图形尺寸（宽和高）</td>
+</tr>
+<tr>
+<td>mai</td>
+<td>以数值向量表示的边界大小，顺序为”下左上右”，单位为英寸</td>
+</tr>
+<tr>
+<td>mar</td>
+<td>以数值向量表示的边界大小，顺序为”下左上右”，单位为英寸。默认值为<code>c(5, 4, 4, 2) + 0.1</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>代码：<code>par(pin=c(4, 3), mai=c(1, .5, 1, .2))</code>可生成一幅4英寸宽、3英寸高、上下边界为1英寸、左边界为0.5英寸、右边界为0.2英寸的图形。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; dose &lt;- c(<span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">45</span>, <span class="number">60</span>)</span><br><span class="line">&gt; drugA &lt;- c(<span class="number">16</span>, <span class="number">20</span>, <span class="number">27</span>, <span class="number">40</span>, <span class="number">60</span>)</span><br><span class="line">&gt; drugB &lt;- c(<span class="number">15</span>, <span class="number">18</span>, <span class="number">25</span>, <span class="number">31</span>, <span class="number">40</span>)</span><br><span class="line">&gt; opar &lt;- par(no.readonly = <span class="literal">TRUE</span>)</span><br><span class="line">&gt; par(pin=c(<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">&gt; par(lwd=<span class="number">2</span>, cex=<span class="number">1.5</span>)</span><br><span class="line">&gt; par(cex.axis=<span class="number">.75</span>, font.axis=<span class="number">3</span>)</span><br><span class="line">&gt; plot(dose, drugA, type=<span class="string">"b"</span>, pch=<span class="number">19</span>, lty=<span class="number">2</span>, col=<span class="string">"red"</span>)</span><br><span class="line">&gt; plot(dose, drugB, type=<span class="string">"b"</span>, pch=<span class="number">23</span>, lty=<span class="number">6</span>, col=<span class="string">"blue"</span>, bg=<span class="string">"green"</span>)</span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/05.jpg" class="slug">
+<img src="/2019/10/20/R/03_R-图形/06.jpg" class="slug">
+<h4 id="添加文本、自定义坐标和图例"><a href="#添加文本、自定义坐标和图例" class="headerlink" title="添加文本、自定义坐标和图例"></a>添加文本、自定义坐标和图例</h4><p>以下代码在图形上添加了标题(main)，副标题(sub)，坐标轴标签(xlab, ylab)并指定了坐标轴范围(xlim, ylim)</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; plot(dose, drugA, type=<span class="string">"b"</span>, col=<span class="string">"red"</span>, lty=<span class="number">2</span>, pch=<span class="number">2</span>, lwd=<span class="number">2</span>, main=<span class="string">"Clinical Trials for DrugA"</span>, sub=<span class="string">"This is hypothetical data"</span>, xlab=<span class="string">"Dosage"</span>, ylab=<span class="string">"Drug Response"</span>, xlim=c(<span class="number">0</span>, <span class="number">60</span>), ylim=c(<span class="number">0</span>, <span class="number">70</span>))</span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/07.jpg" class="slug">
+<h5 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h5><p><code>title(main=&quot;main title&quot;, sub=&quot;sub-title&quot;, xlab=&quot;x-axix label&quot;, ylab=&quot;y-axis label&quot;)</code>函数中也可以指定其他图形参数。例如下面的代码将生成红色的标题，蓝色的副标题以及叫默认大小小25%的绿色x轴、y轴标签：</p>
+<p><code>titile(main=&quot;My Title&quot;, col.main=&quot;red&quot;, sub=&quot;My Sub-title&quot;,col.sub=&quot;blue&quot;, xlab=&quot;My X label&quot;, ylab=&quot;My Y label&quot;, col.lab=&quot;green&quot;, cex.lab=0.75)</code></p>
+<h5 id="坐标轴"><a href="#坐标轴" class="headerlink" title="坐标轴"></a>坐标轴</h5><p><code>axis(side, at=, labels=, pos=, lty=, col=, las=, tck=, ...)</code></p>
+<p>坐标轴选项</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>side</td>
+<td>一个整数，表示在图形的哪边绘制坐标轴(1=下，2=左，3=上，4=右)</td>
+</tr>
+<tr>
+<td>at</td>
+<td>一个数值型向量，表示需要绘制刻度线的位置</td>
+</tr>
+<tr>
+<td>labels</td>
+<td>一个字符型向量，表示置于刻度线旁边的文字标签（如果为NULL，则将直接使用at中的值）</td>
+</tr>
+<tr>
+<td>pos</td>
+<td>坐标轴线绘制位置的坐标（即与另一条坐标轴相交位置的值）</td>
+</tr>
+<tr>
+<td>lty</td>
+<td>线条类型</td>
+</tr>
+<tr>
+<td>col</td>
+<td>线条和刻度线颜色</td>
+</tr>
+<tr>
+<td>las</td>
+<td>标签是否平行于（=0）或者垂直于（=2）坐标轴</td>
+</tr>
+<tr>
+<td>tck</td>
+<td>刻度线的长度，以相对于绘图区域大小的分数表示表示（负值表示在图形外侧，正值表示在图形内侧，0表示禁用可读，1表示绘制网格线），默认是-0.01</td>
+</tr>
+<tr>
+<td>(…)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; x &lt;- c(<span class="number">1</span>:<span class="number">10</span>)</span><br><span class="line">&gt; y &lt;- x</span><br><span class="line">&gt; z &lt;- <span class="number">10</span>/x</span><br><span class="line">&gt; opar &lt;- par(no.readonly = <span class="literal">TRUE</span>)</span><br><span class="line">&gt; par(mar=c(<span class="number">5</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">8</span>) + <span class="number">0.1</span>)</span><br><span class="line">&gt; plot(x, y, type = <span class="string">"b"</span>, pch=<span class="number">21</span>, col=<span class="string">'red'</span>, yaxt=<span class="string">'n'</span>, lty=<span class="number">3</span>, ann=<span class="literal">FALSE</span>)</span><br><span class="line">Hit &lt;Return&gt; to see <span class="keyword">next</span> plot: </span><br><span class="line">Error <span class="keyword">in</span> plot.new() : figure margins too large</span><br><span class="line">&gt; plot(x, y, type = <span class="string">"b"</span>, pch=<span class="number">21</span>, col=<span class="string">'red'</span>, yaxt=<span class="string">'n'</span>, lty=<span class="number">3</span>, ann=<span class="literal">FALSE</span>)</span><br><span class="line">Hit &lt;Return&gt; to see <span class="keyword">next</span> plot: <span class="keyword">return</span>()</span><br><span class="line">&gt; lines(x, z, type=<span class="string">"b"</span>, pch=<span class="number">22</span>, col=<span class="string">"blue"</span>, lty=<span class="number">2</span>)</span><br><span class="line">&gt; axis(<span class="number">2</span>, at=x, labels=x, col.axis=<span class="string">"red"</span>, las=<span class="number">2</span>)</span><br><span class="line">&gt; axis(<span class="number">4</span>, at=z, labels=round(z, digits=<span class="number">2</span>), col.axis=<span class="string">"blue"</span>, cex.axis=<span class="number">0.7</span>, tck=-<span class="number">.01</span>)</span><br><span class="line">&gt; mtext(<span class="string">"y=1/x"</span>, side=<span class="number">4</span>, line=<span class="number">3</span>, cex.lab=<span class="number">1</span>, las=<span class="number">2</span>, col=<span class="string">"blue"</span>)</span><br><span class="line">&gt; title(<span class="string">"An Example of Creative Axes"</span>, xlab=<span class="string">"X values"</span>, ylab=<span class="string">"Y=X"</span>)</span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/08.jpg" class="slug">
+<h5 id="参考线"><a href="#参考线" class="headerlink" title="参考线"></a>参考线</h5><p><code>abline(h=yvalues, v=xvalues)</code></p>
+<h5 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h5><p>当图形中包含的数据不止一组时，图例可以帮助你辨别出每个条形、扇形或折线各代表哪一类数据。</p>
+<p><code>legend(location, title, legend, ...)</code></p>
+<ul>
+<li>location：指定图例的位置</li>
+<li>title：图例标题的字符串（可选）</li>
+<li>legend：图例标签组成的字符型向量</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt; dose &lt;- c(<span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">45</span>, <span class="number">60</span>)</span><br><span class="line">&gt; drugA &lt;- c(<span class="number">16</span>, <span class="number">20</span>, <span class="number">27</span>, <span class="number">40</span>, <span class="number">60</span>)</span><br><span class="line">&gt; drugB &lt;- c(<span class="number">15</span>, <span class="number">18</span>, <span class="number">25</span>, <span class="number">31</span>, <span class="number">40</span>)</span><br><span class="line">&gt; opar &lt;- par(no.readonly=<span class="literal">TRUE</span>)</span><br><span class="line">&gt; par(lwd=<span class="number">2</span>, cex=<span class="number">1.5</span>, font.lab=<span class="number">2</span>) <span class="comment"># 增加线条，文本，符号，标签的宽度或大小</span></span><br><span class="line">&gt; plot(dose, drugA, type=<span class="string">"b"</span>, pch=<span class="number">15</span>, lty=<span class="number">1</span>, col=<span class="string">"red"</span>, ylim=c(<span class="number">0</span>, <span class="number">60</span>), main=<span class="string">"Drug A VS. DrugB"</span>, xlab=<span class="string">"Drug Dosage"</span>, ylab=<span class="string">"Drug Response"</span>) <span class="comment"># 绘制图形</span></span><br><span class="line">&gt; lines(dose, drugB, type=<span class="string">"b"</span>, pch=<span class="number">17</span>, lty=<span class="number">2</span>, col=<span class="string">"blue"</span>)</span><br><span class="line"></span><br><span class="line">&gt; abline(h=c(<span class="number">30</span>), lwd=<span class="number">1.5</span>, lty=<span class="number">2</span>, col=<span class="string">"gray"</span>) <span class="comment"># 增加次要刻度线</span></span><br><span class="line">&gt; <span class="keyword">library</span>(Hmisc)</span><br><span class="line">&gt; minor.tick(nx=<span class="number">3</span>, ny=<span class="number">3</span>, tick.ratio=<span class="number">0.5</span>)</span><br><span class="line">&gt; legend(<span class="string">"topleft"</span>, inset=<span class="number">.05</span>, title=<span class="string">"Drug Type"</span>, c(<span class="string">"A"</span>, <span class="string">"B"</span>), lty=c(<span class="number">1</span>, <span class="number">2</span>), pch=c(<span class="number">15</span>, <span class="number">17</span>), col=c(<span class="string">"red"</span>, <span class="string">"blue"</span>)) <span class="comment"># 添加图例</span></span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/09.jpg" class="slug">
+<h5 id="文本标注"><a href="#文本标注" class="headerlink" title="文本标注"></a>文本标注</h5><p>可以通过<code>text()</code>和<code>mtext()</code>将文本添加到图形上。</p>
+<p>text()可向绘图区域内部添加文本，而mtext()则向图形的四个边界之一添加文本。</p>
+<p>格式：</p>
+<ul>
+<li><code>text(location, &quot;text to place&quot;, pos, ...)</code></li>
+<li><code>mtext(&quot;text to place&quot;, side, line=n, ...)</code></li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">attach</span>(mtcars)</span><br><span class="line">&gt; plot(wt, mpg,</span><br><span class="line">       main=<span class="string">"Mileage vs. Car Weight"</span>,</span><br><span class="line">       xlab=<span class="string">"Weight"</span>, ylab=<span class="string">"Mileage"</span>,</span><br><span class="line">       pch=<span class="number">18</span>, col=<span class="string">"blue"</span>)</span><br><span class="line">&gt; text(wt, mpg,</span><br><span class="line">       row.names(mtcars),</span><br><span class="line">       cex=<span class="number">0.6</span>, pos=<span class="number">4</span>, col=<span class="string">"red"</span></span><br><span class="line">      )</span><br><span class="line">&gt; <span class="keyword">detach</span>(mtcars)</span><br></pre></td></tr></table></figure>
+<p>这里我们针对数据框mtcars提供的32中车型的车重和每加仑汽油行驶英里数绘制了散点图。函数text()被用来在各个数据点右侧添加车辆型号。各点的标签大小被缩小了 40%，颜色为红色。</p>
+<p>下面展示不同字体族的代码（需要注意的是，不同平台显示的字体效果不同）：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; opar &lt;- par(no.readonly=<span class="literal">TRUE</span>)</span><br><span class="line">&gt; par(cex=<span class="number">1.5</span>)</span><br><span class="line">&gt; plot(<span class="number">1</span>:<span class="number">7</span>,, <span class="number">1</span>:<span class="number">7</span>, type=<span class="string">"n"</span>)</span><br><span class="line">&gt; text(<span class="number">3</span>, <span class="number">3</span>, <span class="string">"Example of default text"</span>)</span><br><span class="line">&gt; text(<span class="number">4</span>, <span class="number">4</span>, family=<span class="string">"mono"</span>, <span class="string">"Example of mono-spaced text"</span>)</span><br><span class="line">&gt; text(<span class="number">5</span>, <span class="number">5</span>, family=<span class="string">"serif"</span>, <span class="string">"Example of serif text"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="图形的组合"><a href="#图形的组合" class="headerlink" title="图形的组合"></a>图形的组合</h4><p>在R中使用函数<code>par()</code>或<code>layout()</code>可以容易地组合多幅图形为一幅总括图形。</p>
+<p>可以在<code>par()</code>中使用图形参数<code>mfrow=c(nrows, ncols)</code>来创建按行填充的、行数为nrows、列数为ncols的图形矩阵。</p>
+<p>另外可以使用<code>nfcol=c(nrows, ncols)</code>按列填充矩阵。</p>
+<p>例如：下面代码创建了四副图形并排布在两行两列中：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">attach</span>(mtcars)</span><br><span class="line">&gt; opar &lt;- par(no.readonly=<span class="literal">TRUE</span>)</span><br><span class="line">&gt; par(mfrow=c(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">&gt; plot(wt, mpg, main=<span class="string">"Scatterplot of wt vs. mpg"</span>)</span><br><span class="line">&gt; plot(wt, disp, main=<span class="string">"Scatterplot of wt vs disp"</span>)</span><br><span class="line">&gt; hist(wt, main=<span class="string">"Histogram of wt"</span>)</span><br><span class="line">&gt; boxplot(wt, main=<span class="string">"Boxplot of wt"</span>)</span><br><span class="line">&gt; par(opar)</span><br><span class="line">&gt; <span class="keyword">detach</span>(mtcars)</span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/10.jpg" class="slug">
+<p>下面代码：三行一列排布三幅图形</p>
+<p><strong>注意：</strong><code>hist()</code> 包含一个默认的标题（使用main=””可以禁用它，抑制使用ann=FALSE来禁用所有标题和标签）</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">attach</span>(mtcars)</span><br><span class="line">&gt; opar &lt;- par(no.readonly=<span class="literal">TRUE</span>)</span><br><span class="line">&gt; par(mfrow=c(<span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">&gt; hist(wt)</span><br><span class="line">&gt; hist(mpg)</span><br><span class="line">&gt; hist(disp)</span><br><span class="line">&gt; par(opar)</span><br><span class="line">&gt; <span class="keyword">detach</span>(mtcars)</span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/11.jpg" class="slug">
+<p>函数<code>layout()</code>的调用形式为<code>layout(mat)</code>，其中mat是一个矩阵，它指定了所要的组合的多个图形的所在位置，以下代码中，一幅图被置于第一行，另两幅被置于第二行</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">attach</span>(mtcars)</span><br><span class="line">&gt; layout(matrix(c(<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), <span class="number">2</span>, <span class="number">2</span>, byrow=<span class="literal">TRUE</span>))</span><br><span class="line">&gt; hist(wt)</span><br><span class="line">&gt; hist(mpg)</span><br><span class="line">&gt; hist(disp)</span><br><span class="line">&gt; <span class="keyword">detach</span>(mtcars)</span><br></pre></td></tr></table></figure>
+<img src="/2019/10/20/R/03_R-图形/12.jpg" class="slug">
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/R/" rel="tag"># R</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/18/python/web/django/django缓存/" rel="next" title="Django缓存">
+                  <i class="fa fa-chevron-left"></i> Django缓存
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/20/R/02_R-数据结构/" rel="prev" title="R-数据结构">
+                  R-数据结构 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个简单的例子"><span class="nav-text">一个简单的例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图形参数"><span class="nav-text">图形参数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#符号和线条"><span class="nav-text">符号和线条</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#颜色"><span class="nav-text">颜色</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文本属性"><span class="nav-text">文本属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图形尺寸和边界尺寸"><span class="nav-text">图形尺寸和边界尺寸</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加文本、自定义坐标和图例"><span class="nav-text">添加文本、自定义坐标和图例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#标题"><span class="nav-text">标题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#坐标轴"><span class="nav-text">坐标轴</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考线"><span class="nav-text">参考线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图例"><span class="nav-text">图例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文本标注"><span class="nav-text">文本标注</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图形的组合"><span class="nav-text">图形的组合</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/silence.png"
+      alt="silence 聆听°">
+  <p class="site-author-name" itemprop="name">silence 聆听°</p>
+  <div class="site-description" itemprop="description">主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/sen520" title="GitHub &rarr; https://github.com/sen520" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:358974225@qq.com" title="E-Mail &rarr; mailto:358974225@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">silence 聆听°</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">352k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:20</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+-->
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;"> 皖ICP备19019530号</p></a>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/pjax/pjax.min.js?v=0.2.8"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var id = element.id || '';
+    var src = element.src || '';
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (id !=='') {
+      script.id = element.id;
+    }
+    if (src !== '') {
+      script.src = src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '219d27bd2659fe155d6f',
+      clientSecret: '29d3a6e9d0d0a5b6e646f6c7d1ad3cf6051b71be',
+      repo: 'sen520.github.io',
+      owner: 'sen520',
+      admin: ['sen520'],
+      id: '33a5c93f1c16efdcdfe1ce75c6e42f6f',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

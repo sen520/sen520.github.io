@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="google-site-verification" content="VN-Dofcb4v5O_cHZRP-5ovlon_f-2TFD2MLrleCTmxY" />
+<meta name="baidu-site-verification" content="eJFx4gOEfs" />
+<meta baidu-gxt-verify-token="541338f1a5bfa7c374a039b899b225a9">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/S.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/S.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="silence聆听°" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  <meta name="description" content="操作docker容器容器是docker的另一个核心概念，容器是一个镜像的运行实例。所不同的是，镜像是静态的只读文件，而容器带有运行时需要的可写的文件层，同时容器中的应用进程处于运行状态。如果认为虚拟机是模拟运行的一套操作系统（包括内核，应用运行环境和其他系统环境）和跑在上面的应用。那么docker容器就是独立运行的一个（一组）应用，以及他们必须的运行环境。">
+<meta name="keywords" content="后端,服务器,docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作docker容器">
+<meta property="og:url" content="https://blog.silencew.cn/2019/02/10/docker/03、操作docker容器/index.html">
+<meta property="og:site_name" content="silence聆听°">
+<meta property="og:description" content="操作docker容器容器是docker的另一个核心概念，容器是一个镜像的运行实例。所不同的是，镜像是静态的只读文件，而容器带有运行时需要的可写的文件层，同时容器中的应用进程处于运行状态。如果认为虚拟机是模拟运行的一套操作系统（包括内核，应用运行环境和其他系统环境）和跑在上面的应用。那么docker容器就是独立运行的一个（一组）应用，以及他们必须的运行环境。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-02-10T13:36:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作docker容器">
+<meta name="twitter:description" content="操作docker容器容器是docker的另一个核心概念，容器是一个镜像的运行实例。所不同的是，镜像是静态的只读文件，而容器带有运行时需要的可写的文件层，同时容器中的应用进程处于运行状态。如果认为虚拟机是模拟运行的一套操作系统（包括内核，应用运行环境和其他系统环境）和跑在上面的应用。那么docker容器就是独立运行的一个（一组）应用，以及他们必须的运行环境。">
+  <link rel="canonical" href="https://blog.silencew.cn/2019/02/10/docker/03、操作docker容器/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>操作docker容器 | silence聆听°</title>
+  
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a4ee2e83dba9b2dfdd7ff369e4c80d1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">silence聆听°</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/sen520" class="github-corner" title="Silence GitHub" aria-label="Silence GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+     <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/02/10/docker/03、操作docker容器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="silence 聆听°">
+      <meta itemprop="description" content="主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。">
+      <meta itemprop="image" content="/images/silence.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="silence聆听°">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">操作docker容器
+
+          
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-10 21:36:13" itemprop="dateCreated datePublished" datetime="2019-02-10T21:36:13+08:00">2019-02-10</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>22k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>20 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="操作docker容器"><a href="#操作docker容器" class="headerlink" title="操作docker容器"></a>操作docker容器</h2><p>容器是docker的另一个核心概念，容器是一个镜像的运行实例。所不同的是，镜像是静态的只读文件，而容器带有运行时需要的可写的文件层，同时容器中的应用进程处于运行状态。</p><p>如果认为虚拟机是模拟运行的一套操作系统（包括内核，应用运行环境和其他系统环境）和跑在上面的应用。那么docker容器就是独立运行的一个（一组）应用，以及他们必须的运行环境。</p><a id="more"></a>
+
+<h3 id="1、创建容器"><a href="#1、创建容器" class="headerlink" title="1、创建容器"></a>1、创建容器</h3><h4 id="①-新建容器"><a href="#①-新建容器" class="headerlink" title="① 新建容器"></a>① 新建容器</h4><p>docker [container] create</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker create -it ubuntu:latest</span><br><span class="line">89a89ea8db487a4d266bf556ae9c3c06ca3ba49e533b9ab031bcfa70aab44e55</span><br><span class="line"></span><br><span class="line">sen@TR-PC MINGW64 /d/Program Files/Docker Toolbox</span><br><span class="line">$ docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                  PORTS               NAMES</span><br><span class="line">89a89ea8db48        ubuntu:latest       &quot;/bin/bash&quot;         8 seconds ago       Created                                     optimistic_varahamihira</span><br></pre></td></tr></table></figure>
+<p>使用docker 【container】create 命令新建的容器处于停止状态，可以使用docker【container】start 命令来启动它</p>
+<p><strong>create命令与容器运行模式相关的选项</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-a</code> , <code>--attach=[]</code></td>
+<td>是否绑定到标准输入、输出和错误</td>
+</tr>
+<tr>
+<td><code>-d</code>, `—detach=true</td>
+<td>false`</td>
+<td>是否在后台运行容器，默认为否</td>
+</tr>
+<tr>
+<td><code>--detach-keys=&quot;&quot;</code></td>
+<td>从attach模式退出的快捷键</td>
+</tr>
+<tr>
+<td><code>--entrypoint=&quot;&quot;</code></td>
+<td>镜像存在入口命令时，覆盖为新的命令</td>
+</tr>
+<tr>
+<td><code>--expose=[]</code></td>
+<td>指定容器会暴露出来的端口或端口范围</td>
+</tr>
+<tr>
+<td><code>--group-add=[]</code></td>
+<td>运行容器的用户组</td>
+</tr>
+<tr>
+<td><code>-i</code>,`—interactive=true</td>
+<td>false`</td>
+<td>保持标准输入打开，默认为false</td>
+</tr>
+<tr>
+<td><code>--ipc=&quot;&quot;</code></td>
+<td>容器IPC命名空间，可以其他容器或主机</td>
+</tr>
+<tr>
+<td><code>--isolation=default</code></td>
+<td>容器使用的隔离机制</td>
+</tr>
+<tr>
+<td><code>--log-driver=&quot;json-file&quot;</code></td>
+<td>指定容器的日志驱动类型，可以为：json-file、syslog、journald、gelf、fluentd、awslogs、splunk、etwlogs、gcplogs、none</td>
+</tr>
+<tr>
+<td><code>--log-opt=[]</code></td>
+<td>传递给日志驱动的选项</td>
+</tr>
+<tr>
+<td><code>--net=&quot;bridge&quot;</code></td>
+<td>指定容器的网络模式，包括bridge、none、其他容器内网络、host的网络或某个现有网络等</td>
+</tr>
+<tr>
+<td><code>--net-alias=[]</code></td>
+<td>容器在网络中的别名</td>
+</tr>
+<tr>
+<td><code>-p</code>,`—publish-all=true</td>
+<td>false`</td>
+<td>通过NAT机制将容器标记暴露的端口自动映射到本地主机的临时端口</td>
+</tr>
+<tr>
+<td><code>-p</code>,<code>--publish=[]</code></td>
+<td>指定如何映射到本地主机端口，例如-p 11234-12234:1234-2234</td>
+</tr>
+<tr>
+<td><code>--pid=host</code></td>
+<td>容器的PID命名空间</td>
+</tr>
+<tr>
+<td><code>--userns=&quot;&quot;</code></td>
+<td>启用userns-remap时配置用户命名空间的模式</td>
+</tr>
+<tr>
+<td><code>-uts=host</code></td>
+<td>容器的UTS命名空间</td>
+</tr>
+<tr>
+<td><code>-restart=&quot;no&quot;</code></td>
+<td>容器的重启策略，包括no、on-failure[: max-retry]、always、unless-stopped等</td>
+</tr>
+<tr>
+<td>`—rm=true</td>
+<td>false`</td>
+<td>容器退出后是否自动删除，不能跟-d同时使用</td>
+</tr>
+<tr>
+<td><code>-t</code>,`—tty=true</td>
+<td>false`</td>
+<td>是否分配一个伪终端，默认为false</td>
+</tr>
+<tr>
+<td><code>--tmpfs=[]</code></td>
+<td>挂载临时文件系统到容器</td>
+</tr>
+<tr>
+<td>`-v</td>
+<td>—volume[=[[HOST-DIR:]COMTAONER-DIR[:OPTIONS]]]`</td>
+<td>挂载主机上的文件卷到容器内</td>
+</tr>
+<tr>
+<td><code>--volunme-driver=&quot;&quot;</code></td>
+<td>挂载文件卷的驱动类型</td>
+</tr>
+<tr>
+<td><code>--volume-from=[]</code></td>
+<td>从其他容器挂载卷</td>
+</tr>
+<tr>
+<td><code>-w</code>,<code>--workdir=&quot;&quot;</code></td>
+<td>容器内的默认工作目录</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>create命令与容器环境和配置相关的选项</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--add-host=[]</code></td>
+<td>在容器内添加一个主机名到IP地址的映射关系（通过/etc/hosts文件）</td>
+</tr>
+<tr>
+<td><code>--device=[]</code></td>
+<td>映射物理机上的设备到容器内</td>
+</tr>
+<tr>
+<td><code>--dns-search=[]</code></td>
+<td>DNS搜索域</td>
+</tr>
+<tr>
+<td><code>--dns-opt=[]</code></td>
+<td>自定义的DNS选项</td>
+</tr>
+<tr>
+<td><code>--dns</code></td>
+<td>自定义的DNS服务器</td>
+</tr>
+<tr>
+<td><code>-e</code>、<code>--env=[]</code></td>
+<td>指定容器内的环境变量</td>
+</tr>
+<tr>
+<td><code>--env-file=[]</code></td>
+<td>从文件中读取环境变量到容器内</td>
+</tr>
+<tr>
+<td><code>-h</code>, <code>--hostname=&quot;&quot;</code></td>
+<td>指定容器内主机名</td>
+</tr>
+<tr>
+<td><code>--ip=&quot;&quot;</code></td>
+<td>指定容器内的主机IPv4地址</td>
+</tr>
+<tr>
+<td><code>--ip6=&quot;&quot;</code></td>
+<td>指定容器内的主机IPv6地址</td>
+</tr>
+<tr>
+<td><code>--link=[&lt;name or id&gt;:alias]</code></td>
+<td>链接到其他容器</td>
+</tr>
+<tr>
+<td><code>--link-local-ip=[]</code></td>
+<td>容器的本地链接地址列表</td>
+</tr>
+<tr>
+<td><code>--mac-address=&quot;&quot;</code></td>
+<td>指定容器的Mac地址</td>
+</tr>
+<tr>
+<td><code>--name=&quot;&quot;</code></td>
+<td>指定容器的别名</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>create命令与容器资源限制和安全保护相关的选项</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-blkio-weight=10~1000</code></td>
+<td>容器读写块设备的I/O性能权重，默认为0</td>
+</tr>
+<tr>
+<td><code>--blkio-weight-device=[DEVICE_NAME:WEIGHT]</code></td>
+<td>指定各个块设备I/O性能权重</td>
+</tr>
+<tr>
+<td><code>--cpu-shares=0</code></td>
+<td>允许容器使用CPU资源的相对权重，默认一个容器能用满一个核的CPU</td>
+</tr>
+<tr>
+<td><code>--cap-add=[]</code></td>
+<td>增加容器的Linux指定安全能力</td>
+</tr>
+<tr>
+<td><code>--cap-drop=[]</code></td>
+<td>移除容器的Linux指定安全能力</td>
+</tr>
+<tr>
+<td><code>--cgroup-parent=&quot;&quot;</code></td>
+<td>容器cgroups限制的创建路径</td>
+</tr>
+<tr>
+<td><code>--cidfile=&quot;&quot;</code></td>
+<td>指定容器的进程ID号写到文件</td>
+</tr>
+<tr>
+<td><code>--cpu-period=0</code></td>
+<td>限制容器在CFS调度器下的CPU占用时间片</td>
+</tr>
+<tr>
+<td><code>--cpuset-cpus=&quot;&quot;</code></td>
+<td>限制容器能使用哪些CPU核心</td>
+</tr>
+<tr>
+<td><code>--cpuset-mems=&quot;&quot;</code></td>
+<td>NUMA架构下使用哪些核心的内存</td>
+</tr>
+<tr>
+<td><code>--cpu-quota=0</code></td>
+<td>限制容器在CFS调度器下的CPU配额</td>
+</tr>
+<tr>
+<td><code>--device-read-bps=[]</code></td>
+<td>挂载设备的读吞率（以bps为单位）限制</td>
+</tr>
+<tr>
+<td><code>--device-write-bps=[]</code></td>
+<td>挂载设备的写吞率（以bps为单位）限制</td>
+</tr>
+<tr>
+<td><code>--device-read-iops=[]</code></td>
+<td>挂载设备的读速率（以每秒i/o次数为单位）限制</td>
+</tr>
+<tr>
+<td><code>--device-write-iops=[]</code></td>
+<td>挂载设备的写速率（以每秒i/o次数为单位）限制</td>
+</tr>
+<tr>
+<td><code>--health-cmd=&quot;&quot;</code></td>
+<td>指定检查容器健康状态的命令</td>
+</tr>
+<tr>
+<td><code>--health-interval=0s</code></td>
+<td>执行健康检查的间隔时间，单位可以为ms、s、m或h</td>
+</tr>
+<tr>
+<td><code>--health-retries=int</code></td>
+<td>健康检查失败重试次数，超过则认为不健康</td>
+</tr>
+<tr>
+<td><code>--health-start-period=0s</code></td>
+<td>容器启动后进行健康检查的等待时间，单位可以为ms、s、m或h</td>
+</tr>
+<tr>
+<td><code>--health-timeout=0s</code></td>
+<td>健康检查的执行超时，单位可以为ms、s、m或h</td>
+</tr>
+<tr>
+<td>`—no-healthcheck=true</td>
+<td>false`</td>
+<td>是否禁用健康检查</td>
+</tr>
+<tr>
+<td><code>--init</code></td>
+<td>在容器中执行一个init进程，来负责响应信号和处理僵尸状态子进程</td>
+</tr>
+<tr>
+<td><code>--kernel-memory=&quot;&quot;</code></td>
+<td>限制容器使用内核的内存大小，单位可以是b、k、m或g</td>
+</tr>
+<tr>
+<td><code>-m</code>, <code>--memory=&quot;&quot;</code></td>
+<td>限制容器内应用使用的内存，单位可以是b、k、m或g</td>
+</tr>
+<tr>
+<td><code>--memory-reservation=&quot;&quot;</code></td>
+<td>当系统中内存过低时，容器会被强制限制内存到给定值，默认情况下等于内存限制值</td>
+</tr>
+<tr>
+<td><code>--memory-swap=&quot;LIMIT&quot;</code></td>
+<td>限制容器使用内存和交换区的总大小</td>
+</tr>
+<tr>
+<td><code>--oom-score-adj=&quot;&quot;</code></td>
+<td>调整容器的内存耗尽参数</td>
+</tr>
+<tr>
+<td><code>--pids-limit=&quot;&quot;</code></td>
+<td>限制容器的pid个数</td>
+</tr>
+<tr>
+<td>`—privileged=true</td>
+<td>false`</td>
+<td>是否给容器高权限，这意味着容器内应用将不受权限的限制，一般不推荐</td>
+</tr>
+<tr>
+<td>`—read-only=true</td>
+<td>false`</td>
+<td>是否让容器内的文件系统只读</td>
+</tr>
+<tr>
+<td><code>--security-opt=[]</code></td>
+<td>指定一些安全参数，包括权限、安全能力、apparmor等</td>
+</tr>
+<tr>
+<td><code>--stop-signal=SIGTERM</code></td>
+<td>指定停止容器的系统信号</td>
+</tr>
+<tr>
+<td><code>--shm-size=&quot;&quot;</code></td>
+<td>/dev/shm的大小</td>
+</tr>
+<tr>
+<td>`—sig-proxy=true</td>
+<td>false`</td>
+<td>是否代理收到的信号给应用，默认为true，不能代理SIGCHLD、SIGSTOP和SIGKILL信号</td>
+</tr>
+<tr>
+<td><code>--memory-swappiness=&quot;0~100&quot;</code></td>
+<td>调整容器的内存交换区参数</td>
+</tr>
+<tr>
+<td><code>-u</code>,<code>--user=&quot;&quot;</code></td>
+<td>指定在容器内执行命令的用户信息</td>
+</tr>
+<tr>
+<td><code>--userns=&quot;&quot;</code></td>
+<td>指定用户命名空间</td>
+</tr>
+<tr>
+<td><code>--ulimit=[]</code></td>
+<td>通过ulimit来限制最大文件数、最大进程数等</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其他选项还包括：</p>
+<ul>
+<li><code>-l</code>, <code>--label=[]</code>：以键值对方式指定容器的标签信息；</li>
+<li><code>--label-file=[]</code>：从文件中读取标签信息。</li>
+</ul>
+<h4 id="②-启动容器"><a href="#②-启动容器" class="headerlink" title="② 启动容器"></a>② 启动容器</h4><p><code>docker 【container】 start</code>启动一个已经创建的容器(89为id开头两位)</p>
+<p><code>docker ps</code> 查看一个运行中的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker start 89</span><br><span class="line">89</span><br><span class="line"></span><br><span class="line">sen@TR-PC MINGW64 /d/Program Files/Docker Toolbox</span><br><span class="line">$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">89a89ea8db48        ubuntu:latest       &quot;/bin/bash&quot;         30 hours ago        Up 7 seconds                            optimistic_varahamihira</span><br></pre></td></tr></table></figure>
+<h4 id="③-新建并启动容器"><a href="#③-新建并启动容器" class="headerlink" title="③ 新建并启动容器"></a>③ 新建并启动容器</h4><p><code>docker [container]  run</code>  等价于先执行docker [container] create  ， 再执行docker [container]  start</p>
+<p>例如：下面的命令输出一个“hello world”，之后容器自动停止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run ubuntu /bin/echo &quot;hello world&quot;</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
+<p>这和本地直接执行<code>/bin/echo &#39;hello world&#39;</code>相比几乎感觉不出任何区别</p>
+<p>docker [container] run  来创建并启动容器时，Docker在后台运行的标准包括：</p>
+<ul>
+<li>检查本地是否存在指定的镜像，不存在就从共有仓库下载；</li>
+<li>利用镜像创建一个容器，并启动该容器；</li>
+<li>分配一个文件系统给容器，并在只读的镜像层外面挂载一层可写层；</li>
+<li>从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去；</li>
+<li>从网桥的地址池配置一个IP地址给容器；</li>
+<li>执行用户指定的应用程序；</li>
+<li>执行完毕后容器被自动终止。</li>
+</ul>
+<p>下面的命令启动一个bash终端，允许用户进行交互：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it ubuntu:18.04 /bin/bash</span><br><span class="line">root@....:/#</span><br></pre></td></tr></table></figure>
+<p>其中，<code>-t</code> 选项让Docker分配一个伪终端并绑定到容器的标准输出上，<code>-i</code> 则让容器的标准输入保持打开。更多的命令选项可以通过 <code>man docker-run</code> 命令来查看。</p>
+<p>对于所创建的bash容器，当用户使用exit命令退出bash进程后，容器也会自动退出。这是因为对于容器来说，当其中的应用退出后，容器的使命完成，也就没有继续运行的必要了。</p>
+<p>可以通过docker container  wait  CONTAINER [CONTAINER…] 子命令来等待容器退出，并打印退出返回结果。</p>
+<p>某些时候，执行<code>docker [container] run</code>  时候因为命令无法正常执行，容器会出错直接退出，此时可以查看退出的错误代码。</p>
+<p>默认情况下，错误代码包括：</p>
+<ul>
+<li>125：Docker deamon 执行出错，例如指定了不支持的Docker命令参数；</li>
+<li>126：所指定命令无法执行，例如权限出错；</li>
+<li>127：容器内命令无法找到。</li>
+</ul>
+<p>命令执行后出错，会默认返回命令的退出错误码。</p>
+<h4 id="④-守护态运行"><a href="#④-守护态运行" class="headerlink" title="④ 守护态运行"></a>④ 守护态运行</h4><p>更多时候，需要让Docker容器在后台以守护态形式运行。此时，可以通过添加<code>-d</code>参数来实现。</p>
+<p>容器启动后会返回一个唯一的id，也可以通过<code>docker ps</code> 或 <code>docker  container ls</code>  命令来查看容器信息</p>
+<h4 id="⑤-查看容器输出"><a href="#⑤-查看容器输出" class="headerlink" title="⑤ 查看容器输出"></a>⑤ 查看容器输出</h4><p>要获取容器的输出信息，可以通过<code>docker [container] logs</code>  命令。</p>
+<p>该命令支持的选项包括：</p>
+<ul>
+<li><code>-details</code>：打印详细信息；</li>
+<li><code>-f</code>，<code>-follow</code>：持续保持输出；</li>
+<li><code>-since string</code>：输出从某个时间开始的日志；</li>
+<li><code>-tail string</code>：输出最近的若干日志；</li>
+<li><code>-t</code>，<code>-timestamps</code>：显示时间戳信息；</li>
+<li><code>-until string</code>：输出某个时间之前的日志。</li>
+</ul>
+<p>例如，查看某容器的输出可以使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker logs ......</span><br></pre></td></tr></table></figure>
+<h3 id="2、停止容器"><a href="#2、停止容器" class="headerlink" title="2、停止容器"></a>2、停止容器</h3><h4 id="①-暂停容器"><a href="#①-暂停容器" class="headerlink" title="① 暂停容器"></a>① 暂停容器</h4><p><code>docker [container] pause CONTAINER [CONTAINER...]</code></p>
+<p>处于paused状态的容器，可以使用docker [container] unpause CONTAINER [CONTAINER…] 命令来恢复到运行状态</p>
+<h4 id="②-终止容器"><a href="#②-终止容器" class="headerlink" title="② 终止容器"></a>② 终止容器</h4><ul>
+<li><code>docker [container] stop</code>来终止一个运行中的容器。</li>
+</ul>
+<p>格式为：<code>docker [container] stop [-t|--time[=10]] [CONTAINER...]</code></p>
+<p>这个命令会首先向容器发送SIGTERM信号，等待一段超时时间后（默认为10秒），在发送SIGKILL信号来终止容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop ce5</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>docker container prune</code> 会自动清除所有处于停止状态的容器</li>
+<li><code>docker [container] kill</code>直接发送SIGKILL信号来强行终止容器<ul>
+<li>当Docker容器中指定的应用终结时，容器也会自动终止。<ul>
+<li>当用户通过exit命令或Ctrl+d来退出终端时，所创建的容器立刻终止，处于stopped状态，可以通过<code>docker ps -qa</code>命令看到所有容器的ID。</li>
+<li>处于终止状态的容器，可以通过<code>docker [container] start</code>命令来重新启动</li>
+<li><code>docker [container] restart</code>命令 先让一个运行中的容器终止，然后再重新启动</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3、进入容器"><a href="#3、进入容器" class="headerlink" title="3、进入容器"></a>3、进入容器</h3><p>在使用<code>-d</code>参数时，容器启动后会进入后台，用户无法查看容器内的信息，也无法操作。</p>
+<h4 id="①-attach"><a href="#①-attach" class="headerlink" title="① attach"></a>① attach</h4><p>命令格式</p>
+<p>​    <code>docker [container] attach [--detach-keys[=[]]] [--no-stdin] [--sig-proxy[=true]] CONTAINER</code></p>
+<p>这个命令支持三个主要选项：</p>
+<ul>
+<li><code>--detach-keys[=[]]</code>： 指定退出attach模式的快捷键序列，默认是<code>CTRL-p  CTRL-q</code>;</li>
+<li><code>--no-stdin=true|false</code>：是否关闭标准输入，默认是保持打开；</li>
+<li><code>--sig-proxy=true|false</code>：是否代理收到的系统信号给应用进程，默认为true。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker run -itd ubuntu</span><br><span class="line">Unable to find image &apos;ubuntu:latest&apos; locally</span><br><span class="line">latest: Pulling from library/ubuntu</span><br><span class="line">Digest: sha256:7a47ccc3bbe8a451b500d2b53104868b46d60ee8f5b35a24b41a86077c650210</span><br><span class="line">Status: Downloaded newer image for ubuntu:latest</span><br><span class="line">d6d505b79f88e5e1a2d8c4c5a926e0dfcac59aa992896d7cd9f0790fc2bd34a8</span><br><span class="line"></span><br><span class="line">$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d6d505b79f88        ubuntu              &quot;/bin/bash&quot;         12 seconds ago      Up 13 seconds                           laughing_kare</span><br><span class="line"></span><br><span class="line">$ docker attach laughing_kare</span><br><span class="line">root@d6d505b79f88:/#</span><br></pre></td></tr></table></figure>
+<p><strong>当多个窗口同时attach到同一个容器的时候，所有的窗口都会同步显示；当某个窗口因命令阻塞时，其他窗口也无法执行操作了。</strong></p>
+<h4 id="②-exec命令"><a href="#②-exec命令" class="headerlink" title="② exec命令"></a>② exec命令</h4><p>命令格式：<code>docker [container] exec [-d|--detach] [--detach-keys[=[]]] [-i|--interactive] [--privileged] [-t|--tty] [-u|--user[=USER]] CONTAINER COMMAND [ARG...]</code></p>
+<p>比较重要的参数：</p>
+<ul>
+<li><code>-d</code>，<code>--detach</code>：在容器中后台执行命令；</li>
+<li><code>--detach-keys=&quot;&quot;</code>：指定将容器切回后台的按键；</li>
+<li><code>-e</code>，<code>--env=[]</code>：指定环境变量列表；</li>
+<li><code>-i</code>，<code>--interactive=true|false</code>：打开标准输入接受用户输入命令，默认为false；</li>
+<li><code>--privileged=true|false</code>：是否给指定命令以最高权限，默认为false；</li>
+<li><code>-t</code>，<code>--tty=true|false</code>：分配伪终端，默认为false；</li>
+<li><code>-u</code>，<code>--user=&quot;&quot;</code>：执行命令的用户名或ID。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker start 9545e561180d</span><br><span class="line">9545e561180d</span><br><span class="line"></span><br><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker exec -it 9545e561180d /bin/bash</span><br><span class="line">root@9545e561180d:/#</span><br></pre></td></tr></table></figure>
+<h3 id="4、删除容器"><a href="#4、删除容器" class="headerlink" title="4、删除容器"></a>4、删除容器</h3><p><code>docker [container] rm</code>命令来删除处于终止或退出状态的容器。</p>
+<p>命令格式为<code>docker [container] rm [-f|--force] [-l|--link] [-v|--volumes] CONTAINER [CONTAINER...]</code></p>
+<p>主要支持选项：</p>
+<ul>
+<li><code>-f</code>，<code>--force=false</code>：是否强行终止并删除一个运行中的容器；</li>
+<li><code>-l</code>，<code>--link=false</code>：删除容器的连接，但保留容器；</li>
+<li><code>-v</code>，<code>--volumes=false</code>：删除容器挂载的数据卷。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES</span><br><span class="line">9545e561180d        ubuntu              &quot;/bin/bash&quot;         33 minutes ago      Exited (0) 22 minutes ago                       sad_mestorf</span><br><span class="line"></span><br><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker rm 9545e561180d</span><br><span class="line">9545e561180d</span><br><span class="line"></span><br><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br></pre></td></tr></table></figure>
+<p>默认情况下，docker rm命令只能删除已经处于终止或退出状态的容器，并不能删除还处于运行状态的容器。</p>
+<p>如果想直接删除一个运行中的容器，可以添加<code>-f</code>参数，Docker会先发送SIGKILL信号给容器，终止其中的应用，之后强行删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker run -d ubuntu:18.04 /bin/sh -c &quot;while true; do echo hello world;sleep 1; done&quot;</span><br><span class="line">fe2d369c6ee1205afeb3ae270d39b2b79e89f66127c1db1f17eb96b3ff142cca</span><br><span class="line"></span><br><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker rm fe2d369c6ee1</span><br><span class="line">Error response from daemon: You cannot remove a running container fe2d369c6ee1205afeb3ae270d39b2b79e89f66127c1db1f17eb96b3ff142cca. Stop the container before attempting removal or force remove</span><br><span class="line"></span><br><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker rm -f fe2d369c6ee1</span><br><span class="line">fe2d369c6ee1</span><br><span class="line"></span><br><span class="line">Administrator@SC-201809020623 MINGW64 /c/Program Files/Docker Toolbox</span><br><span class="line">$ docker ps -qa</span><br></pre></td></tr></table></figure>
+<h3 id="5、导入和导出容器"><a href="#5、导入和导出容器" class="headerlink" title="5、导入和导出容器"></a>5、导入和导出容器</h3><h4 id="①-导出容器"><a href="#①-导出容器" class="headerlink" title="① 导出容器"></a>① 导出容器</h4><p><code>docker [container] export</code></p>
+<p>命令格式：</p>
+<p>​    <code>docker [container] export [-o| --output[=&quot;&quot;]] CONTAINER</code></p>
+<p>​    <code>-o</code> 用来指定导出的tar的文件名，也可以直接通过重定向来实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker export -o test_for_run.tar ce5</span><br></pre></td></tr></table></figure>
+<h4 id="②-导入容器"><a href="#②-导入容器" class="headerlink" title="② 导入容器"></a>② 导入容器</h4><p><code>docker [container] import</code></p>
+<p>命令格式：</p>
+<p>​    <code>docker import [-c|--change[=[]]] [-m|--message[=MASSAGE]] file|URL|-[REPOSITORY[:TAG]]</code></p>
+<p>​    可以通过 <code>-c</code>，<code>--change=[]</code>    在导入的同时，执行对容器进项修改的Dockerfile指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker import test_for_run.tar -test/ubuntu:v1.0</span><br></pre></td></tr></table></figure>
+<p>docker load 载入镜像文件的区别在于容器快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积更大。</p>
+<h3 id="6、查看容器"><a href="#6、查看容器" class="headerlink" title="6、查看容器"></a>6、查看容器</h3><h4 id="①-查看容器详情"><a href="#①-查看容器详情" class="headerlink" title="① 查看容器详情"></a>① 查看容器详情</h4><p><code>docker containers inspect [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<p>例如，查看某容器的具体信息，会以json格式返回包括容器ID、创建时间、路径、状态、镜像、配置等在内的信息；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line">$ docker container inspect 0435deadfa7a</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Id&quot;: &quot;0435deadfa7af4aa0c4aab2f20bba4e29a39526357db7a08b0cbf808f5879fc1&quot;,</span><br><span class="line">        &quot;Created&quot;: &quot;2019-03-03T13:34:43.584015659Z&quot;,</span><br><span class="line">        &quot;Path&quot;: &quot;/bin/bash&quot;,</span><br><span class="line">        &quot;Args&quot;: [],</span><br><span class="line">        &quot;State&quot;: &#123;</span><br><span class="line">            &quot;Status&quot;: &quot;created&quot;,</span><br><span class="line">            &quot;Running&quot;: false,</span><br><span class="line">            &quot;Paused&quot;: false,</span><br><span class="line">            &quot;Restarting&quot;: false,</span><br><span class="line">            &quot;OOMKilled&quot;: false,</span><br><span class="line">            &quot;Dead&quot;: false,</span><br><span class="line">            &quot;Pid&quot;: 0,</span><br><span class="line">            &quot;ExitCode&quot;: 0,</span><br><span class="line">            &quot;Error&quot;: &quot;&quot;,</span><br><span class="line">            &quot;StartedAt&quot;: &quot;0001-01-01T00:00:00Z&quot;,</span><br><span class="line">            &quot;FinishedAt&quot;: &quot;0001-01-01T00:00:00Z&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Image&quot;: &quot;sha256:ccc7a11d65b1b5874b65adb4b2387034582d08d65ac1817ebc5fb9be1baa5f88&quot;,</span><br><span class="line">        &quot;ResolvConfPath&quot;: &quot;&quot;,</span><br><span class="line">        &quot;HostnamePath&quot;: &quot;&quot;,</span><br><span class="line">        &quot;HostsPath&quot;: &quot;&quot;,</span><br><span class="line">        &quot;LogPath&quot;: &quot;&quot;,</span><br><span class="line">        &quot;Name&quot;: &quot;/compassionate_hertz&quot;,</span><br><span class="line">        &quot;RestartCount&quot;: 0,</span><br><span class="line">        &quot;Driver&quot;: &quot;overlay2&quot;,</span><br><span class="line">        &quot;Platform&quot;: &quot;linux&quot;,</span><br><span class="line">        &quot;MountLabel&quot;: &quot;&quot;,</span><br><span class="line">        &quot;ProcessLabel&quot;: &quot;&quot;,</span><br><span class="line">        &quot;AppArmorProfile&quot;: &quot;&quot;,</span><br><span class="line">        &quot;ExecIDs&quot;: null,</span><br><span class="line">        &quot;HostConfig&quot;: &#123;</span><br><span class="line">            &quot;Binds&quot;: null,</span><br><span class="line">            &quot;ContainerIDFile&quot;: &quot;&quot;,</span><br><span class="line">            &quot;LogConfig&quot;: &#123;</span><br><span class="line">                &quot;Type&quot;: &quot;json-file&quot;,</span><br><span class="line">                &quot;Config&quot;: &#123;&#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;NetworkMode&quot;: &quot;default&quot;,</span><br><span class="line">            &quot;PortBindings&quot;: &#123;&#125;,</span><br><span class="line">            &quot;RestartPolicy&quot;: &#123;</span><br><span class="line">                &quot;Name&quot;: &quot;no&quot;,</span><br><span class="line">                &quot;MaximumRetryCount&quot;: 0</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;AutoRemove&quot;: false,</span><br><span class="line">            &quot;VolumeDriver&quot;: &quot;&quot;,</span><br><span class="line">            &quot;VolumesFrom&quot;: null,</span><br><span class="line">            &quot;CapAdd&quot;: null,</span><br><span class="line">            &quot;CapDrop&quot;: null,</span><br><span class="line">            &quot;Dns&quot;: [],</span><br><span class="line">            &quot;DnsOptions&quot;: [],</span><br><span class="line">            &quot;DnsSearch&quot;: [],</span><br><span class="line">            &quot;ExtraHosts&quot;: null,</span><br><span class="line">            &quot;GroupAdd&quot;: null,</span><br><span class="line">            &quot;IpcMode&quot;: &quot;shareable&quot;,</span><br><span class="line">            &quot;Cgroup&quot;: &quot;&quot;,</span><br><span class="line">            &quot;Links&quot;: null,</span><br><span class="line">            &quot;OomScoreAdj&quot;: 0,</span><br><span class="line">            &quot;PidMode&quot;: &quot;&quot;,</span><br><span class="line">            &quot;Privileged&quot;: false,</span><br><span class="line">            &quot;PublishAllPorts&quot;: false,</span><br><span class="line">            &quot;ReadonlyRootfs&quot;: false,</span><br><span class="line">            &quot;SecurityOpt&quot;: null,</span><br><span class="line">            &quot;UTSMode&quot;: &quot;&quot;,</span><br><span class="line">            &quot;UsernsMode&quot;: &quot;&quot;,</span><br><span class="line">            &quot;ShmSize&quot;: 67108864,</span><br><span class="line">            &quot;Runtime&quot;: &quot;runc&quot;,</span><br><span class="line">            &quot;ConsoleSize&quot;: [</span><br><span class="line">                0,</span><br><span class="line">                0</span><br><span class="line">            ],</span><br><span class="line">            &quot;Isolation&quot;: &quot;&quot;,</span><br><span class="line">            &quot;CpuShares&quot;: 0,</span><br><span class="line">            &quot;Memory&quot;: 0,</span><br><span class="line">            &quot;NanoCpus&quot;: 0,</span><br><span class="line">            &quot;CgroupParent&quot;: &quot;&quot;,</span><br><span class="line">            &quot;BlkioWeight&quot;: 0,</span><br><span class="line">            &quot;BlkioWeightDevice&quot;: [],</span><br><span class="line">            &quot;BlkioDeviceReadBps&quot;: null,</span><br><span class="line">            &quot;BlkioDeviceWriteBps&quot;: null,</span><br><span class="line">            &quot;BlkioDeviceReadIOps&quot;: null,</span><br><span class="line">            &quot;BlkioDeviceWriteIOps&quot;: null,</span><br><span class="line">            &quot;CpuPeriod&quot;: 0,</span><br><span class="line">            &quot;CpuQuota&quot;: 0,</span><br><span class="line">            &quot;CpuRealtimePeriod&quot;: 0,</span><br><span class="line">            &quot;CpuRealtimeRuntime&quot;: 0,</span><br><span class="line">            &quot;CpusetCpus&quot;: &quot;&quot;,</span><br><span class="line">            &quot;CpusetMems&quot;: &quot;&quot;,</span><br><span class="line">            &quot;Devices&quot;: [],</span><br><span class="line">            &quot;DeviceCgroupRules&quot;: null,</span><br><span class="line">            &quot;DiskQuota&quot;: 0,</span><br><span class="line">            &quot;KernelMemory&quot;: 0,</span><br><span class="line">            &quot;MemoryReservation&quot;: 0,</span><br><span class="line">            &quot;MemorySwap&quot;: 0,</span><br><span class="line">            &quot;MemorySwappiness&quot;: null,</span><br><span class="line">            &quot;OomKillDisable&quot;: false,</span><br><span class="line">            &quot;PidsLimit&quot;: 0,</span><br><span class="line">            &quot;Ulimits&quot;: null,</span><br><span class="line">            &quot;CpuCount&quot;: 0,</span><br><span class="line">            &quot;CpuPercent&quot;: 0,</span><br><span class="line">            &quot;IOMaximumIOps&quot;: 0,</span><br><span class="line">            &quot;IOMaximumBandwidth&quot;: 0,</span><br><span class="line">            &quot;MaskedPaths&quot;: [</span><br><span class="line">                &quot;/proc/asound&quot;,</span><br><span class="line">                &quot;/proc/acpi&quot;,</span><br><span class="line">                &quot;/proc/kcore&quot;,</span><br><span class="line">                &quot;/proc/keys&quot;,</span><br><span class="line">                &quot;/proc/latency_stats&quot;,</span><br><span class="line">                &quot;/proc/timer_list&quot;,</span><br><span class="line">                &quot;/proc/timer_stats&quot;,</span><br><span class="line">                &quot;/proc/sched_debug&quot;,</span><br><span class="line">                &quot;/proc/scsi&quot;,</span><br><span class="line">                &quot;/sys/firmware&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;ReadonlyPaths&quot;: [</span><br><span class="line">                &quot;/proc/bus&quot;,</span><br><span class="line">                &quot;/proc/fs&quot;,</span><br><span class="line">                &quot;/proc/irq&quot;,</span><br><span class="line">                &quot;/proc/sys&quot;,</span><br><span class="line">                &quot;/proc/sysrq-trigger&quot;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;GraphDriver&quot;: &#123;</span><br><span class="line">            &quot;Data&quot;: &#123;</span><br><span class="line">                &quot;LowerDir&quot;: &quot;/mnt/sda1/var/lib/docker/overlay2/b1a8abb976adc0c1cf7b894fbb8f8e610800f665238ee296ce796cafb9fab932-init/diff:/mnt/sda1/var/lib/docker/overlay2/7c902ec8d2795509eccd361ce1a6741a7cf9412f2beabfb7ee98e4f25bb71db4/diff:/mnt/sda1/var/lib/docker/overlay2/87851652aebefd2a1c636d74f0c4fdaaf124b673188606e86e9afab827a6a4eb/diff:/mnt/sda1/var/lib/docker/overlay2/1eca5e2f4e468eb8ae1ce32645d7d29adfe25b4eec966b3fc9ad49b40e220704/diff:/mnt/sda1/var/lib/docker/overlay2/d7ce2d91893b082939bbd040a5e42adf2408e32a3467492361a6c18bc51b29f2/diff:/mnt/sda1/var/lib/docker/overlay2/0dba139a8774ffb1715bc6497a4acd97ae9ae14991f8f8d1f2aebb2c7354ec6e/diff&quot;,</span><br><span class="line">                &quot;MergedDir&quot;: &quot;/mnt/sda1/var/lib/docker/overlay2/b1a8abb976adc0c1cf7b894fbb8f8e610800f665238ee296ce796cafb9fab932/merged&quot;,</span><br><span class="line">                &quot;UpperDir&quot;: &quot;/mnt/sda1/var/lib/docker/overlay2/b1a8abb976adc0c1cf7b894fbb8f8e610800f665238ee296ce796cafb9fab932/diff&quot;,</span><br><span class="line">                &quot;WorkDir&quot;: &quot;/mnt/sda1/var/lib/docker/overlay2/b1a8abb976adc0c1cf7b894fbb8f8e610800f665238ee296ce796cafb9fab932/work&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;Name&quot;: &quot;overlay2&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Mounts&quot;: [],</span><br><span class="line">        &quot;Config&quot;: &#123;</span><br><span class="line">            &quot;Hostname&quot;: &quot;0435deadfa7a&quot;,</span><br><span class="line">            &quot;Domainname&quot;: &quot;&quot;,</span><br><span class="line">            &quot;User&quot;: &quot;&quot;,</span><br><span class="line">            &quot;AttachStdin&quot;: false,</span><br><span class="line">            &quot;AttachStdout&quot;: true,</span><br><span class="line">            &quot;AttachStderr&quot;: true,</span><br><span class="line">            &quot;Tty&quot;: false,</span><br><span class="line">            &quot;OpenStdin&quot;: false,</span><br><span class="line">            &quot;StdinOnce&quot;: false,</span><br><span class="line">            &quot;Env&quot;: [</span><br><span class="line">                &quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;Cmd&quot;: [</span><br><span class="line">                &quot;/bin/bash&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;ArgsEscaped&quot;: true,</span><br><span class="line">            &quot;Image&quot;: &quot;hub.c.163.com/library/ubuntu&quot;,</span><br><span class="line">            &quot;Volumes&quot;: null,</span><br><span class="line">            &quot;WorkingDir&quot;: &quot;&quot;,</span><br><span class="line">            &quot;Entrypoint&quot;: null,</span><br><span class="line">            &quot;OnBuild&quot;: null,</span><br><span class="line">            &quot;Labels&quot;: &#123;&#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;NetworkSettings&quot;: &#123;</span><br><span class="line">            &quot;Bridge&quot;: &quot;&quot;,</span><br><span class="line">            &quot;SandboxID&quot;: &quot;&quot;,</span><br><span class="line">            &quot;HairpinMode&quot;: false,</span><br><span class="line">            &quot;LinkLocalIPv6Address&quot;: &quot;&quot;,</span><br><span class="line">            &quot;LinkLocalIPv6PrefixLen&quot;: 0,</span><br><span class="line">            &quot;Ports&quot;: &#123;&#125;,</span><br><span class="line">            &quot;SandboxKey&quot;: &quot;&quot;,</span><br><span class="line">            &quot;SecondaryIPAddresses&quot;: null,</span><br><span class="line">            &quot;SecondaryIPv6Addresses&quot;: null,</span><br><span class="line">            &quot;EndpointID&quot;: &quot;&quot;,</span><br><span class="line">            &quot;Gateway&quot;: &quot;&quot;,</span><br><span class="line">            &quot;GlobalIPv6Address&quot;: &quot;&quot;,</span><br><span class="line">            &quot;GlobalIPv6PrefixLen&quot;: 0,</span><br><span class="line">            &quot;IPAddress&quot;: &quot;&quot;,</span><br><span class="line">            &quot;IPPrefixLen&quot;: 0,</span><br><span class="line">            &quot;IPv6Gateway&quot;: &quot;&quot;,</span><br><span class="line">            &quot;MacAddress&quot;: &quot;&quot;,</span><br><span class="line">            &quot;Networks&quot;: &#123;</span><br><span class="line">                &quot;bridge&quot;: &#123;</span><br><span class="line">                    &quot;IPAMConfig&quot;: null,</span><br><span class="line">                    &quot;Links&quot;: null,</span><br><span class="line">                    &quot;Aliases&quot;: null,</span><br><span class="line">                    &quot;NetworkID&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;EndpointID&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;Gateway&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;IPAddress&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;IPPrefixLen&quot;: 0,</span><br><span class="line">                    &quot;IPv6Gateway&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;GlobalIPv6Address&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;GlobalIPv6PrefixLen&quot;: 0,</span><br><span class="line">                    &quot;MacAddress&quot;: &quot;&quot;,</span><br><span class="line">                    &quot;DriverOpts&quot;: null</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h4 id="②-查看容器内的进程"><a href="#②-查看容器内的进程" class="headerlink" title="② 查看容器内的进程"></a>② 查看容器内的进程</h4><p><code>docker [container] top [OPTIONS] [CONTAINER...]</code></p>
+<h4 id="③-查看统计信息"><a href="#③-查看统计信息" class="headerlink" title="③ 查看统计信息"></a>③ 查看统计信息</h4><p><code>docker [container] stats [options] [CONTAINER...]</code></p>
+<p>会显示CPU、内存、储存、网络等使用情况信息</p>
+<p>支持的选项：</p>
+<ul>
+<li><code>-a</code>，<code>-all</code>：输出所有容器统计信息，默认仅在运行中；</li>
+<li><code>-format string</code>：格式化输出信息；</li>
+<li><code>-no-stream</code>：不持续输出，默认会自动更新持续实时结果；</li>
+<li><code>-no-trunc</code>：不截断输出信息</li>
+</ul>
+<h3 id="7、其他容器命令"><a href="#7、其他容器命令" class="headerlink" title="7、其他容器命令"></a>7、其他容器命令</h3><h4 id="①-复制文件"><a href="#①-复制文件" class="headerlink" title="① 复制文件"></a>① 复制文件</h4><p><code>container cp</code></p>
+<p>命令格式：<code>docker [container] cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-</code></p>
+<p>支持的选项：</p>
+<ul>
+<li><code>-a</code>，<code>-archive</code>：打包模式，复制文件会带有原始的uid/gid信息；</li>
+<li><code>-L</code>，<code>-follow-link</code>：跟随软连接。当原始路径为软连接时，默认只复制链接信息，使用该选项将会复制链接目标内容</li>
+</ul>
+<h4 id="②-查看变更"><a href="#②-查看变更" class="headerlink" title="② 查看变更"></a>② 查看变更</h4><p><code>container diff</code> 查看容器内文件系统的变更。</p>
+<p>命令格式：<code>docker [container] diff CONTAINER</code></p>
+<h4 id="③-查看端口映射"><a href="#③-查看端口映射" class="headerlink" title="③ 查看端口映射"></a>③ 查看端口映射</h4><p><code>container port</code> </p>
+<p>命令格式：<code>docker container port CONTAINER [PRIVATE_PORT[/PROTO]]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker container port test</span><br><span class="line">9000/tcp -&gt; 0.0.0.0:9000</span><br></pre></td></tr></table></figure>
+<h4 id="④-更新配置"><a href="#④-更新配置" class="headerlink" title="④ 更新配置"></a>④ 更新配置</h4><p><code>container update</code></p>
+<p>命令格式：<code>docker [container] update [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<p>支持的选项：</p>
+<ul>
+<li><code>-blkio-weigth uint16</code>：更新IO限制，10~1000，默认为0，代表无限制；</li>
+<li><code>-cpu-period int</code>：限制CPU调度器CFS（Completely Faire Scheduler）使用时间；</li>
+<li><code>-cpu-quota int</code>：限制CPU调度器CFS配额，单位微秒，最小1000；</li>
+<li><code>-cpu-rt-period int</code>：限制CPU调度器的实时周期，单位微秒；</li>
+<li><code>-cpu-rt-runtime int</code>：限制CPU调度器的实时运行时，单位微秒；</li>
+<li><code>-c</code>，<code>-cpu-shares int</code>：限制CPU使用份额；</li>
+<li><code>-cpus decimal</code>：限制CPU个数；</li>
+<li><code>-cpuset-cpus string</code>：允许使用的CPU核，如0-3，0，1；</li>
+<li><code>-cpuset-mems string</code>：允许使用的内存块，如0-3，0，1；</li>
+<li><code>-kernel-memory bytes</code>：限制使用的内核内存；</li>
+<li><code>-m</code>，<code>-memory bytes</code>：限制使用的内存；</li>
+<li><code>-memory-reservation bytes</code>：内存软限制；</li>
+<li><code>-memory-swap bytes</code>：内存加上缓存区的限制，-1表示对缓存区无限制；</li>
+<li><code>-restart string</code>：容器退出后的重启策略；</li>
+</ul>
+<p>例如，限制总配额为1秒，容器test所占用时间为10%，代码如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker update --cpu-quota 1000000 test</span><br><span class="line">test</span><br><span class="line">$ docker update --cpu-period 100000 test</span><br><span class="line">test</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/后端/" rel="tag"># 后端</a>
+            
+              <a href="/tags/服务器/" rel="tag"># 服务器</a>
+            
+              <a href="/tags/docker/" rel="tag"># docker</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/02/05/docker/02、docker常用命令/" rel="next" title="docker常用命令">
+                  <i class="fa fa-chevron-left"></i> docker常用命令
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/02/18/docker/04、docker数据管理/" rel="prev" title="docker数据管理">
+                  docker数据管理 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#操作docker容器"><span class="nav-text">操作docker容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、创建容器"><span class="nav-text">1、创建容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①-新建容器"><span class="nav-text">① 新建容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②-启动容器"><span class="nav-text">② 启动容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#③-新建并启动容器"><span class="nav-text">③ 新建并启动容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#④-守护态运行"><span class="nav-text">④ 守护态运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#⑤-查看容器输出"><span class="nav-text">⑤ 查看容器输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、停止容器"><span class="nav-text">2、停止容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①-暂停容器"><span class="nav-text">① 暂停容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②-终止容器"><span class="nav-text">② 终止容器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、进入容器"><span class="nav-text">3、进入容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①-attach"><span class="nav-text">① attach</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②-exec命令"><span class="nav-text">② exec命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、删除容器"><span class="nav-text">4、删除容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、导入和导出容器"><span class="nav-text">5、导入和导出容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①-导出容器"><span class="nav-text">① 导出容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②-导入容器"><span class="nav-text">② 导入容器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、查看容器"><span class="nav-text">6、查看容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①-查看容器详情"><span class="nav-text">① 查看容器详情</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②-查看容器内的进程"><span class="nav-text">② 查看容器内的进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#③-查看统计信息"><span class="nav-text">③ 查看统计信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、其他容器命令"><span class="nav-text">7、其他容器命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①-复制文件"><span class="nav-text">① 复制文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②-查看变更"><span class="nav-text">② 查看变更</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#③-查看端口映射"><span class="nav-text">③ 查看端口映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#④-更新配置"><span class="nav-text">④ 更新配置</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/silence.png"
+      alt="silence 聆听°">
+  <p class="site-author-name" itemprop="name">silence 聆听°</p>
+  <div class="site-description" itemprop="description">主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/sen520" title="GitHub &rarr; https://github.com/sen520" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:358974225@qq.com" title="E-Mail &rarr; mailto:358974225@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">silence 聆听°</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">352k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:20</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+-->
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;"> 皖ICP备19019530号</p></a>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/pjax/pjax.min.js?v=0.2.8"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var id = element.id || '';
+    var src = element.src || '';
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (id !=='') {
+      script.id = element.id;
+    }
+    if (src !== '') {
+      script.src = src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '219d27bd2659fe155d6f',
+      clientSecret: '29d3a6e9d0d0a5b6e646f6c7d1ad3cf6051b71be',
+      repo: 'sen520.github.io',
+      owner: 'sen520',
+      admin: ['sen520'],
+      id: '3df33769712c5ef1a640be8beeef9a1a',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
