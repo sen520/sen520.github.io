@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.silencew.cn/2020/06/10/python/04.%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
-    
-    <lastmod>2020-06-19T12:12:12.710Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.silencew.cn/about/index.html</loc>
     
     <lastmod>2020-06-17T13:25:44.199Z</lastmod>
@@ -30,14 +23,14 @@
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/friends/index.html</loc>
+    <loc>https://blog.silencew.cn/logs/index.html</loc>
     
     <lastmod>2020-05-18T12:01:30.541Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/logs/index.html</loc>
+    <loc>https://blog.silencew.cn/friends/index.html</loc>
     
     <lastmod>2020-05-18T12:01:30.541Z</lastmod>
     
@@ -226,13 +219,6 @@
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2019/10/20/R/01_R-%E5%9F%BA%E7%A1%80/</loc>
-    
-    <lastmod>2019-10-19T16:00:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.silencew.cn/2019/10/20/R/02_R-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
     
     <lastmod>2019-10-19T16:00:00.000Z</lastmod>
@@ -241,6 +227,13 @@
   
   <url>
     <loc>https://blog.silencew.cn/2019/10/20/R/03_R-%E5%9B%BE%E5%BD%A2/</loc>
+    
+    <lastmod>2019-10-19T16:00:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.silencew.cn/2019/10/20/R/01_R-%E5%9F%BA%E7%A1%80/</loc>
     
     <lastmod>2019-10-19T16:00:00.000Z</lastmod>
     
