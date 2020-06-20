@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.silencew.cn/2020/06/10/python/04.%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
+    
+    <lastmod>2020-06-19T12:12:12.710Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.silencew.cn/about/index.html</loc>
     
     <lastmod>2020-06-17T13:25:44.199Z</lastmod>
@@ -58,14 +65,14 @@
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2020/02/26/python/01.%E5%BD%95%E9%9F%B3/</loc>
+    <loc>https://blog.silencew.cn/2020/03/06/python/02.%E5%85%B3%E9%97%AD%E7%A8%8B%E5%BA%8F/</loc>
     
     <lastmod>2020-05-18T12:01:30.530Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2020/03/06/python/02.%E5%85%B3%E9%97%AD%E7%A8%8B%E5%BA%8F/</loc>
+    <loc>https://blog.silencew.cn/2020/02/26/python/01.%E5%BD%95%E9%9F%B3/</loc>
     
     <lastmod>2020-05-18T12:01:30.530Z</lastmod>
     
@@ -177,14 +184,14 @@
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2019/11/19/algorithm%5B%E7%AE%97%E6%B3%95%5D/4.%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
+    <loc>https://blog.silencew.cn/2019/11/20/algorithm%5B%E7%AE%97%E6%B3%95%5D/5.%E6%A0%91/</loc>
     
     <lastmod>2019-11-19T16:00:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2019/11/20/algorithm%5B%E7%AE%97%E6%B3%95%5D/5.%E6%A0%91/</loc>
+    <loc>https://blog.silencew.cn/2019/11/19/algorithm%5B%E7%AE%97%E6%B3%95%5D/4.%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
     
     <lastmod>2019-11-19T16:00:00.000Z</lastmod>
     
@@ -219,14 +226,14 @@
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2019/10/20/R/01_R-%E5%9F%BA%E7%A1%80/</loc>
+    <loc>https://blog.silencew.cn/2019/10/20/R/02_R-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
     
     <lastmod>2019-10-19T16:00:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.silencew.cn/2019/10/20/R/02_R-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
+    <loc>https://blog.silencew.cn/2019/10/20/R/01_R-%E5%9F%BA%E7%A1%80/</loc>
     
     <lastmod>2019-10-19T16:00:00.000Z</lastmod>
     
