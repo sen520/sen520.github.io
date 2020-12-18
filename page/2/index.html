@@ -1091,7 +1091,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/12/12/db/mysql/02、mysql计算字段/">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/12/12/db/mysql/03、mysql数据处理函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="silence 聆听°">
@@ -1105,7 +1105,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/12/12/db/mysql/02、mysql计算字段/" class="post-title-link" itemprop="url">mysql计算字段</a>
+            <a href="/2019/12/12/db/mysql/03、mysql数据处理函数/" class="post-title-link" itemprop="url">mysql数据处理函数</a>
           
         </h1>
 
@@ -1166,7 +1166,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>1.2k</span>
+              <span>2.6k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -1176,7 +1176,7 @@
               
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
           
 
@@ -1189,17 +1189,62 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h2><p>存储在数据库表中的数据一般不是应用程序所需要的格式。</p><ul>
-<li>如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。</li>
-<li>城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。</li>
-<li>列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来</li>
-<li>物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。</li>
-<li>根据表数据进行总数，平均数计算或其他计算</li>
-</ul>
+          <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>SQL支持利用函数来处理数据。函数一般是在数据上执行的，它给数据的转换和处理提供了方便。</p><h3 id="文本处理函数"><a href="#文本处理函数" class="headerlink" title="文本处理函数"></a>文本处理函数</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Left()</code></td>
+<td>返回串左边的字符</td>
+</tr>
+<tr>
+<td><code>Length()</code></td>
+<td>返回串的长度</td>
+</tr>
+<tr>
+<td><code>Locate()</code></td>
+<td>找出串的一个子串</td>
+</tr>
+<tr>
+<td><code>Lower()</code></td>
+<td>将串转换为小写</td>
+</tr>
+<tr>
+<td><code>LTrim()</code></td>
+<td>去掉串左边的空格</td>
+</tr>
+<tr>
+<td><code>Right()</code></td>
+<td>返回串右边的字符</td>
+</tr>
+<tr>
+<td><code>RTrim()</code></td>
+<td>去掉串右边的空格</td>
+</tr>
+<tr>
+<td><code>Soundex()</code></td>
+<td>返回串的SOUNDEX值</td>
+</tr>
+<tr>
+<td><code>SubString()</code></td>
+<td>返回子串的字符</td>
+</tr>
+<tr>
+<td><code>Upper()</code></td>
+<td>将串转换为大写</td>
+</tr>
+</tbody>
+</table>
+</div>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2019/12/12/db/mysql/02、mysql计算字段/#more" rel="contents">
+              <a class="btn" href="/2019/12/12/db/mysql/03、mysql数据处理函数/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1418,7 +1463,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/12/12/db/mysql/03、mysql数据处理函数/">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2019/12/12/db/mysql/02、mysql计算字段/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="silence 聆听°">
@@ -1432,7 +1477,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/12/12/db/mysql/03、mysql数据处理函数/" class="post-title-link" itemprop="url">mysql数据处理函数</a>
+            <a href="/2019/12/12/db/mysql/02、mysql计算字段/" class="post-title-link" itemprop="url">mysql计算字段</a>
           
         </h1>
 
@@ -1493,7 +1538,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>2.6k</span>
+              <span>1.2k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -1503,7 +1548,7 @@
               
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
           
 
@@ -1516,62 +1561,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>SQL支持利用函数来处理数据。函数一般是在数据上执行的，它给数据的转换和处理提供了方便。</p><h3 id="文本处理函数"><a href="#文本处理函数" class="headerlink" title="文本处理函数"></a>文本处理函数</h3><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>函数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Left()</code></td>
-<td>返回串左边的字符</td>
-</tr>
-<tr>
-<td><code>Length()</code></td>
-<td>返回串的长度</td>
-</tr>
-<tr>
-<td><code>Locate()</code></td>
-<td>找出串的一个子串</td>
-</tr>
-<tr>
-<td><code>Lower()</code></td>
-<td>将串转换为小写</td>
-</tr>
-<tr>
-<td><code>LTrim()</code></td>
-<td>去掉串左边的空格</td>
-</tr>
-<tr>
-<td><code>Right()</code></td>
-<td>返回串右边的字符</td>
-</tr>
-<tr>
-<td><code>RTrim()</code></td>
-<td>去掉串右边的空格</td>
-</tr>
-<tr>
-<td><code>Soundex()</code></td>
-<td>返回串的SOUNDEX值</td>
-</tr>
-<tr>
-<td><code>SubString()</code></td>
-<td>返回子串的字符</td>
-</tr>
-<tr>
-<td><code>Upper()</code></td>
-<td>将串转换为大写</td>
-</tr>
-</tbody>
-</table>
-</div>
+          <h2 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h2><p>存储在数据库表中的数据一般不是应用程序所需要的格式。</p><ul>
+<li>如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。</li>
+<li>城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。</li>
+<li>列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来</li>
+<li>物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。</li>
+<li>根据表数据进行总数，平均数计算或其他计算</li>
+</ul>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2019/12/12/db/mysql/03、mysql数据处理函数/#more" rel="contents">
+              <a class="btn" href="/2019/12/12/db/mysql/02、mysql计算字段/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1789,7 +1789,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -1835,7 +1835,7 @@
     <h3 class="widget-title">Tag Cloud</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">39</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
         </canvas>
     </div>
 </div>
@@ -1859,7 +1859,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">361k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
