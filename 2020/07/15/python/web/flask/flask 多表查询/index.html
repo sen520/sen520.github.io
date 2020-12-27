@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="google-site-verification" content="VN-Dofcb4v5O_cHZRP-5ovlon_f-2TFD2MLrleCTmxY" />
+<meta name="baidu-site-verification" content="eJFx4gOEfs" />
+<meta baidu-gxt-verify-token="541338f1a5bfa7c374a039b899b225a9">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/S.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/S.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="silence聆听°" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  <meta name="description" content="这里主要介绍 多表联查问题 场景：一个用户表，一个书单，每个用户可以拥有多个书单，但是每个书单只能被一个用户所拥有，也就是一对多的关系">
+<meta name="keywords" content="后端,python,flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask sqlalchemy查询">
+<meta property="og:url" content="https://blog.silencew.cn/2020/07/15/python/web/flask/flask 多表查询/index.html">
+<meta property="og:site_name" content="silence聆听°">
+<meta property="og:description" content="这里主要介绍 多表联查问题 场景：一个用户表，一个书单，每个用户可以拥有多个书单，但是每个书单只能被一个用户所拥有，也就是一对多的关系">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-07-14T16:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flask sqlalchemy查询">
+<meta name="twitter:description" content="这里主要介绍 多表联查问题 场景：一个用户表，一个书单，每个用户可以拥有多个书单，但是每个书单只能被一个用户所拥有，也就是一对多的关系">
+  <link rel="canonical" href="https://blog.silencew.cn/2020/07/15/python/web/flask/flask 多表查询/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>flask sqlalchemy查询 | silence聆听°</title>
+  
+
+
+  <script pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a4ee2e83dba9b2dfdd7ff369e4c80d1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">silence聆听°</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/sen520" class="github-corner" title="Silence GitHub" aria-label="Silence GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+     <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://blog.silencew.cn/2020/07/15/python/web/flask/flask 多表查询/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="silence 聆听°">
+      <meta itemprop="description" content="主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。">
+      <meta itemprop="image" content="/images/silence.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="silence聆听°">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">flask sqlalchemy查询
+
+          
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-15T00:00:00+08:00">2020-07-15</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/web/" itemprop="url" rel="index"><span itemprop="name">web</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/web/flask/" itemprop="url" rel="index"><span itemprop="name">flask</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>7.4k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>7 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这里主要介绍 多表联查问题</p>
+<p>场景：一个用户表，一个书单，每个用户可以拥有多个书单，但是每个书单只能被一个用户所拥有，也就是一对多的关系</p>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'book'</span></span><br><span class="line">    id = db.Column(db.INT, primary_key=<span class="literal">True</span>, nullable=<span class="literal">False</span>, autoincrement=<span class="literal">True</span>)</span><br><span class="line">    book_name = db.Column(db.VARCHAR(<span class="number">64</span>), nullable=<span class="literal">False</span>, unique=<span class="literal">True</span>)</span><br><span class="line">    createtime = db.Column(db.DateTime, default=datetime.now)</span><br><span class="line">    userid = db.Column(db.INT, nullable=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'bind'</span></span><br><span class="line">    id = db.Column(db.BIGINT, primary_key=<span class="literal">True</span>, autoincrement=<span class="literal">True</span>)</span><br><span class="line">    name =  = db.Column(db.VARCHAR(<span class="number">64</span>), nullable=<span class="literal">False</span>, unique=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.session.filter(Book, User).(Book.userid == User.id)</span><br></pre></td></tr></table></figure>
+<h2 id="filter-by"><a href="#filter-by" class="headerlink" title="filter_by"></a>filter_by</h2><p>不适用于多表查询</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.session.filter(Book).filter_by(book_name=<span class="string">'追风筝的人'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">	...</span><br><span class="line">	user = models.ForeignKey(to=<span class="string">"User"</span>, on_delete=models.CASCADE)</span><br><span class="line">	</span><br><span class="line">book = Book.filter(book_name=<span class="string">'追风筝的人'</span>)</span><br><span class="line">user = book.user</span><br><span class="line">print(user.name)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    books = db.relationship(<span class="string">'Book'</span>, backref=<span class="string">'user'</span>)</span><br><span class="line">    </span><br><span class="line">u = User.filter(name=<span class="string">'张三'</span>)</span><br><span class="line">book_names = [book.book_name <span class="keyword">for</span> book <span class="keyword">in</span> books]</span><br></pre></td></tr></table></figure>
+<h2 id="join"><a href="#join" class="headerlink" title="join"></a>join</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.session.query(User.name, book.createtime).join(User, Book.userid==User.id).filter(book_name=<span class="string">'追风筝的人'</span>).all()</span><br></pre></td></tr></table></figure>
+<h3 id="多对一连表操作"><a href="#多对一连表操作" class="headerlink" title="多对一连表操作"></a>多对一连表操作</h3><p>首先有两个知识点:</p>
+<ul>
+<li>改变数据输出的方式:可以在表的类中定义一个特殊成员:<strong>repr</strong>,return一个自定义的由字符串拼接的数据连接方式.</li>
+<li>数据库中表关系之间除了MySQL中标准的外键(ForeignKey)之外,还可以创建一个虚拟的关系,比如<code>group = relationship(&quot;Group&quot;,backref=&#39;uuu&#39;)</code>,一般此虚拟关系与foreignkey一起使用.</li>
+</ul>
+<p>需求:</p>
+<ol>
+<li>用户组,有sa,dba组</li>
+<li>用户,用户只能属于一个用户组</li>
+</ol>
+<p>那么从需求可以看出来,是一个一对多的</p>
+<h4 id="遍历表中数据"><a href="#遍历表中数据" class="headerlink" title="遍历表中数据"></a>遍历表中数据</h4><p>接着,我们先来看下数据库中的表结构:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, Integer, String, ForeignKey, UniqueConstraint, Index</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker, relationship</span><br><span class="line">engine = create_engine(<span class="string">"mysql://root:123456@127.0.0.1:3306/test"</span>, max_overflow=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"><span class="comment">#一对多</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'group'</span></span><br><span class="line">    nid = Column(Integer,primary_key=<span class="literal">True</span>,autoincrement=<span class="literal">True</span>)</span><br><span class="line">    caption = Column(String(<span class="number">32</span>))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'user'</span></span><br><span class="line">    nid = Column(Integer,primary_key=<span class="literal">True</span>,autoincrement=<span class="literal">True</span>)</span><br><span class="line">    name = Column(String(<span class="number">32</span>))</span><br><span class="line">    group_id = Column(Integer,ForeignKey(<span class="string">'group.nid'</span>))</span><br><span class="line">    <span class="comment">###虚拟创建关系,relationship  一般是跟foreginkey 在一起使用</span></span><br><span class="line">    group = relationship(<span class="string">"Group"</span>,backref=<span class="string">'uuu'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#自定义输出方式</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        temp = <span class="string">'%s-%s:%s'</span>%(self.nid,self.name,self.group_id)</span><br><span class="line">        <span class="keyword">return</span> temp</span><br></pre></td></tr></table></figure>
+<p>查询user表中的所有数据:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sql=session.query(User).join(Group,isouter=<span class="literal">True</span>)</span><br><span class="line">print(sql)</span><br><span class="line">ret =session.query(User).join(Group,isouter=<span class="literal">True</span>).all()</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT <span class="string">"user"</span>.nid AS user_nid, <span class="string">"user"</span>.name AS user_name, <span class="string">"user"</span>.group_id AS user_group_id </span><br><span class="line">FROM <span class="string">"user"</span> LEFT OUTER JOIN <span class="string">"group"</span> ON <span class="string">"group"</span>.nid = <span class="string">"user"</span>.group_id</span><br><span class="line">[<span class="number">3</span>-alex:<span class="number">1</span>, <span class="number">4</span>-alex2:<span class="number">1</span>, <span class="number">5</span>-cc:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<h4 id="无虚拟关系的原始查询方式"><a href="#无虚拟关系的原始查询方式" class="headerlink" title="无虚拟关系的原始查询方式"></a>无虚拟关系的原始查询方式</h4><p>需求:查询user表中姓名并且显示各自的所属组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = session.query(User.name,Group.caption).join(Group,isouter=<span class="literal">True</span>).all()</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(<span class="string">'alex'</span>, <span class="string">'DBA'</span>), (<span class="string">'alex2'</span>, <span class="string">'DBA'</span>), (<span class="string">'cc'</span>, <span class="string">'SA'</span>)]</span><br></pre></td></tr></table></figure>
+<h4 id="虚拟关系的查询方式"><a href="#虚拟关系的查询方式" class="headerlink" title="虚拟关系的查询方式"></a>虚拟关系的查询方式</h4><h5 id="正向查询"><a href="#正向查询" class="headerlink" title="正向查询"></a>正向查询</h5><p>需求:查询user表中所有数据,并且显示对应的用户组表中的数据.</p>
+<p>首先肯定要设定一个虚拟关系啦,<code>group = relationship(&quot;Group&quot;,backref=&#39;uuu&#39;)</code></p>
+<p>看下代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#正向查询</span></span><br><span class="line">ret = session.query(User).all()</span><br><span class="line"><span class="keyword">for</span> obj <span class="keyword">in</span> ret:</span><br><span class="line"><span class="comment">#    #obj 代指user表的每一行数据</span></span><br><span class="line"><span class="comment">#    #obj.group 代指group对象</span></span><br><span class="line">    print(obj.nid,obj.name,obj.group_id,obj.group,obj.group.nid,obj.group.caption)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span> alex <span class="number">1</span> &lt;__main__.Group object at <span class="number">0x10387eba8</span>&gt; <span class="number">1</span> DBA</span><br><span class="line"><span class="number">4</span> alex2 <span class="number">1</span> &lt;__main__.Group object at <span class="number">0x10387eba8</span>&gt; <span class="number">1</span> DBA</span><br><span class="line"><span class="number">5</span> cc <span class="number">2</span> &lt;__main__.Group object at <span class="number">0x10387ed68</span>&gt; <span class="number">2</span> SA</span><br></pre></td></tr></table></figure>
+<p>注意:<strong>多对一正向查询,一条命令即可,直接看对象中的属性即可</strong></p>
+<h4 id="反向查询原始方式"><a href="#反向查询原始方式" class="headerlink" title="反向查询原始方式"></a>反向查询原始方式</h4><p>需求:查询用户组表中属于DBA组的用户名</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret=session.query(User.name,Group.caption).join(Group,isouter=<span class="literal">True</span>).filter(Group.caption==<span class="string">'DBA'</span>).all()</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(<span class="string">'alex'</span>, <span class="string">'DBA'</span>), (<span class="string">'alex2'</span>, <span class="string">'DBA'</span>)]</span><br></pre></td></tr></table></figure>
+<h5 id="虚拟关系反向查询方式"><a href="#虚拟关系反向查询方式" class="headerlink" title="虚拟关系反向查询方式"></a>虚拟关系反向查询方式</h5><p>需求:查询用户组中属于DBA组的用户名</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#反向查询</span></span><br><span class="line"><span class="comment">#group中得到一个对象</span></span><br><span class="line">obj=session.query(Group).filter(Group.caption==<span class="string">'DBA'</span>).first()</span><br><span class="line">print(obj.nid)</span><br><span class="line">print(obj.caption)</span><br><span class="line"><span class="comment">#连接到虚拟关系中backref设定的uuu</span></span><br><span class="line">print(obj.uuu)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line">DBA</span><br><span class="line">[<span class="number">3</span>-alex:<span class="number">1</span>, <span class="number">4</span>-alex2:<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<p>注意:<strong>多对一反向查询,需要遍历对象属性</strong></p>
+<h3 id="多对多连表操作"><a href="#多对多连表操作" class="headerlink" title="多对多连表操作"></a>多对多连表操作</h3><h4 id="需求以及数据库结构"><a href="#需求以及数据库结构" class="headerlink" title="需求以及数据库结构"></a>需求以及数据库结构</h4><p>需求:</p>
+<p>三张表:</p>
+<ol>
+<li>主机表:包括nid hostname port ip</li>
+<li>管理员表:包括:nid username</li>
+<li>主机对应管理员表: nid 主机id,管理员id</li>
+</ol>
+<p>一个管理员帐号(比如root),可以关联多台服务器,一个服务器也可以有多个管理员帐号</p>
+<p>先来看下数据结构吧:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, Integer, String, ForeignKey, UniqueConstraint, Index</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker, relationship</span><br><span class="line">engine = create_engine(<span class="string">"mysql+pymysql://root:7ujm8ik,@192.168.4.193:3306/testsql"</span>, max_overflow=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"><span class="comment">#多对多</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HostToHostUser</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'host_to_host_user'</span></span><br><span class="line">    nid = Column(Integer, primary_key=<span class="literal">True</span>,autoincrement=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    host_id = Column(Integer,ForeignKey(<span class="string">'host.nid'</span>))</span><br><span class="line">    host_user_id = Column(Integer,ForeignKey(<span class="string">'host_user.nid'</span>))</span><br><span class="line">    <span class="comment">#多对多操作</span></span><br><span class="line">    host = relationship(<span class="string">'Host'</span>,backref=<span class="string">'h'</span>)</span><br><span class="line">    host_user = relationship(<span class="string">'HostUser'</span>,backref=<span class="string">'u'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Host</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'host'</span></span><br><span class="line">    nid = Column(Integer, primary_key=<span class="literal">True</span>,autoincrement=<span class="literal">True</span>)</span><br><span class="line">    hostname = Column(String(<span class="number">32</span>))</span><br><span class="line">    port = Column(String(<span class="number">32</span>))</span><br><span class="line">    ip = Column(String(<span class="number">32</span>))</span><br><span class="line">    <span class="comment">####最简单的方式,添加此行就行:</span></span><br><span class="line">    host_user=relationship(<span class="string">'HostUser'</span>,secondary=HostToHostUser.__table__,backref=<span class="string">'h'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HostUser</span><span class="params">(Base)</span>:</span></span><br><span class="line">    __tablename__ = <span class="string">'host_user'</span></span><br><span class="line">    nid = Column(Integer, primary_key=<span class="literal">True</span>,autoincrement=<span class="literal">True</span>)</span><br><span class="line">    username = Column(String(<span class="number">32</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_db</span><span class="params">()</span>:</span></span><br><span class="line">    Base.metadata.create_all(engine)</span><br><span class="line"></span><br><span class="line"><span class="comment"># init_db()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_db</span><span class="params">()</span>:</span></span><br><span class="line">    Base.metadata.drop_all(engine)</span><br><span class="line"></span><br><span class="line">Session = sessionmaker(bind=engine)</span><br><span class="line">session = Session()</span><br><span class="line"><span class="comment">#======多对多操作</span></span><br><span class="line"><span class="comment"># session.add_all([</span></span><br><span class="line"><span class="comment">#     Host(hostname='c1',port='22',ip='1.1.1.1'),</span></span><br><span class="line"><span class="comment">#     Host(hostname='c2',port='22',ip='1.1.1.2'),</span></span><br><span class="line"><span class="comment">#     Host(hostname='c3',port='22',ip='1.1.1.3'),</span></span><br><span class="line"><span class="comment">#     Host(hostname='c4',port='22',ip='1.1.1.4'),</span></span><br><span class="line"><span class="comment">#     Host(hostname='c5',port='22',ip='1.1.1.5'),</span></span><br><span class="line"><span class="comment"># ])</span></span><br><span class="line"><span class="comment"># session.commit()</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># session.add_all([</span></span><br><span class="line"><span class="comment">#     HostUser(username='root'),</span></span><br><span class="line"><span class="comment">#     HostUser(username='db'),</span></span><br><span class="line"><span class="comment">#     HostUser(username='nb'),</span></span><br><span class="line"><span class="comment">#     HostUser(username='sb'),</span></span><br><span class="line"><span class="comment"># ])</span></span><br><span class="line"><span class="comment"># session.commit()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># session.add_all([</span></span><br><span class="line"><span class="comment">#     HostToHostUser(host_id=1,host_user_id=1),</span></span><br><span class="line"><span class="comment">#     HostToHostUser(host_id=1,host_user_id=2),</span></span><br><span class="line"><span class="comment">#     HostToHostUser(host_id=1,host_user_id=3),</span></span><br><span class="line"><span class="comment">#     HostToHostUser(host_id=2,host_user_id=2),</span></span><br><span class="line"><span class="comment">#     HostToHostUser(host_id=2,host_user_id=4),</span></span><br><span class="line"><span class="comment">#     HostToHostUser(host_id=2,host_user_id=3),</span></span><br><span class="line"><span class="comment"># ])</span></span><br><span class="line"><span class="comment"># session.commit()</span></span><br></pre></td></tr></table></figure>
+<h4 id="无虚拟关系的原始方式"><a href="#无虚拟关系的原始方式" class="headerlink" title="无虚拟关系的原始方式"></a>无虚拟关系的原始方式</h4><p>需求:查询主机C1的管理员帐号</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.先在host表中查询c1的nid</span></span><br><span class="line">host_obj = session.query(Host).filter(Host.hostname==<span class="string">'c1'</span>).first()</span><br><span class="line"><span class="comment">#2.查询hosttohostuer表中的所有host_id等于c1的nid的对应的host_user_id</span></span><br><span class="line">host_2_host_user = session.query(HostToHostUser.host_user_id).filter(HostToHostUser.host_id==host_obj.nid).all()</span><br><span class="line"><span class="comment"># print(host_2_host_user)</span></span><br><span class="line">r=zip(*host_2_host_user)</span><br><span class="line"><span class="comment"># print(list(list(r)[0]))</span></span><br><span class="line"><span class="comment">#通过查到的host_user_id查询hostuser表中的对应的管理员用户名</span></span><br><span class="line">users = session.query(HostUser.username).filter(HostUser.nid.in_(list(list(r)[<span class="number">0</span>]))).all()</span><br><span class="line">print(users)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(<span class="string">'root'</span>,), (<span class="string">'db'</span>,), (<span class="string">'nb'</span>,)]</span><br></pre></td></tr></table></figure>
+<p>是不是很麻烦?</p>
+<h4 id="虚拟关系的查询"><a href="#虚拟关系的查询" class="headerlink" title="虚拟关系的查询"></a>虚拟关系的查询</h4><p>需求:同上,查询主机C1的管理员帐号</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.反向查找,查询host表中c1的信息,会得到一个对象,对象中存在一个已经设置好的虚拟关系:h</span></span><br><span class="line">host_obj = session.query(Host).filter(Host.hostname == <span class="string">'c1'</span>).first()</span><br><span class="line"><span class="comment">#2.正向查找,遍历对象属性</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> host_obj.h:</span><br><span class="line">    print(item.host_user.username)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root</span><br><span class="line">db</span><br><span class="line">nb</span><br></pre></td></tr></table></figure>
+<p>注意:<strong>多对多的话,正反查询都是遍历对象中的属性</strong></p>
+<h4 id="同一需求最简单的方式"><a href="#同一需求最简单的方式" class="headerlink" title="同一需求最简单的方式"></a>同一需求最简单的方式</h4><p>需求还是同上:查询主机C1的管理员帐号</p>
+<p>需要在两张表的一张表中加一条<code>host_user=relationship(&#39;HostUser&#39;,secondary=HostToHostUser.__table__,backref=&#39;h&#39;)</code>,我加到了host表中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#最简单的查询方式:</span></span><br><span class="line"></span><br><span class="line">host_obj = session.query(Host).filter(Host.hostname == <span class="string">'c1'</span>).first()</span><br><span class="line">print(host_obj.host_user)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> host_obj.host_user:</span><br><span class="line">    print(item.username)</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[&lt;__main__.HostUser object at <span class="number">0x103778710</span>&gt;, &lt;__main__.HostUser object at <span class="number">0x103778d68</span>&gt;, &lt;__main__.HostUser object at <span class="number">0x103778e10</span>&gt;]</span><br><span class="line">root</span><br><span class="line">db</span><br><span class="line">nb</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/后端/" rel="tag"># 后端</a>
+            
+              <a href="/tags/python/" rel="tag"># python</a>
+            
+              <a href="/tags/flask/" rel="tag"># flask</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/07/10/python/05.python2编码打印/" rel="next" title="python编码打印问题">
+                  <i class="fa fa-chevron-left"></i> python编码打印问题
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#filter"><span class="nav-text">filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#filter-by"><span class="nav-text">filter_by</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外键"><span class="nav-text">外键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#join"><span class="nav-text">join</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多对一连表操作"><span class="nav-text">多对一连表操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#遍历表中数据"><span class="nav-text">遍历表中数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无虚拟关系的原始查询方式"><span class="nav-text">无虚拟关系的原始查询方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟关系的查询方式"><span class="nav-text">虚拟关系的查询方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#正向查询"><span class="nav-text">正向查询</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反向查询原始方式"><span class="nav-text">反向查询原始方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#虚拟关系反向查询方式"><span class="nav-text">虚拟关系反向查询方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多对多连表操作"><span class="nav-text">多对多连表操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#需求以及数据库结构"><span class="nav-text">需求以及数据库结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无虚拟关系的原始方式"><span class="nav-text">无虚拟关系的原始方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟关系的查询"><span class="nav-text">虚拟关系的查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同一需求最简单的方式"><span class="nav-text">同一需求最简单的方式</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/silence.png"
+      alt="silence 聆听°">
+  <p class="site-author-name" itemprop="name">silence 聆听°</p>
+  <div class="site-description" itemprop="description">主要编程语言为 Python、Nodejs，领域涵盖爬虫、后端、数据库、服务器等。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/sen520" title="GitHub &rarr; https://github.com/sen520" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:358974225@qq.com" title="E-Mail &rarr; mailto:358974225@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES/">ES</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/">django</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/">flask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后端/">后端</a><span class="tag-list-count">39</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结/">总结</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/查询/">查询</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">5</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">silence 聆听°</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">371k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:37</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+-->
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+    <a target="_blank" href="http://www.beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;"> 皖ICP备19019530号</p></a>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="/lib/pjax/pjax.min.js?v=0.2.8"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var id = element.id || '';
+    var src = element.src || '';
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (id !=='') {
+      script.id = element.id;
+    }
+    if (src !== '') {
+      script.src = src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+
+  
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '219d27bd2659fe155d6f',
+      clientSecret: '29d3a6e9d0d0a5b6e646f6c7d1ad3cf6051b71be',
+      repo: 'sen520.github.io',
+      owner: 'sen520',
+      admin: ['sen520'],
+      id: '79ab9396fc713cf3c38ae548eb1aa710',
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

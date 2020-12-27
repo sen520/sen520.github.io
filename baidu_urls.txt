@@ -1,3 +1,4 @@
+https://blog.silencew.cn/2020/07/15/python/web/flask/flask 多表查询/
 https://blog.silencew.cn/2020/07/10/python/05.python2编码打印/
 https://blog.silencew.cn/2020/07/01/linux/1.查看linux进程/
 https://blog.silencew.cn/2020/06/17/python/03.读取excel/
@@ -9,15 +10,15 @@ https://blog.silencew.cn/2020/02/26/python/01.录音/
 https://blog.silencew.cn/2020/01/08/es/ES相关配置/
 https://blog.silencew.cn/2020/01/01/个人总结/2019/
 https://blog.silencew.cn/2019/12/25/db/mysql/08、存储过程/
-https://blog.silencew.cn/2019/12/25/db/mysql/09、游标/
 https://blog.silencew.cn/2019/12/25/db/mysql/10、触发器/
+https://blog.silencew.cn/2019/12/25/db/mysql/09、游标/
 https://blog.silencew.cn/2019/12/24/db/mysql/07、视图/
 https://blog.silencew.cn/2019/12/23/javascript/nodejs/07、linux升级node版本/
 https://blog.silencew.cn/2019/12/19/db/mysql/05、组合查询/
 https://blog.silencew.cn/2019/12/19/db/mysql/06、全文本搜索/
 https://blog.silencew.cn/2019/12/13/db/mysql/04、数据分组/
-https://blog.silencew.cn/2019/12/12/db/mysql/02、mysql计算字段/
 https://blog.silencew.cn/2019/12/12/db/mysql/01、mysql正则/
+https://blog.silencew.cn/2019/12/12/db/mysql/02、mysql计算字段/
 https://blog.silencew.cn/2019/12/12/db/mysql/03、mysql数据处理函数/
 https://blog.silencew.cn/2019/11/20/algorithm[算法]/5.树/
 https://blog.silencew.cn/2019/11/19/algorithm[算法]/3.复杂度/
