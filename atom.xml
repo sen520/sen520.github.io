@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.silencew.cn/"/>
-  <updated>2020-06-30T16:00:00.000Z</updated>
+  <updated>2020-07-09T16:00:00.000Z</updated>
   <id>https://blog.silencew.cn/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python编码打印问题</title>
+    <link href="https://blog.silencew.cn/2020/07/10/python/05.python2%E7%BC%96%E7%A0%81%E6%89%93%E5%8D%B0/"/>
+    <id>https://blog.silencew.cn/2020/07/10/python/05.python2编码打印/</id>
+    <published>2020-07-09T16:00:00.000Z</published>
+    <updated>2020-07-09T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>主要为了解决 Python2 在print时，中文打印编码错误问题</p><p>直接导入 uniout 包即可</p><a id="more"></a><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>langs = [</span><br><span class="line"><span class="meta">... </span><span class="string">'Hello, world!'</span>,</span><br><span class="line"><span class="meta">... </span><span class="string">'你好，世界！'</span>,</span><br><span class="line"><span class="meta">... </span><span class="string">'こんにちは世界'</span>,</span><br><span class="line"><span class="meta">... </span><span class="string">u'Hello, world!'</span>,</span><br><span class="line"><span class="meta">... </span><span class="string">u'你好，世界！'</span>,</span><br><span class="line"><span class="meta">... </span><span class="string">u'こんにちは世界'</span>... ]</span><br><span class="line">...</span><br><span class="line"> </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pprint(langs)</span><br><span class="line">[<span class="string">'Hello, world!'</span>,</span><br><span class="line"> <span class="string">'xe4xbdxa0xe5xa5xbdxefxbcx8cxe4xb8x96xe7x95x8cxefxbcx81'</span>,</span><br><span class="line"> <span class="string">'xe3x81x93xe3x82x93xe3x81xabxe3x81xa1xe3x81xafxe4xb8x96xe7x95x8c'</span>,</span><br><span class="line"> <span class="string">u'Hello, world!'</span>,</span><br><span class="line"> <span class="string">u'u4f60u597duff0cu4e16u754cuff01'</span>,</span><br><span class="line"> <span class="string">u'u3053u3093u306bu3061u306fu4e16u754c'</span>]</span><br><span class="line">之后：</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> uniout</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pprint(langs)</span><br><span class="line">[<span class="string">'Hello, world!'</span>,</span><br><span class="line"> <span class="string">'你好，世界！'</span>,</span><br><span class="line"> <span class="string">'こんにちは世界'</span>,</span><br><span class="line"> <span class="string">u'Hello, world!'</span>,</span><br><span class="line"> <span class="string">u'你好，世界！'</span>,</span><br><span class="line"> <span class="string">u'こんにちは世界'</span>]</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;主要为了解决 Python2 在print时，中文打印编码错误问题&lt;/p&gt;
+&lt;p&gt;直接导入 uniout 包即可&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="https://blog.silencew.cn/categories/python/"/>
+    
+    
+      <category term="python" scheme="https://blog.silencew.cn/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>linux查看进程</title>
@@ -240,39 +264,6 @@
   </entry>
   
   <entry>
-    <title>mysql触发器</title>
-    <link href="https://blog.silencew.cn/2019/12/25/db/mysql/10%E3%80%81%E8%A7%A6%E5%8F%91%E5%99%A8/"/>
-    <id>https://blog.silencew.cn/2019/12/25/db/mysql/10、触发器/</id>
-    <published>2019-12-24T16:00:00.000Z</published>
-    <updated>2020-05-18T12:01:30.507Z</updated>
-    
-    <content type="html"><![CDATA[<p>MySQL语句在需要时被执行，存储过程也是。但如果想要某条语句在事件发生时自动执行，怎么办呢？</p><ul><li>每当增加一个顾客到某个数据库表时，都检查其电话号码的格式是否正确，州的缩写是否为大写</li><li>每当订购一个产品时，都从库存数量中减去订购的数量</li><li>无论何时删除一行，都在某个存档表中保留一个副本</li></ul><p>这些都需要在某个表发生更改时自动处理，就是触发器。</p><a id="more"></a><p>触发器是MySQL响应一下任意语句而自动执行的一条MySQL语句</p><ul><li>DELETE</li><li>INSERT</li><li>UPDATE</li></ul><h3 id="创建触发器"><a href="#创建触发器" class="headerlink" title="创建触发器"></a>创建触发器</h3><p>需要给出4条信息</p><ul><li>唯一的触发器名</li><li>触发器关联表</li><li><p>触发器应该响应的活动(DELETE, INSERT, UPDATE)</p></li><li><p>触发器何时执行</p></li></ul><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> newproduct <span class="keyword">AFTER</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> products <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">SELECT</span> <span class="string">'Product added'</span>;</span><br></pre></td></tr></table></figure><p>CREATE TRIGGER用来创建名为newproduct的新触发器。触发器可在一个操作发生前或之后执行。这里给出了AFTER INSERT，所以此触发器将在INSERT语句成功执行后执行。这个触发器还指定FOR EACH ROW ，因此代码对每个插入行执行。这个例子中，文本Product added 将对每个插入的行显示一次。</p><p><strong>只有表才支持触发器，视图不支持</strong></p><p>触发器按每个表每个事件每次地定义，每个表每个事件每次只允许一个触发器。因此每个表最多支持6个触发器（每条INSERT、UPDATE、DELETE的之前和之后）。单一触发器不能与多个事件或多个表关联。所以，如果需要一个对INSERT和UPDATE操作执行的触发器，则应该定义两个触发器。</p><h3 id="删除触发器"><a href="#删除触发器" class="headerlink" title="删除触发器"></a>删除触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> newproduct;</span><br></pre></td></tr></table></figure><h3 id="使用触发器"><a href="#使用触发器" class="headerlink" title="使用触发器"></a>使用触发器</h3><h4 id="INSERT触发器"><a href="#INSERT触发器" class="headerlink" title="INSERT触发器"></a>INSERT触发器</h4><p>INSERT触发器在INSERT语句执行之前或之后执行。</p><ul><li>在INSERT触发器代码内，可引用一个名为NEW的虚拟表，访问被插入的行</li><li>在BEFORE INSERT触发器中，NEW中的值也可以被更新（允许更改被插入的值）</li><li>对于AUTO_INCREMENT列，NEW在INSERT执行之前包含0，在INSERT执行之后包含新的自动生成值</li></ul><p>例：</p><ul><li><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> neworder <span class="keyword">AFTER</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> orders</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">SELECT</span> NEW.order_num;</span><br></pre></td></tr></table></figure><p>创建了一个名为neworder的触发器，按照AFTER INSERT ON orders执行。在插入一个新订单到orders表时，MySQL生成一个新订单号并保存到order_num中。触发器从NEW.order_num取得这个值并返回它。此触发器必须按照AFTER INSERT执行，因为在BEFORE INSERT语句执行之前，新的order_num还没有生成。对于orders的每次插入使用这个触发器将总是返回新的订单号。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(order_date, cust_id) <span class="keyword">VALUES</span>(<span class="keyword">Now</span>(), <span class="number">10001</span>);</span><br></pre></td></tr></table></figure><p>orders包含3个列，order_date和cust_id必须给出，order_num由MySQL自动生成，而现在order_num还自动被返回</p>  <img src="/2019/12/25/db/mysql/10、触发器/1577258795707.png" class="slug"></li></ul><h4 id="DELETE触发器"><a href="#DELETE触发器" class="headerlink" title="DELETE触发器"></a>DELETE触发器</h4><ul><li>在DELETE触发器代码内，可以引用一个名为OLD的虚拟表，访问被删除的行</li><li>OLD中的值全都是只读的，不能更新</li></ul><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> deleteorder <span class="keyword">BEFORE</span> <span class="keyword">DELETE</span> <span class="keyword">ON</span> orders</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> archive_orders(order_num, order_date, cust_id) <span class="keyword">VALUES</span>(OLD.order_num, OLD.order_date, OLD.cust_id);</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure><p>在任意订单被删除前，执行此触发器，将OLD中的值（要被删除的订单）保存到一个名为archive_orders的存档表中</p><h4 id="UPDATE触发器"><a href="#UPDATE触发器" class="headerlink" title="UPDATE触发器"></a>UPDATE触发器</h4><ul><li>在UPDATE触发器代码中，你可以引用一个名为OLD的虚拟表访问以前的（UPDATE语句前）的值，引用一个名为NEW的虚拟表访问新更新的值</li><li>在BEFORE UPDATE触发器中，NEW中的值可能也被更新（允许更改将要用于UPDATE语句中的值）</li><li>OLD中的值全都是只读的，不能更新</li></ul><p>下面的例子保证州名缩写总是大写：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> updatevendor <span class="keyword">BEFORE</span> <span class="keyword">UPDATE</span> <span class="keyword">ON</span> vendors</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">SET</span> NEW.vend_state = <span class="keyword">Upper</span>(NEW.vend_state);</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MySQL语句在需要时被执行，存储过程也是。但如果想要某条语句在事件发生时自动执行，怎么办呢？&lt;/p&gt;&lt;ul&gt;
-&lt;li&gt;每当增加一个顾客到某个数据库表时，都检查其电话号码的格式是否正确，州的缩写是否为大写&lt;/li&gt;
-&lt;li&gt;每当订购一个产品时，都从库存数量中减去订购的数量&lt;/li&gt;
-&lt;li&gt;无论何时删除一行，都在某个存档表中保留一个副本&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;这些都需要在某个表发生更改时自动处理，就是触发器。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
-    
-    
-      <category term="后端" scheme="https://blog.silencew.cn/tags/%E5%90%8E%E7%AB%AF/"/>
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
     <title>mysql存储过程</title>
     <link href="https://blog.silencew.cn/2019/12/25/db/mysql/08%E3%80%81%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/"/>
     <id>https://blog.silencew.cn/2019/12/25/db/mysql/08、存储过程/</id>
@@ -318,6 +309,39 @@
 &lt;li&gt;对于填有数据的游标，根据需要取出（索引）各行&lt;/li&gt;
 &lt;li&gt;在结束游标使用时，必须关闭游标&lt;/li&gt;
 &lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="数据库" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="mysql" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
+    
+    
+      <category term="后端" scheme="https://blog.silencew.cn/tags/%E5%90%8E%E7%AB%AF/"/>
+    
+      <category term="数据库" scheme="https://blog.silencew.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="mysql" scheme="https://blog.silencew.cn/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql触发器</title>
+    <link href="https://blog.silencew.cn/2019/12/25/db/mysql/10%E3%80%81%E8%A7%A6%E5%8F%91%E5%99%A8/"/>
+    <id>https://blog.silencew.cn/2019/12/25/db/mysql/10、触发器/</id>
+    <published>2019-12-24T16:00:00.000Z</published>
+    <updated>2020-05-18T12:01:30.507Z</updated>
+    
+    <content type="html"><![CDATA[<p>MySQL语句在需要时被执行，存储过程也是。但如果想要某条语句在事件发生时自动执行，怎么办呢？</p><ul><li>每当增加一个顾客到某个数据库表时，都检查其电话号码的格式是否正确，州的缩写是否为大写</li><li>每当订购一个产品时，都从库存数量中减去订购的数量</li><li>无论何时删除一行，都在某个存档表中保留一个副本</li></ul><p>这些都需要在某个表发生更改时自动处理，就是触发器。</p><a id="more"></a><p>触发器是MySQL响应一下任意语句而自动执行的一条MySQL语句</p><ul><li>DELETE</li><li>INSERT</li><li>UPDATE</li></ul><h3 id="创建触发器"><a href="#创建触发器" class="headerlink" title="创建触发器"></a>创建触发器</h3><p>需要给出4条信息</p><ul><li>唯一的触发器名</li><li>触发器关联表</li><li><p>触发器应该响应的活动(DELETE, INSERT, UPDATE)</p></li><li><p>触发器何时执行</p></li></ul><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> newproduct <span class="keyword">AFTER</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> products <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">SELECT</span> <span class="string">'Product added'</span>;</span><br></pre></td></tr></table></figure><p>CREATE TRIGGER用来创建名为newproduct的新触发器。触发器可在一个操作发生前或之后执行。这里给出了AFTER INSERT，所以此触发器将在INSERT语句成功执行后执行。这个触发器还指定FOR EACH ROW ，因此代码对每个插入行执行。这个例子中，文本Product added 将对每个插入的行显示一次。</p><p><strong>只有表才支持触发器，视图不支持</strong></p><p>触发器按每个表每个事件每次地定义，每个表每个事件每次只允许一个触发器。因此每个表最多支持6个触发器（每条INSERT、UPDATE、DELETE的之前和之后）。单一触发器不能与多个事件或多个表关联。所以，如果需要一个对INSERT和UPDATE操作执行的触发器，则应该定义两个触发器。</p><h3 id="删除触发器"><a href="#删除触发器" class="headerlink" title="删除触发器"></a>删除触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> newproduct;</span><br></pre></td></tr></table></figure><h3 id="使用触发器"><a href="#使用触发器" class="headerlink" title="使用触发器"></a>使用触发器</h3><h4 id="INSERT触发器"><a href="#INSERT触发器" class="headerlink" title="INSERT触发器"></a>INSERT触发器</h4><p>INSERT触发器在INSERT语句执行之前或之后执行。</p><ul><li>在INSERT触发器代码内，可引用一个名为NEW的虚拟表，访问被插入的行</li><li>在BEFORE INSERT触发器中，NEW中的值也可以被更新（允许更改被插入的值）</li><li>对于AUTO_INCREMENT列，NEW在INSERT执行之前包含0，在INSERT执行之后包含新的自动生成值</li></ul><p>例：</p><ul><li><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> neworder <span class="keyword">AFTER</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> orders</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">SELECT</span> NEW.order_num;</span><br></pre></td></tr></table></figure><p>创建了一个名为neworder的触发器，按照AFTER INSERT ON orders执行。在插入一个新订单到orders表时，MySQL生成一个新订单号并保存到order_num中。触发器从NEW.order_num取得这个值并返回它。此触发器必须按照AFTER INSERT执行，因为在BEFORE INSERT语句执行之前，新的order_num还没有生成。对于orders的每次插入使用这个触发器将总是返回新的订单号。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(order_date, cust_id) <span class="keyword">VALUES</span>(<span class="keyword">Now</span>(), <span class="number">10001</span>);</span><br></pre></td></tr></table></figure><p>orders包含3个列，order_date和cust_id必须给出，order_num由MySQL自动生成，而现在order_num还自动被返回</p>  <img src="/2019/12/25/db/mysql/10、触发器/1577258795707.png" class="slug"></li></ul><h4 id="DELETE触发器"><a href="#DELETE触发器" class="headerlink" title="DELETE触发器"></a>DELETE触发器</h4><ul><li>在DELETE触发器代码内，可以引用一个名为OLD的虚拟表，访问被删除的行</li><li>OLD中的值全都是只读的，不能更新</li></ul><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> deleteorder <span class="keyword">BEFORE</span> <span class="keyword">DELETE</span> <span class="keyword">ON</span> orders</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> archive_orders(order_num, order_date, cust_id) <span class="keyword">VALUES</span>(OLD.order_num, OLD.order_date, OLD.cust_id);</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure><p>在任意订单被删除前，执行此触发器，将OLD中的值（要被删除的订单）保存到一个名为archive_orders的存档表中</p><h4 id="UPDATE触发器"><a href="#UPDATE触发器" class="headerlink" title="UPDATE触发器"></a>UPDATE触发器</h4><ul><li>在UPDATE触发器代码中，你可以引用一个名为OLD的虚拟表访问以前的（UPDATE语句前）的值，引用一个名为NEW的虚拟表访问新更新的值</li><li>在BEFORE UPDATE触发器中，NEW中的值可能也被更新（允许更改将要用于UPDATE语句中的值）</li><li>OLD中的值全都是只读的，不能更新</li></ul><p>下面的例子保证州名缩写总是大写：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> updatevendor <span class="keyword">BEFORE</span> <span class="keyword">UPDATE</span> <span class="keyword">ON</span> vendors</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">SET</span> NEW.vend_state = <span class="keyword">Upper</span>(NEW.vend_state);</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MySQL语句在需要时被执行，存储过程也是。但如果想要某条语句在事件发生时自动执行，怎么办呢？&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;每当增加一个顾客到某个数据库表时，都检查其电话号码的格式是否正确，州的缩写是否为大写&lt;/li&gt;
+&lt;li&gt;每当订购一个产品时，都从库存数量中减去订购的数量&lt;/li&gt;
+&lt;li&gt;无论何时删除一行，都在某个存档表中保留一个副本&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;这些都需要在某个表发生更改时自动处理，就是触发器。&lt;/p&gt;
     
     </summary>
     
@@ -494,6 +518,41 @@
   </entry>
   
   <entry>
+    <title>mysql计算字段</title>
+    <link href="https://blog.silencew.cn/2019/12/12/db/mysql/02%E3%80%81mysql%E8%AE%A1%E7%AE%97%E5%AD%97%E6%AE%B5/"/>
+    <id>https://blog.silencew.cn/2019/12/12/db/mysql/02、mysql计算字段/</id>
+    <published>2019-12-11T16:00:00.000Z</published>
+    <updated>2020-05-18T12:01:30.484Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h2><p>存储在数据库表中的数据一般不是应用程序所需要的格式。</p><ul><li>如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。</li><li>城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。</li><li>列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来</li><li>物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。</li><li>根据表数据进行总数，平均数计算或其他计算</li></ul><a id="more"></a><h3 id="1-拼接字段"><a href="#1-拼接字段" class="headerlink" title="1. 拼接字段"></a>1. 拼接字段</h3><p>举例：vendors表中包含供应商名和位置信息。假如要生成一个供应商报表，需要在供应商的名字中按照name(location)这样的格式列出供应商的位置。</p><p>此报表需要单个值，而表中数据存储在两个列<code>vend_name</code>和<code>vend_country</code>中。此外，需要用括号将<code>vend_country</code>括起来。</p><h4 id="拼接"><a href="#拼接" class="headerlink" title="拼接"></a>拼接</h4><p>可以使用<code>Contcat()</code>函数来拼接两个列</p><p><code>SELECT Concat(vend_name, &#39; (&#39;, vend_country, &#39;)&#39;) FROM vendors ORDER BY vend_name;</code></p><p>同时，我们需要删除数据右侧多余的空格，可以使用<code>RTrim()</code>来完成</p><p><code>SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) FROM vendors ORDER BY vend_name;</code></p><p>去除空格还可以用<code>LTrim()</code>去掉左边的空格，<code>Trim()</code>去掉右边的空格</p><h4 id="使用别名"><a href="#使用别名" class="headerlink" title="使用别名"></a>使用别名</h4><p><code>SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) AS vend_title FROM vendors ORDER BY vend_name;</code></p><h3 id="2-执行算术计算"><a href="#2-执行算术计算" class="headerlink" title="2. 执行算术计算"></a>2. 执行算术计算</h3><p>orders表包含收到的所有订单，orderitems表包含每个订到的各项物品。下面的SQL语句检索订单号20005中的所有物品</p><p><code>SELECT prod_id, quantity, item_price FROM orderitems WHERE order_num = 20005;</code></p><img src="/2019/12/12/db/mysql/02、mysql计算字段/1576122299642.png" class="slug"><p>item_prict 列包好订单中每项物品的单价，如下可以汇总物品的价格</p><p><code>SELECT prod_id, quantity, item_price, quantity*item_price AS expanded_price FROM orderitems WHERE order_num = 20005;</code> </p><h4 id="MySQL算术操作符"><a href="#MySQL算术操作符" class="headerlink" title="MySQL算术操作符"></a>MySQL算术操作符</h4><div class="table-container"><table><thead><tr><th>操作符</th><th>说明</th></tr></thead><tbody><tr><td>+</td><td>加</td></tr><tr><td>-</td><td>减</td></tr><tr><td>*</td><td>乘</td></tr><tr><td>/</td><td>除</td></tr></tbody></table></div><h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p><code>SELECT Now();</code> 会利用<code>Now()</code>函数返回当前日期和时间</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;计算字段&quot;&gt;&lt;a href=&quot;#计算字段&quot; class=&quot;headerlink&quot; title=&quot;计算字段&quot;&gt;&lt;/a&gt;计算字段&lt;/h2&gt;&lt;p&gt;存储在数据库表中的数据一般不是应用程序所需要的格式。&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。&lt;/li&gt;
+&lt;li&gt;城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。&lt;/li&gt;
+&lt;li&gt;列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来&lt;/li&gt;
+&lt;li&gt;物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。&lt;/li&gt;
+&lt;li&gt;根据表数据进行总数，平均数计算或其他计算&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="数据库" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="mysql" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
+    
+    
+      <category term="后端" scheme="https://blog.silencew.cn/tags/%E5%90%8E%E7%AB%AF/"/>
+    
+      <category term="数据库" scheme="https://blog.silencew.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="mysql" scheme="https://blog.silencew.cn/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>mysql正则字符</title>
     <link href="https://blog.silencew.cn/2019/12/12/db/mysql/01%E3%80%81mysql%E6%AD%A3%E5%88%99/"/>
     <id>https://blog.silencew.cn/2019/12/12/db/mysql/01、mysql正则/</id>
@@ -560,121 +619,6 @@
 &lt;tr&gt;
 &lt;td style=&quot;text-align:left&quot;&gt;[:xdigit:]&lt;/td&gt;
 &lt;td&gt;任意十六进制数字&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-    
-    </summary>
-    
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
-    
-    
-      <category term="后端" scheme="https://blog.silencew.cn/tags/%E5%90%8E%E7%AB%AF/"/>
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mysql计算字段</title>
-    <link href="https://blog.silencew.cn/2019/12/12/db/mysql/02%E3%80%81mysql%E8%AE%A1%E7%AE%97%E5%AD%97%E6%AE%B5/"/>
-    <id>https://blog.silencew.cn/2019/12/12/db/mysql/02、mysql计算字段/</id>
-    <published>2019-12-11T16:00:00.000Z</published>
-    <updated>2020-05-18T12:01:30.484Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="计算字段"><a href="#计算字段" class="headerlink" title="计算字段"></a>计算字段</h2><p>存储在数据库表中的数据一般不是应用程序所需要的格式。</p><ul><li>如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。</li><li>城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。</li><li>列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来</li><li>物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。</li><li>根据表数据进行总数，平均数计算或其他计算</li></ul><a id="more"></a><h3 id="1-拼接字段"><a href="#1-拼接字段" class="headerlink" title="1. 拼接字段"></a>1. 拼接字段</h3><p>举例：vendors表中包含供应商名和位置信息。假如要生成一个供应商报表，需要在供应商的名字中按照name(location)这样的格式列出供应商的位置。</p><p>此报表需要单个值，而表中数据存储在两个列<code>vend_name</code>和<code>vend_country</code>中。此外，需要用括号将<code>vend_country</code>括起来。</p><h4 id="拼接"><a href="#拼接" class="headerlink" title="拼接"></a>拼接</h4><p>可以使用<code>Contcat()</code>函数来拼接两个列</p><p><code>SELECT Concat(vend_name, &#39; (&#39;, vend_country, &#39;)&#39;) FROM vendors ORDER BY vend_name;</code></p><p>同时，我们需要删除数据右侧多余的空格，可以使用<code>RTrim()</code>来完成</p><p><code>SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) FROM vendors ORDER BY vend_name;</code></p><p>去除空格还可以用<code>LTrim()</code>去掉左边的空格，<code>Trim()</code>去掉右边的空格</p><h4 id="使用别名"><a href="#使用别名" class="headerlink" title="使用别名"></a>使用别名</h4><p><code>SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) AS vend_title FROM vendors ORDER BY vend_name;</code></p><h3 id="2-执行算术计算"><a href="#2-执行算术计算" class="headerlink" title="2. 执行算术计算"></a>2. 执行算术计算</h3><p>orders表包含收到的所有订单，orderitems表包含每个订到的各项物品。下面的SQL语句检索订单号20005中的所有物品</p><p><code>SELECT prod_id, quantity, item_price FROM orderitems WHERE order_num = 20005;</code></p><img src="/2019/12/12/db/mysql/02、mysql计算字段/1576122299642.png" class="slug"><p>item_prict 列包好订单中每项物品的单价，如下可以汇总物品的价格</p><p><code>SELECT prod_id, quantity, item_price, quantity*item_price AS expanded_price FROM orderitems WHERE order_num = 20005;</code> </p><h4 id="MySQL算术操作符"><a href="#MySQL算术操作符" class="headerlink" title="MySQL算术操作符"></a>MySQL算术操作符</h4><div class="table-container"><table><thead><tr><th>操作符</th><th>说明</th></tr></thead><tbody><tr><td>+</td><td>加</td></tr><tr><td>-</td><td>减</td></tr><tr><td>*</td><td>乘</td></tr><tr><td>/</td><td>除</td></tr></tbody></table></div><h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p><code>SELECT Now();</code> 会利用<code>Now()</code>函数返回当前日期和时间</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;计算字段&quot;&gt;&lt;a href=&quot;#计算字段&quot; class=&quot;headerlink&quot; title=&quot;计算字段&quot;&gt;&lt;/a&gt;计算字段&lt;/h2&gt;&lt;p&gt;存储在数据库表中的数据一般不是应用程序所需要的格式。&lt;/p&gt;&lt;ul&gt;
-&lt;li&gt;如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。&lt;/li&gt;
-&lt;li&gt;城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。&lt;/li&gt;
-&lt;li&gt;列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来&lt;/li&gt;
-&lt;li&gt;物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。&lt;/li&gt;
-&lt;li&gt;根据表数据进行总数，平均数计算或其他计算&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
-    
-    
-      <category term="后端" scheme="https://blog.silencew.cn/tags/%E5%90%8E%E7%AB%AF/"/>
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mysql数据处理函数</title>
-    <link href="https://blog.silencew.cn/2019/12/12/db/mysql/03%E3%80%81mysql%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/"/>
-    <id>https://blog.silencew.cn/2019/12/12/db/mysql/03、mysql数据处理函数/</id>
-    <published>2019-12-11T16:00:00.000Z</published>
-    <updated>2020-05-18T12:01:30.485Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>SQL支持利用函数来处理数据。函数一般是在数据上执行的，它给数据的转换和处理提供了方便。</p><h3 id="文本处理函数"><a href="#文本处理函数" class="headerlink" title="文本处理函数"></a>文本处理函数</h3><div class="table-container"><table><thead><tr><th>函数</th><th>说明</th></tr></thead><tbody><tr><td><code>Left()</code></td><td>返回串左边的字符</td></tr><tr><td><code>Length()</code></td><td>返回串的长度</td></tr><tr><td><code>Locate()</code></td><td>找出串的一个子串</td></tr><tr><td><code>Lower()</code></td><td>将串转换为小写</td></tr><tr><td><code>LTrim()</code></td><td>去掉串左边的空格</td></tr><tr><td><code>Right()</code></td><td>返回串右边的字符</td></tr><tr><td><code>RTrim()</code></td><td>去掉串右边的空格</td></tr><tr><td><code>Soundex()</code></td><td>返回串的SOUNDEX值</td></tr><tr><td><code>SubString()</code></td><td>返回子串的字符</td></tr><tr><td><code>Upper()</code></td><td>将串转换为大写</td></tr></tbody></table></div><a id="more"></a><p><code>SELECT vend_name, Upper(vend_name) AS vend_name_upcase FROM vendors ORDER BY vend_name;</code></p><img src="/2019/12/12/db/mysql/03、mysql数据处理函数/1576129039738.png" class="slug"><h3 id="日期和时间处理函数"><a href="#日期和时间处理函数" class="headerlink" title="日期和时间处理函数"></a>日期和时间处理函数</h3><div class="table-container"><table><thead><tr><th>函数</th><th>说明</th></tr></thead><tbody><tr><td><code>AddDate()</code></td><td>增加一个日期(天、周等)</td></tr><tr><td><code>AddTime()</code></td><td>增加一个时间(时、分等)</td></tr><tr><td><code>CurDate()</code></td><td>返回当前日期</td></tr><tr><td><code>CurTime()</code></td><td>返回当前时间</td></tr><tr><td><code>Date()</code></td><td>返回日期时间的日期部分</td></tr><tr><td><code>DateDiff()</code></td><td>计算两个日期的差</td></tr><tr><td><code>Date_Add()</code></td><td>高度灵活的日期运算函数</td></tr><tr><td><code>Date_Format()</code></td><td>返回一个格式化的日期或时间串</td></tr><tr><td><code>Day()</code></td><td>返回一个日期的天数部分</td></tr><tr><td><code>DayOfWeek()</code></td><td>对于一个日期，返回对应的星期几</td></tr><tr><td><code>Hour()</code></td><td>返回一个时间的小时部分</td></tr><tr><td><code>Minute()</code></td><td>返回一个时间的分钟部分</td></tr><tr><td><code>Month()</code></td><td>返回一个时间的月份部分</td></tr><tr><td><code>Now()</code></td><td>返回当前日期和时间</td></tr><tr><td><code>Second()</code></td><td>返回一个时间的秒部分</td></tr><tr><td><code>Time()</code></td><td>返回一个日期时间的时间部分</td></tr><tr><td><code>Year()</code></td><td>返回一个日期的年份部分</td></tr></tbody></table></div><p>匹配订单日期在2005-09-01那天：</p><p><code>SELECT cust_id, order_num FROM orders WHERE Date(order_date) = &#39;2005-09-01&#39;;</code></p><p>订单日期在2005年9月份的：</p><p><code>SELECT cust_id, order_num FROM orders WHERE Date(order_date) BETWEEN &#39;2005-09-01&#39; AND &#39;2005-09-30&#39;;</code></p><p>也可以按照下面这种写法，这种写法不必考虑一个月有多少天：</p><p><code>SELECT cust_id, order_num FROM orders WHERE Year(order_date) = 2005 AND Month(order_date) = 9;</code></p><h3 id="数值处理函数"><a href="#数值处理函数" class="headerlink" title="数值处理函数"></a>数值处理函数</h3><div class="table-container"><table><thead><tr><th>函数</th><th>说明</th></tr></thead><tbody><tr><td><code>Abs()</code></td><td>返回一个数的绝对值</td></tr><tr><td><code>Cos()</code></td><td>返回一个角度的余弦</td></tr><tr><td><code>Exp()</code></td><td>返回一个数的指数值</td></tr><tr><td><code>Mod()</code></td><td>返回除操作的余数</td></tr><tr><td><code>Pi()</code></td><td>返回圆周率</td></tr><tr><td><code>Rand()</code></td><td>返回一个随机数</td></tr><tr><td><code>Sin()</code></td><td>返回一个角度的正弦</td></tr><tr><td><code>Sqrt()</code></td><td>返回一个数的平方根</td></tr><tr><td><code>Tan()</code></td><td>返回一个角度的正切</td></tr></tbody></table></div><h3 id="聚集函数"><a href="#聚集函数" class="headerlink" title="聚集函数"></a>聚集函数</h3><div class="table-container"><table><thead><tr><th>函数</th><th>说明</th></tr></thead><tbody><tr><td><code>AVG()</code></td><td>返回某列的平均值</td></tr><tr><td><code>COUNT()</code></td><td>返回某列的行数</td></tr><tr><td><code>MAX()</code></td><td>返回某列的最大值</td></tr><tr><td><code>MIN()</code></td><td>返回某列的最小值</td></tr><tr><td><code>SUM()</code></td><td>返回某列值之和</td></tr></tbody></table></div><h4 id="AVG-函数"><a href="#AVG-函数" class="headerlink" title="AVG() 函数"></a>AVG() 函数</h4><p>返回products表中所有产品的平均价格：<code>SELECT AVG(prod_price) AS avg_price FROM products;</code></p><p>也可以用来确定特定列或行的平均值。</p><p>返回特定供应商所提供的产品的平均价格：</p><p><code>SELECT AVG(prod_price) AS avg_price FROM products WHERE vend_id = 1003;</code></p><p><strong>AVG()函数只能用于单个列，且忽略列值为NULL的行</strong></p><h4 id="COUNT-函数"><a href="#COUNT-函数" class="headerlink" title="COUNT() 函数"></a>COUNT() 函数</h4><p>返回customers表中客户的总数：</p><p><code>SELETE COUNT(*) AS num_cust FROM customers;</code></p><p>只对具有电子邮件地址的客户计数：</p><p><code>SELECT COUNT(cust_email) AS num_cust FROM customers;</code></p><p><strong>NULL值，如果制定列名，则制定列的值为空的行被COUNT()函数忽略，但如果COUNT()函数中用的是*，则不忽略。</strong></p><h4 id="MAX-函数"><a href="#MAX-函数" class="headerlink" title="MAX() 函数"></a>MAX() 函数</h4><p>返回products表中最贵的物品的价格：</p><p><code>SELECT MAX(prod_price) AS max_price FROM products;</code></p><p><strong>对非数值数据使用MAX()，虽然MAX()一般用来找出最大的数值或时间，但MySQL允许将它用来返回任意列中的最大值，包括返回文本列中的最大值。用于文本数据时，如果数据按相应的列排序，则返回最后一行</strong></p><p><strong>MAX() 函数忽略列值为NULL的行</strong></p><h4 id="MIN-函数"><a href="#MIN-函数" class="headerlink" title="MIN() 函数"></a>MIN() 函数</h4><p>正好与MAX()功能相反</p><p><code>SELECT MIN(prod_price) AS min_price FROM product;</code></p><h4 id="SUM-函数"><a href="#SUM-函数" class="headerlink" title="SUM() 函数"></a>SUM() 函数</h4><p><code>orderitems</code>表包含订单中实际的物品，每个物品有相应的数量(quantity)。检索所订购物品的总数（所有quantity值之和）:</p><p><code>SELECT SUM(quantity) AS items_ordered FROM orderitems WHERE order_num = 20005;</code></p><p>SUM()也可以用来合计计算值。</p><p>合计每项物品的<code>item_price*quantity</code>，得出总的订单金额(where 保证了只统计某个物品订单中的物品)：</p><p><code>SELECT SUM(item_price*quantity) AS total_price FROM orderitems WHERE order_num = 20005;</code></p><h4 id="聚类不同值"><a href="#聚类不同值" class="headerlink" title="聚类不同值"></a>聚类不同值</h4><ul><li>对所有行执行计算，指定ALL参数或者不给参数。(某人是ALL)</li><li>只包含不同的值，指定DISTINCT参数。</li></ul><p><code>SELECT AVG(DISTINCT prod_price) AS avg_price FROM products WHERE vend_id = 1003;</code></p><p><strong>注意：</strong>如果指定列名，则DISTINCT只能用于COUNT()。DISTINCT 不能用于COUNT(*)，因此，不允许使用COUNT(DISTINCT)。类似的，DISTINCT必须使用列名，不能用于计算或表达式。</p><h4 id="组合聚集函数"><a href="#组合聚集函数" class="headerlink" title="组合聚集函数"></a>组合聚集函数</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> num_items, </span><br><span class="line">   <span class="keyword">MIN</span>(prod_price) <span class="keyword">AS</span> price_min, </span><br><span class="line">   <span class="keyword">MAX</span>(prod_price) <span class="keyword">AS</span> price_max, </span><br><span class="line">   <span class="keyword">AVG</span>(prod_price) <span class="keyword">AS</span> price_avg </span><br><span class="line"><span class="keyword">FROM</span> products;</span><br></pre></td></tr></table></figure><img src="/2019/12/12/db/mysql/03、mysql数据处理函数/1576139707847.png" class="slug">]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;函数&quot;&gt;&lt;a href=&quot;#函数&quot; class=&quot;headerlink&quot; title=&quot;函数&quot;&gt;&lt;/a&gt;函数&lt;/h2&gt;&lt;p&gt;SQL支持利用函数来处理数据。函数一般是在数据上执行的，它给数据的转换和处理提供了方便。&lt;/p&gt;&lt;h3 id=&quot;文本处理函数&quot;&gt;&lt;a href=&quot;#文本处理函数&quot; class=&quot;headerlink&quot; title=&quot;文本处理函数&quot;&gt;&lt;/a&gt;文本处理函数&lt;/h3&gt;&lt;div class=&quot;table-container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;函数&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;Left()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;返回串左边的字符&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;Length()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;返回串的长度&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;Locate()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;找出串的一个子串&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;Lower()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;将串转换为小写&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;LTrim()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;去掉串左边的空格&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;Right()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;返回串右边的字符&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;RTrim()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;去掉串右边的空格&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;Soundex()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;返回串的SOUNDEX值&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;SubString()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;返回子串的字符&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;Upper()&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;将串转换为大写&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

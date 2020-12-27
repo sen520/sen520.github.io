@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[python编码打印问题]]></title>
+    <url>%2F2020%2F07%2F10%2Fpython%2F05.python2%E7%BC%96%E7%A0%81%E6%89%93%E5%8D%B0%2F</url>
+    <content type="text"><![CDATA[主要为了解决 Python2 在print时，中文打印编码错误问题 直接导入 uniout 包即可 12345678910111213141516171819202122232425262728&gt;&gt;&gt; from pprint import pprint&gt;&gt;&gt; langs = [... 'Hello, world!',... '你好，世界！',... 'こんにちは世界',... u'Hello, world!',... u'你好，世界！',... u'こんにちは世界'... ]... &gt;&gt;&gt; pprint(langs)['Hello, world!', 'xe4xbdxa0xe5xa5xbdxefxbcx8cxe4xb8x96xe7x95x8cxefxbcx81', 'xe3x81x93xe3x82x93xe3x81xabxe3x81xa1xe3x81xafxe4xb8x96xe7x95x8c', u'Hello, world!', u'u4f60u597duff0cu4e16u754cuff01', u'u3053u3093u306bu3061u306fu4e16u754c']之后： &gt;&gt;&gt; import uniout&gt;&gt;&gt; pprint(langs)['Hello, world!', '你好，世界！', 'こんにちは世界', u'Hello, world!', u'你好，世界！', u'こんにちは世界']]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[linux查看进程]]></title>
     <url>%2F2020%2F07%2F01%2Flinux%2F1.%E6%9F%A5%E7%9C%8Blinux%E8%BF%9B%E7%A8%8B%2F</url>
     <content type="text"><![CDATA[linux查看进程ps auxps命令用于报告当前系统的进程状态。可以搭配kill指令随时中断、删除不必要的程序。ps命令是最基本同时也是非常强大的进程查看命令，使用该命令可以确定有哪些进程正在运行和运行的状态、进程是否结束、进程有没有僵死、哪些进程占用了过多的资源等等，总之大部分信息都是可以通过执行该命令得到的。 a：显示当前终端下的所有进程信息，包括其他用户的进程。 u：使用以用户为主的格式输出进程信息。 x：显示当前用户在所有终端下的进程。 以上字段解释： USER: 启动该进程的用户 PID: 该进程进程号 %CPU: CPU占用的百分比 %MEM: 内存占用百分比 VSZ: 占用虚拟内存(swap空间)的大小 RSS: 占用常驻内存(物理内存)的大小 TTY: 该进程在哪个终端上运行。“？”表未知或不需要终端 STAT: 显示了进程当前的状态，如S（休眠）、R（运行）、Z（僵死）、&lt;（高优先级）、N（低优先级）、s（父进程）、+（前台进程）。对处于僵死状态的进程应予以手动终止。 START: 启动该进程的时间 TIME: 该进程占用CPU时间 COMMAND: 启动该进程的命令的名称 ps -elf e：显示系统内的所有进程信息。 l：使用长（long）格式显示进程信息。 f：使用完整的（full）格式显示进程信息。 PPID为父进程的PID top 以全屏交互式的界面显示进程排名，及时跟踪包括CPU、内存等系统资源占用情况，默认情况下每三秒刷新一次，其作用基本类似于Windows系统中的任务管理器。 Tasks（系统任务）信息：total，总进程数；running，正在运行的进程数；sleeping，休眠的进程数；stopped，中止的进程数；zombie，僵死无响应的进程数。 CPU信息：us，用户占用；sy，内核占用；ni，优先级调度占用；id，空闲CPU；wa，I/O等待占用；hi，硬件中断占用；si，软件中断占用；st，虚拟化占用。了解空闲的CPU百分比，主要看%id部分。 Mem（内存）信息：total，总内存空间；used，已用内存；free，空闲内存；buffers，缓存区域。 Swap（交换空间）信息：total，总交换空间；used，已用交换空间；free，空闲交换空间；cached，缓存空间。 pstree -aup以树状图的方式展现进程之间的派生关系，显示效果比较直观 a：显示每个程序的完整指令，包含路径，参数或是常驻服务的标示c：不使用精简标示法G：使用VT100终端机的列绘图字符h：列出树状图时，特别标明现在执行的程序H&lt;程序识别码&gt;：此参数的效果和指定”-h”参数类似，但特别标明指定的程序l：采用长列格式显示树状图n：用程序识别码排序。预设是以程序名称来排序p：显示程序识别码u：显示用户名称 linux 查找进程ps -aux | grep xxx一般使用这个命令作为查找的命令 lsof -i:端口号对于我们只知道端口号的，一般就使用这个命令来去查找一个进程 默认 : 没有选项，lsof列出活跃进程的所有打开文件 ls-of 相关参数a : 结果进行“与”运算（而不是“或”） l : 在输出显示用户ID而不是用户名 h : 获得帮助 t : 仅获取进程ID U : 获取UNIX套接口地址 F : 格式化输出结果，用于其它命令。可以通过多种方式格式化，如-F pcfn（用于进程id、命令名、文件描述符、文件名，并以空终止） 输出 COMMAND：进程的名称 PID：进程标识符 USER：进程所有者 FD：文件描述符，应用程序通过文件描述符识别该文件。如cwd、txt等 TYPE：文件类型，如DIR、REG等 DEVICE：指定磁盘的名称 SIZE：文件的大小 NODE：索引节点（文件在磁盘上的标识） NAME：打开文件的确切名称 FD 列中的文件描述符cwd 值表示应用程序的当前工作目录，这是该应用程序启动的目录，除非它本身对这个目录进行更改,txt 类型的文件是程序代码，如应用程序二进制文件本身或共享库，如上列表中显示的 /sbin/init 程序。 其次数值表示应用程序的文件描述符，这是打开该文件时返回的一个整数。如上的最后一行文件/dev/initctl，其文件描述符为 10。u 表示该文件被打开并处于读取/写入模式，而不是只读 ® 或只写 (w) 模式。同时还有大写 的W 表示该应用程序具有对整个文件的写锁。该文件描述符用于确保每次只能打开一个应用程序实例。初始打开每个应用程序时，都具有三个文件描述符，从 0 到 2，分别表示标准输入、输出和错误流。所以大多数应用程序所打开的文件的 FD 都是从 3 开始。 Type 列则比较直观。文件和目录分别称为 REG 和 DIR。而CHR 和 BLK，分别表示字符和块设备；或者 UNIX、FIFO 和 IPv4，分别表示 UNIX 域套接字、先进先出 (FIFO) 队列和网际协议 (IP) 套接字 linux查看进程相关信息用上述命令查到的pid来查看 进程的相关信息 cd /proc/{pid} cwd: 该进程执行的路径 exe: 该进程的执行文件 cmdline: 该进程的执行命令，如下图]]></content>
@@ -104,20 +115,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mysql触发器]]></title>
-    <url>%2F2019%2F12%2F25%2Fdb%2Fmysql%2F10%E3%80%81%E8%A7%A6%E5%8F%91%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[MySQL语句在需要时被执行，存储过程也是。但如果想要某条语句在事件发生时自动执行，怎么办呢？ 每当增加一个顾客到某个数据库表时，都检查其电话号码的格式是否正确，州的缩写是否为大写 每当订购一个产品时，都从库存数量中减去订购的数量 无论何时删除一行，都在某个存档表中保留一个副本 这些都需要在某个表发生更改时自动处理，就是触发器。 触发器是MySQL响应一下任意语句而自动执行的一条MySQL语句 DELETE INSERT UPDATE 创建触发器需要给出4条信息 唯一的触发器名 触发器关联表 触发器应该响应的活动(DELETE, INSERT, UPDATE) 触发器何时执行 1CREATE TRIGGER newproduct AFTER INSERT ON products FOR EACH ROW SELECT 'Product added'; CREATE TRIGGER用来创建名为newproduct的新触发器。触发器可在一个操作发生前或之后执行。这里给出了AFTER INSERT，所以此触发器将在INSERT语句成功执行后执行。这个触发器还指定FOR EACH ROW ，因此代码对每个插入行执行。这个例子中，文本Product added 将对每个插入的行显示一次。 只有表才支持触发器，视图不支持 触发器按每个表每个事件每次地定义，每个表每个事件每次只允许一个触发器。因此每个表最多支持6个触发器（每条INSERT、UPDATE、DELETE的之前和之后）。单一触发器不能与多个事件或多个表关联。所以，如果需要一个对INSERT和UPDATE操作执行的触发器，则应该定义两个触发器。 删除触发器1DROP TRIGGER newproduct; 使用触发器INSERT触发器INSERT触发器在INSERT语句执行之前或之后执行。 在INSERT触发器代码内，可引用一个名为NEW的虚拟表，访问被插入的行 在BEFORE INSERT触发器中，NEW中的值也可以被更新（允许更改被插入的值） 对于AUTO_INCREMENT列，NEW在INSERT执行之前包含0，在INSERT执行之后包含新的自动生成值 例： 12CREATE TRIGGER neworder AFTER INSERT ON ordersFOR EACH ROW SELECT NEW.order_num; 创建了一个名为neworder的触发器，按照AFTER INSERT ON orders执行。在插入一个新订单到orders表时，MySQL生成一个新订单号并保存到order_num中。触发器从NEW.order_num取得这个值并返回它。此触发器必须按照AFTER INSERT执行，因为在BEFORE INSERT语句执行之前，新的order_num还没有生成。对于orders的每次插入使用这个触发器将总是返回新的订单号。 1INSERT INTO orders(order_date, cust_id) VALUES(Now(), 10001); orders包含3个列，order_date和cust_id必须给出，order_num由MySQL自动生成，而现在order_num还自动被返回 DELETE触发器 在DELETE触发器代码内，可以引用一个名为OLD的虚拟表，访问被删除的行 OLD中的值全都是只读的，不能更新 12345CREATE TRIGGER deleteorder BEFORE DELETE ON ordersFOR EACH ROWBEGIN INSERT INTO archive_orders(order_num, order_date, cust_id) VALUES(OLD.order_num, OLD.order_date, OLD.cust_id);END; 在任意订单被删除前，执行此触发器，将OLD中的值（要被删除的订单）保存到一个名为archive_orders的存档表中 UPDATE触发器 在UPDATE触发器代码中，你可以引用一个名为OLD的虚拟表访问以前的（UPDATE语句前）的值，引用一个名为NEW的虚拟表访问新更新的值 在BEFORE UPDATE触发器中，NEW中的值可能也被更新（允许更改将要用于UPDATE语句中的值） OLD中的值全都是只读的，不能更新 下面的例子保证州名缩写总是大写： 12CREATE TRIGGER updatevendor BEFORE UPDATE ON vendorsFOR EACH ROW SET NEW.vend_state = Upper(NEW.vend_state);]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>后端</tag>
-        <tag>数据库</tag>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[mysql存储过程]]></title>
     <url>%2F2019%2F12%2F25%2Fdb%2Fmysql%2F08%E3%80%81%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%2F</url>
     <content type="text"><![CDATA[使用存储过程MySQL称存储过程的执行为调用，因此MySQL执行存储过程的语句为CALL。CALL接受存储过程的名字以及需要传递给它的任意参数123CALL productpricing(@pricelow, @pricehigh, @priceaverage);执行名为productpricing的存储过程，计算返回产品的最低，最高和平均价格。 123456-- 一个返回产品平均价格的存储过程CREATE PROCEDURE productpricing()BEGIN SELECT Avg(prod_price) AS priceaverage FROM products;END; 上述代码创建一个名为productpricing的存储过程。如果存储过程接受参数，他们会在()中列举出来。 使用这个存储过程 1CALL productpricing(); -- 执行刚创建的存储过程并显示返回的结果 存储过程实际上是一种函数 删除存储过程存储过程在创建之后，被保存在服务器上以供使用，直至被删除 1DROP PROCEDURE productpricing; 如果指定的过程不存在，则DROP PROCEDURE将产生一个错误。也可以使用DROP PROCEDURE IF EXISTS 使用参数1234567891011121314151617181920CREATE PROCEDURE productpricing( OUT pl DECIMAL(8, 2), OUT ph DECIMAL(8, 2), OUT pa DECIMAL(8, 2))BEGIN SELECT Min(prod_price) INTO p1 FROM products; SELECT Max(prod_price) INTO ph FROM products; SELECT Avg(prod_price) INTO pa FROM products;END;/* 此存储过程接受3个参数：pl存储产品最低价格，ph存储产品最高价格，pa存储产品平均价格。每个参数必须具有指定的类型，这里使用十进制值。关键字OUT指出相应的参数用来从存储过程传出一个值（返回给调用者）。MySQL支持IN（传递给存储过程）、OUT(从存储过程传出)和INOUT（对存储过程传入和传出）类型的参数。 这里存储过程的代码是一系列的SELECT语句，用来检索值，然后保存到响应的变量（通过INTO关键字）*/ 所有的MySQL变量都必须以@开始 1234CALL productpricing(@pricelow, @pricehigh, @priceaverage);SELECT @pricehigh, @pricelow, @priceaverage; 下面使用IN和OUT参数，ordertotal接受订单号，并返回该订单的合计 12345678910CREATE PROCEDURE ordertotal( IN onumber INT, OUT ototal DECIMAL(8, 2))BEGIN SELECT Sum(item_price*quantity) FROM orderitems WHERE order_num = onumber INTO ototal;END; 调用这个存储过程 12CALL ordertotal(20005, @total);SELECT @total; 样例这样一个场景，需要获得与以前一样的订单合计，但需要对合计增加营业税，不过只针对某些顾客（或许是你所在州中那些顾客），那么需要做下面几件事： 获得合计 把营业税有条件的添加到合计 返回合计 1234567891011121314151617181920212223242526272829-- Name: ordertotal-- Parameters: onumber = order number-- taxable = 0 if not taxable, 1 if taxable-- ototal = order total variableCREATE PROCEDURE ordertotal( IN onumber INT, IN taxable BOOLEAN, OUT ototal DECIMAL(8, 2)) COMMENT 'Obtain order total, optionally adding tax'BEGIN -- Declare variable for total DECLARE total DECIMAL(8, 2); -- Declare tax percentage DECLARE taxrate INT DEFAULT 6; -- Get the order total SELECT Sum(item_price*quantity) FROM orderitems WHERE order_num = onumber INTO total; -- Is this taxable? IF taxable THEN -- Yes, so add taxrate to the total SELECT total + (total/100*taxrate) INTO total; END IF; -- And finally, save to out variable SELECT total INTO ototal;END; COMMENT关键字是不必需的，如果给出，将在SHOW PROCEDURE STATUS 的结果中显示 12CALL ordertotal(20005, 0, @total);SELECT @total; 12CALL ordertotal(20005, 1, @total);SELECT @total; 检查存储过程为显示用来创建一个存储过程的CREATE语句 1SHOW CREATE PROCEDURE ordertotal; 为获得包括何时，由谁创建等详细信息的存储过程列表 1234SHOW PROCEDURE STATUS;-- 限制过程状态结果，可以用LIKE指定一个过滤模式SHOW PROCEDURE STATUS LIKE 'ordertotal';]]></content>
@@ -135,6 +132,20 @@
     <title><![CDATA[mysql游标]]></title>
     <url>%2F2019%2F12%2F25%2Fdb%2Fmysql%2F09%E3%80%81%E6%B8%B8%E6%A0%87%2F</url>
     <content type="text"><![CDATA[使用游标 在能够使用游标前，必须先声明（定义）它，这个过程实际上没有检索数据，只是定义要使用的SELECT语句 一旦声明后，必须打开游标以供使用。这个过程用前面定义的SELECT语句把数据实际检索出来 对于填有数据的游标，根据需要取出（索引）各行 在结束游标使用时，必须关闭游标 创建游标游标用DECLARE语句创建，DECLARE命名游标，并定义相应的SELECT语句，根据需要带WHERE和其他子句。 下面的语句定义了名为ordernumbers的游标，使用了可以检索所有订单的SELECT语句。 123456CREATE PROCEDURE processorders()BEGIN DECLARE ordernumbers CURSOR FOR SELECT order_num FROM orders;END; 打开和关闭游标打开游标 1OPEN ordernumbers; 关闭游标 1CLOSE ordernumbers; 隐含关闭 如果你不明确关闭游标，MySQL将会在到达END语句时自动关闭它。 12345678910111213CREATE PROCEDURE processorders()BEGIN -- Declare the cursor DECLARE ordernumbers CURSOR FOR SELECT order_num FROM orders; -- Open the cursor OPEN ordernumbers; -- Close the cursor CLOSE ordernumbers;END; 使用游标数据在一个游标被打开后，可以使用FETCH语句分别访问它的每一行。FETCH指定检索什么数据（所需的列），检索出来的数据存储在什么地方。它还向前移动游标中的内部行指针，使用下一条FETCH语句检索下一行（不重复读取同一行）。 12345678910111213141516171819CREATE PROCEDURE processorders()BEGIN -- Declare local variables DECLARE o INT; -- Declare the cursor DECLARE ordernumbers CURSOR FOR SELECT order_num FROM orders; -- Open the cursor OPEN ordernumbers; -- Get order number FETCH ordernumbers INTO o; -- 检索当前行的order_num列（将自动从第一行开始）到一个名为o的局部声明的变量中。 -- Close the cursor CLOSE ordernumbers;END; 下面一个例子，循环检索数据，从第一行到最后一行 12345678910111213141516171819202122232425CREATE PROCEDURE processorders()BEGIN -- Declare local variables DECLARE done BOOLEAN DEFAULT 0; DECLARE o INT; -- Declare the cursor DECLARE ordernumbers CURSOR FOR SELECT order_num FROM orders; -- Declare continue handler DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=1; -- Open the cursor OPEN ordernumbers; -- Loop through all rows REPEAT -- Get order number FETCH ordernumbers INTO o; -- End of loop UNTIL done END REPEAT; -- Close the cursor CLOSE ordernumbers;END; 这个例子中的FETCH是在REPEAT内，因此它反复执行直到done为真（由UNTIL done END REPEAT;规定）。为使它起作用，用一个DEFAULT 0（假，不结束）定义变量done。 通过这个语句将done设为1 1DECLARE CONTINUE HANDLER FOR SQLSTATE &apos;02000&apos; SET done=1; 指当SQLSTATE &#39;02000&#39;出现时，SET done=1。这里SQLSTATE &#39;02000&#39;是一个未找到条件，当REPEAT由于没有更多行供循环而不能继续时，出现这个条件。 如果调用这个存储过程，它将定义几个变量和一个CONTINUE HANDLER，定义并打开一个游标，重复读取所有行，然后关闭游标。 DECLARE语句的次序，DECLARE语句发布存在特定的次序。用DECLARE语句定义的局部变量必须在定义任意游标或句柄之前定义。 1234567891011121314151617181920212223242526272829303132333435CREATE PROCEDURE processorders()BEGIN -- Declare local variables DECLARE done BOOLEAN DEFAULT 0; DECLARE o INT; DECLARE t DECIMAL(8, 2); -- Declare the cursor DECLARE ordernumbers CURSOR FOR SELECT order_num FROM orders; -- Declare continue handler DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=1; -- Create a table to store the results CREATE TABLE IF NOT EXISTS ordertotals(order_num INT, total DECIMAL(8, 2)); -- Open the cursor OPEN ordernumbers; -- Loop through all rows REPEAT -- Get order number FETCH ordernumbers INTO O; -- Get the total for this order CALL ordertotal(o, 1, t) -- Insert order and total into ordertotals INSERT INTO ordertotals(order_num, total) VALUES(o, t); -- End of loop UNTIL done END REPEAT; -- Close the cursor CLOSE ordernumbers;END; 这个例子中，增加了另一个名为t的变量，存储每个订单的合计。此存储过程还在运行中创建了一个新表（如果它不存在的话），名为ordertotals。这个表将保存存储过程生成的结果。FETCH像之前一样，取每个order_num，然后用CALL 执行另一个存储过程（在存储过程中创建的）来计算每个订单的带税合计，结果存储到t，最后用INSERT保存每个订单的订单号和合计。 1SELECT * FROM ordertotals;]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>后端</tag>
+        <tag>数据库</tag>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql触发器]]></title>
+    <url>%2F2019%2F12%2F25%2Fdb%2Fmysql%2F10%E3%80%81%E8%A7%A6%E5%8F%91%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[MySQL语句在需要时被执行，存储过程也是。但如果想要某条语句在事件发生时自动执行，怎么办呢？ 每当增加一个顾客到某个数据库表时，都检查其电话号码的格式是否正确，州的缩写是否为大写 每当订购一个产品时，都从库存数量中减去订购的数量 无论何时删除一行，都在某个存档表中保留一个副本 这些都需要在某个表发生更改时自动处理，就是触发器。 触发器是MySQL响应一下任意语句而自动执行的一条MySQL语句 DELETE INSERT UPDATE 创建触发器需要给出4条信息 唯一的触发器名 触发器关联表 触发器应该响应的活动(DELETE, INSERT, UPDATE) 触发器何时执行 1CREATE TRIGGER newproduct AFTER INSERT ON products FOR EACH ROW SELECT 'Product added'; CREATE TRIGGER用来创建名为newproduct的新触发器。触发器可在一个操作发生前或之后执行。这里给出了AFTER INSERT，所以此触发器将在INSERT语句成功执行后执行。这个触发器还指定FOR EACH ROW ，因此代码对每个插入行执行。这个例子中，文本Product added 将对每个插入的行显示一次。 只有表才支持触发器，视图不支持 触发器按每个表每个事件每次地定义，每个表每个事件每次只允许一个触发器。因此每个表最多支持6个触发器（每条INSERT、UPDATE、DELETE的之前和之后）。单一触发器不能与多个事件或多个表关联。所以，如果需要一个对INSERT和UPDATE操作执行的触发器，则应该定义两个触发器。 删除触发器1DROP TRIGGER newproduct; 使用触发器INSERT触发器INSERT触发器在INSERT语句执行之前或之后执行。 在INSERT触发器代码内，可引用一个名为NEW的虚拟表，访问被插入的行 在BEFORE INSERT触发器中，NEW中的值也可以被更新（允许更改被插入的值） 对于AUTO_INCREMENT列，NEW在INSERT执行之前包含0，在INSERT执行之后包含新的自动生成值 例： 12CREATE TRIGGER neworder AFTER INSERT ON ordersFOR EACH ROW SELECT NEW.order_num; 创建了一个名为neworder的触发器，按照AFTER INSERT ON orders执行。在插入一个新订单到orders表时，MySQL生成一个新订单号并保存到order_num中。触发器从NEW.order_num取得这个值并返回它。此触发器必须按照AFTER INSERT执行，因为在BEFORE INSERT语句执行之前，新的order_num还没有生成。对于orders的每次插入使用这个触发器将总是返回新的订单号。 1INSERT INTO orders(order_date, cust_id) VALUES(Now(), 10001); orders包含3个列，order_date和cust_id必须给出，order_num由MySQL自动生成，而现在order_num还自动被返回 DELETE触发器 在DELETE触发器代码内，可以引用一个名为OLD的虚拟表，访问被删除的行 OLD中的值全都是只读的，不能更新 12345CREATE TRIGGER deleteorder BEFORE DELETE ON ordersFOR EACH ROWBEGIN INSERT INTO archive_orders(order_num, order_date, cust_id) VALUES(OLD.order_num, OLD.order_date, OLD.cust_id);END; 在任意订单被删除前，执行此触发器，将OLD中的值（要被删除的订单）保存到一个名为archive_orders的存档表中 UPDATE触发器 在UPDATE触发器代码中，你可以引用一个名为OLD的虚拟表访问以前的（UPDATE语句前）的值，引用一个名为NEW的虚拟表访问新更新的值 在BEFORE UPDATE触发器中，NEW中的值可能也被更新（允许更改将要用于UPDATE语句中的值） OLD中的值全都是只读的，不能更新 下面的例子保证州名缩写总是大写： 12CREATE TRIGGER updatevendor BEFORE UPDATE ON vendorsFOR EACH ROW SET NEW.vend_state = Upper(NEW.vend_state);]]></content>
       <categories>
         <category>数据库</category>
         <category>mysql</category>
@@ -217,9 +228,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mysql正则字符]]></title>
-    <url>%2F2019%2F12%2F12%2Fdb%2Fmysql%2F01%E3%80%81mysql%E6%AD%A3%E5%88%99%2F</url>
-    <content type="text"><![CDATA[字符类 类 说明 [:alnum:] 任意字母和数字(同[a-zA-Z0-9]) [:alpha:] 任意字符(同[a-zA-Z]) [:blank:] 空格和制表(同[\t]) [:cntrl:] ASCII控制字符(ASCII 0到32 和127) [:digit:] 任意数字(同[0-9]) [:graph:] 与[:print:]相同，但不包括空格 [:lower:] 任意小写字母(同[a-z]) [:print:] 任意可打印字符 [:punct:] 既不在[:alnum:]又不在[:cntrl:]中的任意字符 [:space:] 包括空格在内的任意空白字符(同[\f\n\r\t\v]) [:upper:] 任意大写字母(同[A-Z]) [:xdigit:] 任意十六进制数字 空白元字符 元字符 说明 \f 换页 \n 换行 \r 回车 \t 制表 \v 纵向制表 重复元字符 元字符 说明 * 0个或多个匹配 + 1个或多个匹配(等于{1, }) ? 0个或1个匹配(等于{0}) {n} 指定数目的匹配 {n, } 不少于指定数目的匹配 {n, m} 匹配数目的范围(m不超过255) 定位元字符 元字符 说明 ^ 文本的开始 $ 文本的结束 [[:&lt;:]] 词的开始 [[:&gt;:]] 词的结束]]></content>
+    <title><![CDATA[mysql计算字段]]></title>
+    <url>%2F2019%2F12%2F12%2Fdb%2Fmysql%2F02%E3%80%81mysql%E8%AE%A1%E7%AE%97%E5%AD%97%E6%AE%B5%2F</url>
+    <content type="text"><![CDATA[计算字段存储在数据库表中的数据一般不是应用程序所需要的格式。 如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。 城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。 列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来 物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。 根据表数据进行总数，平均数计算或其他计算 1. 拼接字段举例：vendors表中包含供应商名和位置信息。假如要生成一个供应商报表，需要在供应商的名字中按照name(location)这样的格式列出供应商的位置。 此报表需要单个值，而表中数据存储在两个列vend_name和vend_country中。此外，需要用括号将vend_country括起来。 拼接可以使用Contcat()函数来拼接两个列 SELECT Concat(vend_name, &#39; (&#39;, vend_country, &#39;)&#39;) FROM vendors ORDER BY vend_name; 同时，我们需要删除数据右侧多余的空格，可以使用RTrim()来完成 SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) FROM vendors ORDER BY vend_name; 去除空格还可以用LTrim()去掉左边的空格，Trim()去掉右边的空格 使用别名SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) AS vend_title FROM vendors ORDER BY vend_name; 2. 执行算术计算orders表包含收到的所有订单，orderitems表包含每个订到的各项物品。下面的SQL语句检索订单号20005中的所有物品 SELECT prod_id, quantity, item_price FROM orderitems WHERE order_num = 20005; item_prict 列包好订单中每项物品的单价，如下可以汇总物品的价格 SELECT prod_id, quantity, item_price, quantity*item_price AS expanded_price FROM orderitems WHERE order_num = 20005; MySQL算术操作符 操作符 说明 + 加 - 减 * 乘 / 除 TipsSELECT Now(); 会利用Now()函数返回当前日期和时间]]></content>
       <categories>
         <category>数据库</category>
         <category>mysql</category>
@@ -231,9 +242,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mysql计算字段]]></title>
-    <url>%2F2019%2F12%2F12%2Fdb%2Fmysql%2F02%E3%80%81mysql%E8%AE%A1%E7%AE%97%E5%AD%97%E6%AE%B5%2F</url>
-    <content type="text"><![CDATA[计算字段存储在数据库表中的数据一般不是应用程序所需要的格式。 如果想在一个字段中既显示公司名，又显示公司的地址，但是这两个信息一般包含在不同的表列中。 城市、州和邮政编码存储在不同的列中，但邮件标签打印程序却需要把它们作为一个恰当格式的字段检索出来。 列数据是大小写混合的，但报表程序需要把所有数据按大写表示出来 物品订单表存储物品的价格和数量，但不需要存储每个物品的总价格（用价格乘以数量即可）。 根据表数据进行总数，平均数计算或其他计算 1. 拼接字段举例：vendors表中包含供应商名和位置信息。假如要生成一个供应商报表，需要在供应商的名字中按照name(location)这样的格式列出供应商的位置。 此报表需要单个值，而表中数据存储在两个列vend_name和vend_country中。此外，需要用括号将vend_country括起来。 拼接可以使用Contcat()函数来拼接两个列 SELECT Concat(vend_name, &#39; (&#39;, vend_country, &#39;)&#39;) FROM vendors ORDER BY vend_name; 同时，我们需要删除数据右侧多余的空格，可以使用RTrim()来完成 SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) FROM vendors ORDER BY vend_name; 去除空格还可以用LTrim()去掉左边的空格，Trim()去掉右边的空格 使用别名SELECT Concat(RTrim(vend_name), &#39; (&#39;, RTrim(vend_country), &#39;)&#39;) AS vend_title FROM vendors ORDER BY vend_name; 2. 执行算术计算orders表包含收到的所有订单，orderitems表包含每个订到的各项物品。下面的SQL语句检索订单号20005中的所有物品 SELECT prod_id, quantity, item_price FROM orderitems WHERE order_num = 20005; item_prict 列包好订单中每项物品的单价，如下可以汇总物品的价格 SELECT prod_id, quantity, item_price, quantity*item_price AS expanded_price FROM orderitems WHERE order_num = 20005; MySQL算术操作符 操作符 说明 + 加 - 减 * 乘 / 除 TipsSELECT Now(); 会利用Now()函数返回当前日期和时间]]></content>
+    <title><![CDATA[mysql正则字符]]></title>
+    <url>%2F2019%2F12%2F12%2Fdb%2Fmysql%2F01%E3%80%81mysql%E6%AD%A3%E5%88%99%2F</url>
+    <content type="text"><![CDATA[字符类 类 说明 [:alnum:] 任意字母和数字(同[a-zA-Z0-9]) [:alpha:] 任意字符(同[a-zA-Z]) [:blank:] 空格和制表(同[\t]) [:cntrl:] ASCII控制字符(ASCII 0到32 和127) [:digit:] 任意数字(同[0-9]) [:graph:] 与[:print:]相同，但不包括空格 [:lower:] 任意小写字母(同[a-z]) [:print:] 任意可打印字符 [:punct:] 既不在[:alnum:]又不在[:cntrl:]中的任意字符 [:space:] 包括空格在内的任意空白字符(同[\f\n\r\t\v]) [:upper:] 任意大写字母(同[A-Z]) [:xdigit:] 任意十六进制数字 空白元字符 元字符 说明 \f 换页 \n 换行 \r 回车 \t 制表 \v 纵向制表 重复元字符 元字符 说明 * 0个或多个匹配 + 1个或多个匹配(等于{1, }) ? 0个或1个匹配(等于{0}) {n} 指定数目的匹配 {n, } 不少于指定数目的匹配 {n, m} 匹配数目的范围(m不超过255) 定位元字符 元字符 说明 ^ 文本的开始 $ 文本的结束 [[:&lt;:]] 词的开始 [[:&gt;:]] 词的结束]]></content>
       <categories>
         <category>数据库</category>
         <category>mysql</category>
@@ -535,8 +546,8 @@
       </categories>
       <tags>
         <tag>后端</tag>
-        <tag>查询</tag>
         <tag>ES</tag>
+        <tag>查询</tag>
       </tags>
   </entry>
   <entry>
@@ -548,8 +559,8 @@
       </categories>
       <tags>
         <tag>后端</tag>
-        <tag>查询</tag>
         <tag>ES</tag>
+        <tag>查询</tag>
       </tags>
   </entry>
   <entry>
