@@ -10,8 +10,8 @@ https://blog.silencew.cn/2020/02/26/python/01.录音/
 https://blog.silencew.cn/2020/01/08/es/ES相关配置/
 https://blog.silencew.cn/2020/01/01/个人总结/2019/
 https://blog.silencew.cn/2019/12/25/db/mysql/08、存储过程/
-https://blog.silencew.cn/2019/12/25/db/mysql/10、触发器/
 https://blog.silencew.cn/2019/12/25/db/mysql/09、游标/
+https://blog.silencew.cn/2019/12/25/db/mysql/10、触发器/
 https://blog.silencew.cn/2019/12/24/db/mysql/07、视图/
 https://blog.silencew.cn/2019/12/23/javascript/nodejs/07、linux升级node版本/
 https://blog.silencew.cn/2019/12/19/db/mysql/05、组合查询/
