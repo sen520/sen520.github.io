@@ -1,3 +1,4 @@
+https://blog.silencew.cn/2020/08/01/python/web/flask/flask文件指针偏移/
 https://blog.silencew.cn/2020/07/15/python/web/flask/flask 多表查询/
 https://blog.silencew.cn/2020/07/10/python/05.python2编码打印/
 https://blog.silencew.cn/2020/07/01/linux/1.查看linux进程/
@@ -26,8 +27,8 @@ https://blog.silencew.cn/2019/11/19/algorithm[算法]/4.数据结构/
 https://blog.silencew.cn/2019/11/11/javascript/01-函数/
 https://blog.silencew.cn/2019/11/05/db/mongodb/06、mongodb修改集群ip/
 https://blog.silencew.cn/2019/11/04/db/mongodb/05、mongodb小技巧/
-https://blog.silencew.cn/2019/10/20/R/01_R-基础/
 https://blog.silencew.cn/2019/10/20/R/02_R-数据结构/
+https://blog.silencew.cn/2019/10/20/R/01_R-基础/
 https://blog.silencew.cn/2019/10/20/R/03_R-图形/
 https://blog.silencew.cn/2019/10/18/python/web/django/django缓存/
 https://blog.silencew.cn/2019/10/18/python/tools/01.tools/

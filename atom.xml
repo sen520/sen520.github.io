@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.silencew.cn/"/>
-  <updated>2020-07-14T16:00:00.000Z</updated>
+  <updated>2020-07-31T16:00:00.000Z</updated>
   <id>https://blog.silencew.cn/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>文件指针偏移</title>
+    <link href="https://blog.silencew.cn/2020/08/01/python/web/flask/flask%E6%96%87%E4%BB%B6%E6%8C%87%E9%92%88%E5%81%8F%E7%A7%BB/"/>
+    <id>https://blog.silencew.cn/2020/08/01/python/web/flask/flask文件指针偏移/</id>
+    <published>2020-07-31T16:00:00.000Z</published>
+    <updated>2020-07-31T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>场景：</p><p>flask 上传文件，并保存，但是上传文件大小不能超过20MB。</p><p>当然，flask可以设置上传文件大小：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config[<span class="string">'MAX_CONTENT_LENGTH'</span>] = <span class="number">1</span> * <span class="number">1024</span> * <span class="number">1024</span> <span class="comment"># 这里限制大小为1MB</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    file = request.files.get(<span class="string">'test'</span>)</span><br><span class="line">    print(file)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'success'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure><a id="more"></a><p>这时候上传一个大文件，可以发现是上传不了的，结果如下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 - - [09/Jan/2021 12:12:01] &quot;POST / HTTP/1.1&quot; 405 -</span><br></pre></td></tr></table></figure><p>当然，这个不是重点。下面进入正题</p><p>我们想同一个文件想保存两次（其实就是一个file对象，我们想使用多次）</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    file = request.files.get(<span class="string">'test'</span>)</span><br><span class="line">    file.save(<span class="string">'test1.png'</span>)</span><br><span class="line">    file.save(<span class="string">'test2.png'</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'success'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure><p>发送请求，可以发现请求是成功的</p><img src="/2020/08/01/python/web/flask/flask文件指针偏移/1.png" class="slug"><p>但是我们去查看保存的图片时，可以发现，test1.png是正常访问的，但是test2.png是不行的如下图</p><img src="/2020/08/01/python/web/flask/flask文件指针偏移/2.png" class="slug"><img src="/2020/08/01/python/web/flask/flask文件指针偏移/3.png" class="slug"><p>这时其实就是一个文件指针的问题，当第一次save的时候，文件指针已经指向了文件的末尾了，所以第二次save的时候已经是个空的东西了。关于这个我们可以保存成字符串文件看一下。</p><img src="/2020/08/01/python/web/flask/flask文件指针偏移/4.png" class="slug"><p>可以看到确实如此。百度查一下 文件指针的问题，可以找到 seek这个方法.</p><p>查看一下 seek的用法 <a href="https://www.runoob.com/python/file-seek.html" target="_blank" rel="noopener">菜鸟</a></p><p><strong>seek()</strong> 方法用于移动文件读取指针到指定位置。</p><ul><li><p>语法</p><p>seek() 方法语法如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fileObject.seek(offset[, whence])</span><br></pre></td></tr></table></figure></li><li><p>参数</p><ul><li><p><strong>offset</strong> — 开始的偏移量，也就是代表需要移动偏移的字节数</p></li><li><p><strong>whence：</strong>可选，默认值为 0。给offset参数一个定义，表示要从哪个位置开始偏移；0代表从文件开头开始算起，1代表从当前位置开始算起，2代表从文件末尾算起。</p></li></ul></li></ul><p>我们来对照修改一下</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    file = request.files.get(<span class="string">'test'</span>)</span><br><span class="line">    file.save(<span class="string">'test1.txt'</span>)</span><br><span class="line">    file.seek(<span class="number">0</span>)</span><br><span class="line">    file.save(<span class="string">'test2.txt'</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'success'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure><img src="/2020/08/01/python/web/flask/flask文件指针偏移/5.png" class="slug"><p>这下就有数据了，然后把文件名再改为png格式就ok了</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;场景：&lt;/p&gt;&lt;p&gt;flask 上传文件，并保存，但是上传文件大小不能超过20MB。&lt;/p&gt;&lt;p&gt;当然，flask可以设置上传文件大小：&lt;/p&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; flask &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Flask, request&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;app = Flask(__name__)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;app.config[&lt;span class=&quot;string&quot;&gt;&#39;MAX_CONTENT_LENGTH&#39;&lt;/span&gt;] = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; * &lt;span class=&quot;number&quot;&gt;1024&lt;/span&gt; * &lt;span class=&quot;number&quot;&gt;1024&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# 这里限制大小为1MB&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@app.route(&#39;/&#39;)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    file = request.files.get(&lt;span class=&quot;string&quot;&gt;&#39;test&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    print(file)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;success&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; __name__ == &lt;span class=&quot;string&quot;&gt;&#39;__main__&#39;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app.run()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="https://blog.silencew.cn/categories/python/"/>
+    
+      <category term="web" scheme="https://blog.silencew.cn/categories/python/web/"/>
+    
+      <category term="flask" scheme="https://blog.silencew.cn/categories/python/web/flask/"/>
+    
+    
+      <category term="后端" scheme="https://blog.silencew.cn/tags/%E5%90%8E%E7%AB%AF/"/>
+    
+      <category term="python" scheme="https://blog.silencew.cn/tags/python/"/>
+    
+      <category term="flask" scheme="https://blog.silencew.cn/tags/flask/"/>
+    
+  </entry>
   
   <entry>
     <title>flask sqlalchemy查询</title>
@@ -532,94 +563,6 @@
 &lt;p&gt;例：&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id;&lt;/code&gt;&lt;/p&gt;
 &lt;img src=&quot;/2019/12/13/db/mysql/04、数据分组/1576208076595.png&quot; class=&quot;slug&quot;&gt;
-    
-    </summary>
-    
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
-    
-    
-      <category term="后端" scheme="https://blog.silencew.cn/tags/%E5%90%8E%E7%AB%AF/"/>
-    
-      <category term="数据库" scheme="https://blog.silencew.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="mysql" scheme="https://blog.silencew.cn/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mysql正则字符</title>
-    <link href="https://blog.silencew.cn/2019/12/12/db/mysql/01%E3%80%81mysql%E6%AD%A3%E5%88%99/"/>
-    <id>https://blog.silencew.cn/2019/12/12/db/mysql/01、mysql正则/</id>
-    <published>2019-12-11T16:00:00.000Z</published>
-    <updated>2020-05-18T12:01:30.483Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h2><div class="table-container"><table><thead><tr><th style="text-align:left">类</th><th>说明</th></tr></thead><tbody><tr><td style="text-align:left">[:alnum:]</td><td>任意字母和数字(同[a-zA-Z0-9])</td></tr><tr><td style="text-align:left">[:alpha:]</td><td>任意字符(同[a-zA-Z])</td></tr><tr><td style="text-align:left">[:blank:]</td><td>空格和制表(同[\t])</td></tr><tr><td style="text-align:left">[:cntrl:]</td><td>ASCII控制字符(ASCII 0到32 和127)</td></tr><tr><td style="text-align:left">[:digit:]</td><td>任意数字(同[0-9])</td></tr><tr><td style="text-align:left">[:graph:]</td><td>与[:print:]相同，但不包括空格</td></tr><tr><td style="text-align:left">[:lower:]</td><td>任意小写字母(同[a-z])</td></tr><tr><td style="text-align:left">[:print:]</td><td>任意可打印字符</td></tr><tr><td style="text-align:left">[:punct:]</td><td>既不在[:alnum:]又不在[:cntrl:]中的任意字符</td></tr><tr><td style="text-align:left">[:space:]</td><td>包括空格在内的任意空白字符(同[\f\n\r\t\v])</td></tr><tr><td style="text-align:left">[:upper:]</td><td>任意大写字母(同[A-Z])</td></tr><tr><td style="text-align:left">[:xdigit:]</td><td>任意十六进制数字</td></tr></tbody></table></div><a id="more"></a><h2 id="空白元字符"><a href="#空白元字符" class="headerlink" title="空白元字符"></a>空白元字符</h2><div class="table-container"><table><thead><tr><th style="text-align:left">元字符</th><th>说明</th></tr></thead><tbody><tr><td style="text-align:left">\f</td><td>换页</td></tr><tr><td style="text-align:left">\n</td><td>换行</td></tr><tr><td style="text-align:left">\r</td><td>回车</td></tr><tr><td style="text-align:left">\t</td><td>制表</td></tr><tr><td style="text-align:left">\v</td><td>纵向制表</td></tr></tbody></table></div><h2 id="重复元字符"><a href="#重复元字符" class="headerlink" title="重复元字符"></a>重复元字符</h2><div class="table-container"><table><thead><tr><th>元字符</th><th>说明</th></tr></thead><tbody><tr><td>*</td><td>0个或多个匹配</td></tr><tr><td>+</td><td>1个或多个匹配(等于{1, })</td></tr><tr><td>?</td><td>0个或1个匹配(等于{0})</td></tr><tr><td>{n}</td><td>指定数目的匹配</td></tr><tr><td>{n, }</td><td>不少于指定数目的匹配</td></tr><tr><td>{n, m}</td><td>匹配数目的范围(m不超过255)</td></tr></tbody></table></div><h2 id="定位元字符"><a href="#定位元字符" class="headerlink" title="定位元字符"></a>定位元字符</h2><div class="table-container"><table><thead><tr><th>元字符</th><th>说明</th></tr></thead><tbody><tr><td>^</td><td>文本的开始</td></tr><tr><td>$</td><td>文本的结束</td></tr><tr><td>[[:&lt;:]]</td><td>词的开始</td></tr><tr><td>[[:&gt;:]]</td><td>词的结束</td></tr></tbody></table></div>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;字符类&quot;&gt;&lt;a href=&quot;#字符类&quot; class=&quot;headerlink&quot; title=&quot;字符类&quot;&gt;&lt;/a&gt;字符类&lt;/h2&gt;&lt;div class=&quot;table-container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&quot;text-align:left&quot;&gt;类&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:alnum:]&lt;/td&gt;
-&lt;td&gt;任意字母和数字(同[a-zA-Z0-9])&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:alpha:]&lt;/td&gt;
-&lt;td&gt;任意字符(同[a-zA-Z])&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:blank:]&lt;/td&gt;
-&lt;td&gt;空格和制表(同[\t])&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:cntrl:]&lt;/td&gt;
-&lt;td&gt;ASCII控制字符(ASCII 0到32 和127)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:digit:]&lt;/td&gt;
-&lt;td&gt;任意数字(同[0-9])&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:graph:]&lt;/td&gt;
-&lt;td&gt;与[:print:]相同，但不包括空格&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:lower:]&lt;/td&gt;
-&lt;td&gt;任意小写字母(同[a-z])&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:print:]&lt;/td&gt;
-&lt;td&gt;任意可打印字符&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:punct:]&lt;/td&gt;
-&lt;td&gt;既不在[:alnum:]又不在[:cntrl:]中的任意字符&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:space:]&lt;/td&gt;
-&lt;td&gt;包括空格在内的任意空白字符(同[\f\n\r\t\v])&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:upper:]&lt;/td&gt;
-&lt;td&gt;任意大写字母(同[A-Z])&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;[:xdigit:]&lt;/td&gt;
-&lt;td&gt;任意十六进制数字&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
     
     </summary>
     
